@@ -77,8 +77,39 @@
         .review-card { background: var(--cream); padding: 25px; border-radius: 10px; border: 1px solid #eee; }
         .stars { color: var(--gold); margin-bottom: 10px; font-size: 1.2rem; }
         
-        footer { background: var(--black); color: white; padding: 50px 20px; text-align: center; }
+        /* FOOTER & LEGAL STYLES */
+        footer { 
+            background: var(--black); 
+            color: white; 
+            padding: 60px 20px; 
+            text-align: center; 
+            font-family: 'Times New Roman', serif;
+        }
         .phone-link { color: var(--gold); font-size: 2.5rem; text-decoration: none; font-weight: bold; display: block; margin: 15px 0; }
+        
+        .footer-info { margin-bottom: 30px; }
+        .footer-info p { margin: 5px 0; font-size: 1.1rem; }
+        
+        .legal-nav { margin: 20px 0; }
+        .legal-nav a { 
+            color: var(--gold); 
+            text-decoration: none; 
+            margin: 0 15px; 
+            font-size: 0.9rem; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .legal-nav a:hover { text-decoration: underline; }
+
+        .disclaimer-box {
+            max-width: 700px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 0.85rem;
+            color: #aaa;
+            line-height: 1.4;
+        }
 
         .en-text { display: none; }
     </style>
@@ -122,8 +153,21 @@
 </section>
 
 <footer>
-    <a href="tel:8632770168" class="phone-link">863-277-0168</a>
-    <p>Tampa, FL | @clubdecachorros</p>
+    <div class="footer-info">
+        <a href="tel:8632770168" class="phone-link">863-277-0168</a>
+        <p>Tampa, FL | @clubdecachorros</p>
+        <p>Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
+    </div>
+
+    <div class="legal-nav">
+        <a href="#" onclick="alert('Refund Policy: All membership and listing fees are non-refundable. For technical support, contact us within 14 days.')">Refund Policy</a>
+        <a href="#" onclick="alert('Terms of Service: Club of Puppy provides a digital listing platform. We do not facilitate or process payments for the sale of live animals.')">Terms of Service</a>
+    </div>
+
+    <div class="disclaimer-box">
+        <p class="es-text">Club de Cachorros es una plataforma de membresía digital y anuncios clasificados. No somos una tienda de mascotas y no procesamos pagos por la venta de animales. Todos los pagos realizados en este sitio son por servicios de publicidad y acceso a la comunidad.</p>
+        <p class="en-text">Club of Puppy is a digital membership and classified listings platform. We are not a pet store and do not process payments for the sale of animals. All payments made on this site are for advertising services and community access.</p>
+    </div>
 </footer>
 
 <script>
@@ -133,11 +177,20 @@
         if (lang === 'en') {
             es.forEach(el => el.style.display = 'none');
             en.forEach(el => {
-                el.style.display = el.classList.contains('cta-button') ? 'inline-block' : 'block';
+                // Ensure buttons stay inline-block
+                if(el.classList.contains('cta-button')) {
+                    el.style.display = 'inline-block';
+                } else {
+                    el.style.display = 'block';
+                }
             });
         } else {
             es.forEach(el => {
-                el.style.display = el.classList.contains('cta-button') ? 'inline-block' : 'block';
+                if(el.classList.contains('cta-button')) {
+                    el.style.display = 'inline-block';
+                } else {
+                    el.style.display = 'block';
+                }
             });
             en.forEach(el => el.style.display = 'none');
         }
