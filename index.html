@@ -1,141 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Listing | clubofpuppy.com</title>
-    <style>
-        :root {
-            --gold: #c5a059;
-            --black: #1a1a1a;
-            --cream: #fdfaf5;
-            --white: #ffffff;
-            --border: #ddd;
-        }
-
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            margin: 0;
-            background-color: var(--cream);
-        }
-
-        .dashboard-header {
-            background: white;
-            padding: 15px 5%;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        h1 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
-
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; }
+<section id="seller-section" style="display:none; padding: 40px 20px; text-align: center;">
+    <div class="price-card" style="max-width: 400px; margin: 0 auto; background: white; padding: 30px; border: 2px solid var(--gold); border-radius: 15px;">
+        <h2 style="font-family: 'Times New Roman', serif; margin-bottom: 5px;">Seller Registration</h2>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 25px;">Create your free account to start managing your listings.</p>
         
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-family: inherit;
-            box-sizing: border-box;
-        }
+        <form id="signupForm" onsubmit="handleFreeSignUp(event)">
+            <input type="text" id="bizName" placeholder="Kennel or Business Name" required 
+                style="width:90%; padding:12px; margin:10px 0; border: 1px solid #ccc; font-family: inherit; border-radius: 5px;">
+            
+            <input type="email" id="sellerEmail" placeholder="Email Address" required 
+                style="width:90%; padding:12px; margin:10px 0; border: 1px solid #ccc; font-family: inherit; border-radius: 5px;">
+            
+            <input type="password" id="sellerPass" placeholder="Create Password" required 
+                style="width:90%; padding:12px; margin:10px 0; border: 1px solid #ccc; font-family: inherit; border-radius: 5px;">
+            
+            <div style="text-align: left; width: 90%; margin: 15px auto; font-size: 0.85rem;">
+                <input type="checkbox" required> I agree to the <a href="#" style="color: var(--gold); text-decoration: none;">Terms of Service</a>
+            </div>
 
-        .photo-upload {
-            border: 2px dashed var(--gold);
-            padding: 30px;
-            text-align: center;
-            background: var(--cream);
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        /* The Payment Box (The "Paywall") */
-        .payment-required-box {
-            background: #fff9ef;
-            border: 1px solid var(--gold);
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .price-text { font-size: 2rem; font-weight: bold; margin: 10px 0; }
-
-        .submit-btn {
-            background-color: var(--black);
-            color: white;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s;
-        }
-
-        .submit-btn:hover { background-color: var(--gold); }
-    </style>
-</head>
-<body>
-
-<header class="dashboard-header">
-    <div style="font-weight: bold; font-size: 1.4rem;">🐾 clubofpuppy.com</div>
-    <div><strong>Account:</strong> Seller Portal</div>
-</header>
-
-<div class="container">
-    <h1>Create Your Listing</h1>
-    <p>Fill out the details of your puppy below. Your listing will go live once payment is confirmed.</p>
-
-    <div class="form-group">
-        <label>Puppy Breed</label>
-        <input type="text" placeholder="e.g. Golden Retriever">
-    </div>
-
-    <div class="form-group">
-        <label>Description</label>
-        <textarea rows="5" placeholder="Tell us about the puppy's personality, health, and parents..."></textarea>
-    </div>
-
-    <div class="photo-upload">
-        <span style="font-size: 2rem;">📷</span><br>
-        <strong>Click to Upload Photos</strong>
-    </div>
-
-    <div class="payment-required-box">
-        <h3>Publishing Fee</h3>
-        <p>To keep our community safe and verified, we charge a monthly advertising fee for all active listings.</p>
-        <div class="price-text">$20<span>/mo</span></div>
-        <p style="font-size: 0.85rem; color: #666;">Includes unlimited listings & direct messaging access.</p>
+            <button type="submit" class="cta-button" style="width:100%; border:none; cursor:pointer; background-color: var(--black); color: white; padding: 15px; border-radius: 30px; font-weight: bold; font-size: 1.1rem;">
+                Create Free Account
+            </button>
+        </form>
         
-        <button class="submit-btn" onclick="goToStripe()">
-            Pay $20 & Publish Listing
-        </button>
-        
-        <p style="font-size: 0.75rem; margin-top: 10px; color: #888;">
-            Securely processed via Stripe. Cancel subscription anytime.
+        <p style="font-size: 0.8rem; color: #888; margin-top: 20px;">
+            Already have an account? <a href="#" onclick="openLogin()" style="color: var(--gold); text-decoration: none; font-weight: bold;">Sign In</a>
         </p>
     </div>
-</div>
+</section>
 
 <script>
-    function goToStripe() {
-        // Replace this with your actual Stripe Payment Link
-        window.location.href = "https://buy.stripe.com/your_actual_link_here";
+    function handleFreeSignUp(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('sellerEmail').value;
+        const bizName = document.getElementById('bizName').value;
+
+        // Log the data (in a real app, this sends to your database)
+        console.log("Account Created for:", email);
+
+        // Redirect them to their new Dashboard instead of Stripe
+        alert("Welcome to the Club, " + bizName + "! Your account has been created.");
+        window.location.href = "dashboard.html"; 
+    }
+
+    // Toggle logic to show this section
+    function showSellers() {
+        document.getElementById("buyer-section").style.display = "none";
+        document.getElementById("seller-section").style.display = "block";
+        document.getElementById("myDropdown").classList.remove("show");
     }
 </script>
-
-</body>
-</html>
