@@ -12,34 +12,38 @@
         .input-group { margin-bottom: 20px; }
         label { display: block; font-weight: bold; margin-bottom: 5px; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .submit-btn { width: 100%; background: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        .submit-btn { width: 100%; background: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
         .submit-btn:hover { background: var(--gold); }
     </style>
 </head>
 <body>
 
 <div class="form-card">
-    <a href="dashboard.html" style="color: var(--gold); text-decoration: none;">← Back to Dashboard</a>
+    <a href="dashboard.html" style="color: var(--gold); text-decoration: none; font-weight: bold;">← Back to Dashboard</a>
     <h2>Post a New Puppy</h2>
     <form id="puppyForm">
         <div class="input-group">
             <label>Breed</label>
-            <input type="text" placeholder="e.g. French Bulldog" required>
+            <input type="text" id="breed" placeholder="e.g. French Bulldog" required>
         </div>
         <div class="input-group">
             <label>Price ($)</label>
-            <input type="number" placeholder="2500" required>
+            <input type="number" id="price" placeholder="2500" required>
         </div>
         <div class="input-group">
             <label>Gender</label>
-            <select>
+            <select id="gender">
                 <option>Male</option>
                 <option>Female</option>
             </select>
         </div>
         <div class="input-group">
+            <label>Image URL</label>
+            <input type="url" id="image" placeholder="Paste a link to a puppy photo">
+        </div>
+        <div class="input-group">
             <label>Description</label>
-            <textarea rows="4" placeholder="Tell buyers about the puppy's personality, vaccinations, etc."></textarea>
+            <textarea id="description" rows="4" placeholder="Tell buyers about the puppy's personality, vaccinations, etc."></textarea>
         </div>
         <button type="submit" class="submit-btn">Publish Listing</button>
     </form>
@@ -48,7 +52,29 @@
 <script>
     document.getElementById('puppyForm').onsubmit = function(e) {
         e.preventDefault();
-        alert("Success! Your puppy listing has been sent for review.");
+
+        // 1. Capture the data from the inputs
+        const puppyData = {
+            id: Date.now(), // Unique ID for deleting later
+            breed: document.getElementById('breed').value,
+            price: document.getElementById('price').value,
+            gender: document.getElementById('gender').value,
+            image: document.getElementById('image').value || "https://via.placeholder.com/150",
+            description: document.getElementById('description').value
+        };
+
+        // 2. Get existing puppies from LocalStorage or start a new list
+        let puppyList = JSON.parse(localStorage.getItem('myPuppies')) || [];
+
+        // 3. Add the new puppy to the list
+        puppyList.push(puppyData);
+
+        // 4. Save the updated list back to LocalStorage
+        localStorage.setItem('myPuppies', JSON.stringify(puppyList));
+
+        alert("Success! Your puppy is now live in your dashboard.");
+        
+        // 5. Go back to the dashboard to see the listing
         window.location.href = "dashboard.html";
     };
 </script>
