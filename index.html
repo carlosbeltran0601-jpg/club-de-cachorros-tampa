@@ -10,6 +10,7 @@
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
+            --blue-link: #007bff; /* Similar to puppies.com link color */
         }
 
         body {
@@ -19,188 +20,162 @@
             color: var(--black);
         }
 
-        .header-nav {
+        /* Puppies.com style Top Navigation */
+        .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
+            padding: 10px 5%;
             background: white;
-            border-bottom: 2px solid var(--gold);
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--black);
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            color: var(--gold); /* Your brand gold */
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .lang-select {
-            padding: 5px 10px;
-            border: 1px solid var(--gold);
-            border-radius: 20px;
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
             cursor: pointer;
-            font-family: 'Times New Roman', serif;
+            font-family: inherit;
         }
 
+        /* Hero Section */
         .hero {
-            position: relative;
-            background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), 
-                        url('https://images.unsplash.com/photo-1554456854-55a063e97cb4?auto=format&fit=crop&q=80&w=2070');
-            background-size: cover;
-            background-position: center;
-            padding: 80px 20px;
             text-align: center;
+            padding: 60px 20px;
+            background: white;
         }
 
-        .main-card {
-            max-width: 800px;
-            width: 95%;
-            border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-            border: 5px solid white;
+        .hero-img {
+            max-width: 850px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
 
         .cta-button {
             display: inline-block;
             background-color: var(--gold);
             color: white;
-            padding: 15px 30px;
+            padding: 12px 25px;
             text-decoration: none;
-            font-size: 1.2rem;
-            border-radius: 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
             font-weight: bold;
-            margin-top: 20px;
-            transition: transform 0.2s;
-            font-family: 'Times New Roman', serif;
-            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+            transition: background 0.3s;
         }
 
-        .cta-button:hover { transform: translateY(-2px); }
+        .cta-button:hover { background-color: #b08e4d; }
 
-        .reviews { padding: 60px 5%; text-align: center; background: white; }
-        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
-        .review-card { background: var(--cream); padding: 25px; border-radius: 10px; border: 1px solid #eee; }
-        .stars { color: var(--gold); margin-bottom: 10px; font-size: 1.2rem; }
-        
-        footer { 
-            background: var(--black); 
-            color: white; 
-            padding: 60px 20px; 
-            text-align: center; 
-            font-family: 'Times New Roman', serif;
+        /* Footer & Legal */
+        footer {
+            background: var(--black);
+            color: white;
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 50px;
         }
 
-        .about-section {
+        .mission-box {
             max-width: 800px;
-            margin: 0 auto 40px;
-            padding: 20px;
+            margin: 0 auto 30px;
             border-bottom: 1px solid #444;
+            padding-bottom: 20px;
         }
 
-        .footer-info { margin-bottom: 30px; }
-        .footer-info p { margin: 5px 0; font-size: 1.1rem; }
-        
         .contact-btn {
             color: var(--gold);
             text-decoration: none;
             border: 1px solid var(--gold);
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 4px;
             display: inline-block;
             margin-top: 10px;
-            transition: 0.3s;
         }
-        .contact-btn:hover {
-            background: var(--gold);
-            color: white;
-        }
-
-        .legal-nav { margin: 20px 0; }
-        .legal-nav a { 
-            color: var(--gold); 
-            text-decoration: none; 
-            margin: 0 15px; 
-            font-size: 0.9rem; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .legal-nav a:hover { text-decoration: underline; }
 
         .disclaimer-box {
-            max-width: 700px;
-            margin: 30px auto 0;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #aaa;
-            line-height: 1.4;
+            margin-top: 30px;
+            line-height: 1.5;
         }
 
-        /* Language visibility */
+        /* Multi-language Logic */
         .es-text { display: none; }
         .en-text { display: block; }
-        .cta-button.en-text { display: inline-block; }
+        span.en-text, span.es-text { display: inline; }
     </style>
 </head>
 <body>
 
-<div class="header-nav">
-    <div style="font-weight: bold; letter-spacing: 2px;">
-        <span class="en-text">clubofpuppy.com</span>
-        <span class="es-text">clubofpuppy.com</span>
+<nav class="top-nav">
+    <a href="index.html" class="logo-area">
+        <span class="logo-icon">🐾</span>
+        <span class="logo-text">clubofpuppy.com</span>
+    </a>
+    
+    <div class="nav-right">
+        <select class="lang-select" onchange="changeLang(this.value)">
+            <option value="en">English 🇺🇸</option>
+            <option value="es">Español 🇪🇸</option>
+        </select>
     </div>
-    <select class="lang-select" onchange="changeLang(this.value)">
-        <option value="en">English 🇺🇸</option>
-        <option value="es">Español 🇪🇸</option>
-    </select>
-</div>
+</nav>
 
 <section class="hero">
-    <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="clubofpuppy.com" class="main-card">
-    <h1 class="en-text">Connecting Puppy Lovers Nationwide</h1>
-    <h1 class="es-text">Conectando amantes de cachorros en todo el país</h1>
+    <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Puppy Listings" class="hero-img">
     
-    <a href="puppies.html" class="cta-button en-text">Browse USA Listings</a>
-    <a href="puppies.html" class="cta-button es-text">Explorar anuncios en USA</a>
-</section>
-
-<section class="reviews">
-    <h2 class="en-text">Success Stories from Coast to Coast</h2>
-    <h2 class="es-text">Historias de éxito de costa a costa</h2>
-    <div class="review-grid">
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="en-text">"Found our perfect Poodle listing through the club. Highly recommend!"</p>
-            <p class="es-text">"Encontramos nuestro anuncio de Poodle perfecto a través del club. ¡Muy recomendable!"</p>
-            <strong>- The Miller Family (New York)</strong>
-        </div>
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="en-text">"Best platform to connect with responsible pet enthusiasts across the USA."</p>
-            <p class="es-text">"La mejor plataforma para conectar con entusiastas de mascotas responsables en todo USA."</p>
-            <strong>- Jessica R. (California)</strong>
-        </div>
-    </div>
+    <h1 class="en-text">Find Your New Best Friend Nationwide</h1>
+    <h1 class="es-text">Encuentra tu nuevo mejor amigo en todo el país</h1>
+    
+    <a href="puppies.html" class="cta-button en-text">View Listings</a>
+    <a href="puppies.html" class="cta-button es-text">Ver Anuncios</a>
 </section>
 
 <footer>
-    <div class="about-section">
+    <div class="mission-box">
         <h3 class="en-text">Our Mission</h3>
         <h3 class="es-text">Nuestra Misión</h3>
-        <p class="en-text">Clubofpuppy.com is the premier national membership community for dog enthusiasts. We provide a secure digital space for members to list and find high-quality information and community connections across the United States.</p>
-        <p class="es-text">Clubofpuppy.com es la comunidad nacional de membresía líder para entusiastas de los perros. Brindamos un espacio digital seguro para que los miembros publiquen y encuentren información de alta calidad y conexiones comunitarias en todo Estados Unidos.</p>
+        <p class="en-text">Clubofpuppy.com is a premier digital membership platform for dog lovers across the USA. We facilitate community connections and listings for enthusiasts.</p>
+        <p class="es-text">Clubofpuppy.com es una plataforma de membresía digital de primer nivel para amantes de los perros en todo EE. UU. Facilitamos conexiones comunitarias y anuncios.</p>
     </div>
 
-    <div class="footer-info">
-        <p>Nationwide Service | USA</p>
-        <p>Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
-        <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn en-text">Contact Support</a>
-        <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn es-text">Contactar Soporte</a>
-    </div>
-
-    <div class="legal-nav">
-        <a href="#" onclick="alert('Refund Policy: All membership and listing fees are non-refundable. For technical support, contact us within 14 days.')">Refund Policy</a>
-        <a href="#" onclick="alert('Terms of Service: Club of Puppy provides a digital listing platform. We do not facilitate or process payments for the sale of live animals.')">Terms of Service</a>
-    </div>
+    <p>USA Nationwide | Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
+    <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn en-text">Contact Support</a>
+    <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn es-text">Contactar Soporte</a>
 
     <div class="disclaimer-box">
-        <p class="en-text">Club of Puppy is a digital membership and classified listings platform. We are not a pet store and do not process payments for the sale of animals. All payments made on this site are for advertising services and community access.</p>
-        <p class="es-text">Club de Cachorros es una plataforma de membresía digital y anuncios clasificados. No somos una tienda de mascotas y no procesamos pagos por la venta de animales. Todos los pagos realizados en este sitio son por servicios de publicidad y acceso a la comunidad.</p>
+        <p class="en-text">Club of Puppy is a classified listings platform. We do not process payments for the sale of live animals. Fees are for membership and advertising services.</p>
+        <p class="es-text">Club de Cachorros es una plataforma de anuncios clasificados. No procesamos pagos por la venta de animales. Las tarifas son por membresía y servicios publicitarios.</p>
     </div>
 </footer>
 
@@ -211,10 +186,10 @@
         if (lang === 'es') {
             en.forEach(el => el.style.display = 'none');
             es.forEach(el => {
-                if(el.classList.contains('cta-button') || el.classList.contains('contact-btn')) {
-                    el.style.display = 'inline-block';
-                } else if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
+                if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
                     el.style.display = 'inline';
+                } else if (el.classList.contains('cta-button') || el.classList.contains('contact-btn')) {
+                    el.style.display = 'inline-block';
                 } else {
                     el.style.display = 'block';
                 }
@@ -222,10 +197,10 @@
         } else {
             es.forEach(el => el.style.display = 'none');
             en.forEach(el => {
-                if(el.classList.contains('cta-button') || el.classList.contains('contact-btn')) {
-                    el.style.display = 'inline-block';
-                } else if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
+                if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
                     el.style.display = 'inline';
+                } else if (el.classList.contains('cta-button') || el.classList.contains('contact-btn')) {
+                    el.style.display = 'inline-block';
                 } else {
                     el.style.display = 'block';
                 }
