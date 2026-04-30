@@ -15,8 +15,10 @@
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            background-color: var(--cream);
+            /* Added a sophisticated background color gradient */
+            background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
             color: var(--black);
+            min-height: 100vh;
         }
 
         /* Nav Bar */
@@ -76,21 +78,19 @@
         .dropdown-content a:hover { background-color: var(--cream); color: var(--gold); }
         .show { display: block; }
 
-        /* Main Section */
+        /* Main Sections */
         .main-hero {
             text-align: center;
             padding: 80px 20px;
-            background: white;
+            background: transparent; /* Let body background show through */
         }
 
         .main-hero h1 { font-size: 2.5rem; }
 
-        /* Seller Section */
         #seller-section {
             display: none; 
             padding: 60px 5%;
             text-align: center;
-            background-color: var(--cream);
         }
 
         .price-card {
@@ -114,13 +114,35 @@
             font-size: 1.2rem;
             border-radius: 30px;
             font-weight: bold;
+            transition: 0.3s;
         }
 
+        .cta-button:hover {
+            background-color: var(--gold);
+        }
+
+        /* Footer & Legal (Crucial for Stripe) */
         footer {
             background: var(--black);
             color: white;
-            padding: 40px 5%;
+            padding: 50px 5%;
             text-align: center;
+            margin-top: 50px;
+        }
+
+        .legal-nav {
+            margin-bottom: 20px;
+        }
+
+        .legal-nav a {
+            color: var(--gold);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .legal-nav a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -165,8 +187,15 @@
 </section>
 
 <footer>
-    <p>clubofpuppy.com | USA Nationwide</p>
-    <p style="font-size: 0.7rem; color: #888;">We are a membership platform and do not sell animals.</p>
+    <div class="legal-nav">
+        <a href="#">Terms of Service</a>
+        <a href="#">Refund Policy</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+    <p><strong>clubofpuppy.com</strong> | USA Nationwide Puppy Club</p>
+    <p style="font-size: 0.8rem; color: #888; max-width: 600px; margin: 20px auto;">
+        Club of Puppy is a membership and advertising platform. We do not sell animals. We provide the space for verified members to connect.
+    </p>
 </footer>
 
 <script>
