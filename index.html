@@ -19,7 +19,7 @@
             margin: 0;
             background-color: var(--cream);
             color: var(--black);
-            scroll-behavior: smooth; /* This makes the transition smooth when clicking the button */
+            scroll-behavior: smooth;
         }
 
         /* Top Navigation */
@@ -60,7 +60,6 @@
             border: 5px solid white;
         }
 
-        /* Button Style */
         .cta-button {
             display: inline-block;
             background-color: var(--gold);
@@ -124,12 +123,13 @@
             left: 15px;
             padding: 4px 10px;
             border-radius: 5px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
         }
 
-        .age-badge { bottom: 45px; background: white; color: black; }
-        .id-badge { bottom: 12px; background: #e8f4fd; color: #1976d2; border: 1px solid #b3e5fc; }
+        .status-badge { bottom: 75px; background: white; color: black; }
+        .id-badge { bottom: 42px; background: #e8f4fd; color: #1976d2; border: 1px solid #b3e5fc; }
+        .vac-badge { bottom: 10px; background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
 
         .puppy-details {
             padding: 20px;
@@ -219,8 +219,9 @@
         <div class="puppy-card">
             <div class="image-box">
                 <img src="pom_image.jpg" alt="Pomeranian"> 
-                <div class="badge age-badge">4 WEEKS</div>
-                <div class="badge id-badge">✓ ID VERIFIED</div>
+                <div class="badge status-badge">READY TO GO HOME</div>
+                <div class="badge id-badge">✓ HEALTH CERTIFICATE</div>
+                <div class="badge vac-badge">💉 VACCINATION</div>
             </div>
             <div class="puppy-details">
                 <div class="price-tag">$1300</div>
@@ -232,8 +233,9 @@
         <div class="puppy-card">
             <div class="image-box">
                 <img src="poodle_image.jpg" alt="Toy Poodle">
-                <div class="badge age-badge">8 WEEKS</div>
-                <div class="badge id-badge">✓ ID VERIFIED</div>
+                <div class="badge status-badge">READY TO GO HOME</div>
+                <div class="badge id-badge">✓ HEALTH CERTIFICATE</div>
+                <div class="badge vac-badge">💉 VACCINATION</div>
             </div>
             <div class="puppy-details">
                 <div class="price-tag">$1300</div>
@@ -278,7 +280,6 @@
         if (lang === 'en') {
             es.forEach(el => el.style.display = 'none');
             en.forEach(el => {
-                // Check if it's the button (inline-block) or text (block)
                 if (el.classList.contains('cta-button')) {
                     el.style.display = 'inline-block';
                 } else {
