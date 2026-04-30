@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club de Cachorros - Tampa, FL</title>
+    <style>
+        :root {
+            --gold: #c5a059;
+            --black: #1a1a1a;
+            --cream: #fdfaf5;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            background-color: var(--cream);
+            color: var(--black);
+        }
+
+        /* Top Bar & Language Selector */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .lang-select {
+            padding: 5px;
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        /* Hero Section with People Background */
+        .hero {
+            position: relative;
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+                        url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=2069');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .business-card {
+            max-width: 800px;
+            width: 90%;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Reviews Grid */
+        .reviews-section {
+            padding: 60px 5%;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1591768575198-88dac53fbd0a?auto=format&fit=crop&q=80&w=1974') fixed;
+            background-size: cover;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .stars { color: var(--gold); font-size: 1.2rem; }
+
+        /* Contact Section */
+        .footer-cta {
+            background: var(--black);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .phone-number {
+            color: var(--gold);
+            font-size: 2.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .en { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <div style="font-weight: bold; letter-spacing: 2px;">CLUB DE CACHORROS</div>
+    <div>
+        <label>Idioma: </label>
+        <select class="lang-select" onchange="toggleLang(this.value)">
+            <option value="es">Español 🇪🇸</option>
+            <option value="en">English 🇺🇸</option>
+        </select>
+    </div>
+</div>
+
+<section class="hero">
+    <img src="image.png" alt="Club de Cachorros" class="business-card">
+    <h1 class="es">Cachorros Felices, Familias Felices</h1>
+    <h1 class="en">Happy Puppies, Happy Families</h1>
+</section>
+
+<section class="reviews-section">
+    <h2 class="es">Testimonios de Clientes</h2>
+    <h2 class="en">Customer Testimonials</h2>
+    
+    <div class="review-grid">
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p class="es">"Nuestra pequeña Luna ha traído tanta felicidad. ¡Gracias!"</p>
+            <p class="en">"Our little Luna has brought so much happiness. Thank you!"</p>
+            <strong>Familia Perez</strong>
+        </div>
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p class="es">"El cuidado y la profesionalidad son increíbles. Súper recomendados."</p>
+            <p class="en">"The care and professionalism are incredible. Highly recommended."</p>
+            <strong>Carlos M.</strong>
+        </div>
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p class="es">"Una experiencia maravillosa. El criadero es impecable."</p>
+            <p class="en">"A wonderful experience. The kennel is impeccable."</p>
+            <strong>Ana L.</strong>
+        </div>
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p class="es">"Encontramos a nuestro mejor amigo aquí. Muy sano y juguetón."</p>
+            <p class="en">"We found our best friend here. Very healthy and playful."</p>
+            <strong>The Thompsons</strong>
+        </div>
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p class="es">"Excelente servicio de principio a fin. El veterinario quedó impresionado."</p>
+            <p class="en">"Excellent service from start to finish. Our vet was impressed."</p>
+            <strong>Jessica K.</strong>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-cta">
+    <p class="es">¿Listo para conocer a tu nuevo mejor amigo?</p>
+    <p class="en">Ready to meet your new best friend?</p>
+    <a href="tel:8632770168" class="phone-number">863-277-0168</a>
+    <p>Tampa, FL | Club de Cachorros</p>
+</footer>
+
+<script>
+    function toggleLang(lang) {
+        const es = document.querySelectorAll('.es');
+        const en = document.querySelectorAll('.en');
+        if (lang === 'en') {
+            es.forEach(el => el.style.display = 'none');
+            en.forEach(el => el.style.display = 'block');
+        } else {
+            es.forEach(el => el.style.display = 'block');
+            en.forEach(el => el.style.display = 'none');
+        }
+    }
+</script>
+
+</body>
+</html>
