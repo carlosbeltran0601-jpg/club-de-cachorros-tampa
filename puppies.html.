@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Cachorros - Club de Cachorros</title>
+    <style>
+        :root {
+            --gold: #c5a059;
+            --black: #1a1a1a;
+            --cream: #fdfaf5;
+            --white: #ffffff;
+            --price-bg: #d4edda;
+            --price-text: #155724;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            background-color: var(--cream);
+            color: var(--black);
+        }
+
+        .header-nav {
+            padding: 15px 5%;
+            background: white;
+            border-bottom: 2px solid var(--gold);
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .available-puppies {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .puppy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .puppy-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .image-box {
+            position: relative;
+            width: 100%;
+            height: 350px;
+        }
+
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .badge {
+            position: absolute;
+            left: 15px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .status-badge { bottom: 75px; background: white; color: black; }
+        .id-badge { bottom: 42px; background: #e8f4fd; color: #1976d2; border: 1px solid #b3e5fc; }
+        .vac-badge { bottom: 10px; background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
+
+        .puppy-details { padding: 20px; }
+        .price-tag {
+            background: var(--price-bg);
+            color: var(--price-text);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .puppy-details h3 { margin: 5px 0; font-size: 1.4rem; }
+        
+        footer { background: var(--black); color: white; padding: 30px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+<div class="header-nav">
+    <div style="font-weight: bold; letter-spacing: 2px;">CLUB DE CACHORROS</div>
+    <a href="index.html" class="back-link">← Volver al Inicio / Back to Home</a>
+</div>
+
+<section class="available-puppies">
+    <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 30px;">Cachorros Disponibles</h2>
+    
+    <div class="puppy-grid">
+        <div class="puppy-card">
+            <div class="image-box">
+                <img src="pom_image.jpg" alt="Pomeranian"> 
+                <div class="badge status-badge">READY TO GO HOME</div>
+                <div class="badge id-badge">✓ HEALTH CERTIFICATE</div>
+                <div class="badge vac-badge">💉 VACCINATION</div>
+            </div>
+            <div class="puppy-details">
+                <div class="price-tag">$1300</div>
+                <h3>Pomeranian</h3>
+                <p>Tampa, FL</p>
+            </div>
+        </div>
+
+        <div class="puppy-card">
+            <div class="image-box">
+                <img src="poodle_image.jpg" alt="Toy Poodle">
+                <div class="badge status-badge">READY TO GO HOME</div>
+                <div class="badge id-badge">✓ HEALTH CERTIFICATE</div>
+                <div class="badge vac-badge">💉 VACCINATION</div>
+            </div>
+            <div class="puppy-details">
+                <div class="price-tag">$1300</div>
+                <h3>Toy Poodle</h3>
+                <p>Tampa, FL</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Contact us: 863-277-0168 | Tampa, FL</p>
+</footer>
+
+</body>
+</html>
