@@ -76,7 +76,7 @@
         .dropdown-content a:hover { background-color: var(--cream); color: var(--gold); }
         .show { display: block; }
 
-        /* Main Section (What Buyers See First) */
+        /* Main Section */
         .main-hero {
             text-align: center;
             padding: 80px 20px;
@@ -85,9 +85,9 @@
 
         .main-hero h1 { font-size: 2.5rem; }
 
-        /* Hidden Seller Section (Shows when they want to post) */
+        /* Seller Section */
         #seller-section {
-            display: none; /* Hidden by default */
+            display: none; 
             padding: 60px 5%;
             text-align: center;
             background-color: var(--cream);
@@ -127,7 +127,7 @@
 <body>
 
 <nav class="top-nav">
-    <a href="#" class="logo-area" onclick="showBuyers()">
+    <a href="index.html" class="logo-area">
         <span style="color: var(--gold)">🐾</span> clubofpuppy.com
     </a>
 
@@ -135,8 +135,8 @@
         <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
         <div id="myDropdown" class="dropdown-content">
             <a href="#" onclick="showBuyers()">Find a Puppy</a>
-            <a href="#" onclick="showSellers()" style="color: var(--gold);">Post a Puppy (Sellers)</a>
-            <a href="#">Sign In</a>
+            <a href="signup.html" style="color: var(--gold);">Sign Up (Sellers)</a>
+            <a href="signin.html">Sign In</a>
         </div>
     </div>
 </nav>
@@ -157,7 +157,7 @@
             <li>★ Direct Messaging Access</li>
             <li>★ Identity Verification Badge</li>
         </ul>
-        <a href="#" class="cta-button">Start Listing</a>
+        <a href="signup.html" class="cta-button">Start Listing</a>
     </div>
 </section>
 
@@ -172,13 +172,12 @@
     function showSellers() {
         document.getElementById("buyer-section").style.display = "none";
         document.getElementById("seller-section").style.display = "block";
-        toggleMenu(); // close menu
+        toggleMenu(); 
     }
 
     function showBuyers() {
         document.getElementById("seller-section").style.display = "none";
         document.getElementById("buyer-section").style.display = "block";
-        // don't toggle menu here if just clicking logo
     }
 
     window.onclick = function(event) {
