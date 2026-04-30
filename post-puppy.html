@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Puppy | clubofpuppy.com</title>
+    <style>
+        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; }
+        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); padding: 40px 20px; }
+        .form-card { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; border: 1px solid var(--gold); }
+        h2 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .submit-btn { width: 100%; background: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        .submit-btn:hover { background: var(--gold); }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <a href="dashboard.html" style="color: var(--gold); text-decoration: none;">← Back to Dashboard</a>
+    <h2>Post a New Puppy</h2>
+    <form id="puppyForm">
+        <div class="input-group">
+            <label>Breed</label>
+            <input type="text" placeholder="e.g. French Bulldog" required>
+        </div>
+        <div class="input-group">
+            <label>Price ($)</label>
+            <input type="number" placeholder="2500" required>
+        </div>
+        <div class="input-group">
+            <label>Gender</label>
+            <select>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Description</label>
+            <textarea rows="4" placeholder="Tell buyers about the puppy's personality, vaccinations, etc."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Publish Listing</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('puppyForm').onsubmit = function(e) {
+        e.preventDefault();
+        alert("Success! Your puppy listing has been sent for review.");
+        window.location.href = "dashboard.html";
+    };
+</script>
+
+</body>
+</html>
