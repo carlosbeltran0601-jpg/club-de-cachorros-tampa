@@ -3,192 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>clubofpuppy.com - Nationwide Puppy Club</title>
+    <title>Submit Listing | clubofpuppy.com</title>
     <style>
         :root {
             --gold: #c5a059;
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
+            --border: #ddd;
         }
 
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
             background-color: var(--cream);
-            color: var(--black);
         }
 
-        /* Nav Bar */
-        .top-nav {
+        .dashboard-header {
+            background: white;
+            padding: 15px 5%;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 5%;
-            background: white;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--black);
-            font-weight: bold;
-            font-size: 1.5rem;
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .menu-container { position: relative; }
-        .menu-button {
-            background: white;
-            border: 1px solid #ccc;
-            padding: 8px 15px;
-            cursor: pointer;
+        h1 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
             border-radius: 4px;
             font-family: inherit;
-            font-weight: bold;
+            box-sizing: border-box;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: white;
-            min-width: 220px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+        .photo-upload {
+            border: 2px dashed var(--gold);
+            padding: 30px;
+            text-align: center;
+            background: var(--cream);
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        /* The Payment Box (The "Paywall") */
+        .payment-required-box {
+            background: #fff9ef;
+            border: 1px solid var(--gold);
+            padding: 25px;
             border-radius: 8px;
-            z-index: 1001;
-        }
-
-        .dropdown-content a {
-            color: var(--black);
-            padding: 14px 16px;
-            text-decoration: none;
-            display: block;
-            font-weight: bold;
-            border-bottom: 1px solid #f9f9f9;
-        }
-
-        .dropdown-content a:hover { background-color: var(--cream); color: var(--gold); }
-        .show { display: block; }
-
-        /* Main Section (What Buyers See First) */
-        .main-hero {
+            margin-top: 30px;
             text-align: center;
-            padding: 80px 20px;
-            background: white;
         }
 
-        .main-hero h1 { font-size: 2.5rem; }
+        .price-text { font-size: 2rem; font-weight: bold; margin: 10px 0; }
 
-        /* Hidden Seller Section (Shows when they want to post) */
-        #seller-section {
-            display: none; /* Hidden by default */
-            padding: 60px 5%;
-            text-align: center;
-            background-color: var(--cream);
-        }
-
-        .price-card {
-            background: white;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 40px;
-            border-radius: 12px;
-            border: 2px solid var(--gold);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .price-amount { font-size: 3.5rem; font-weight: bold; margin: 15px 0; }
-        
-        .cta-button {
-            display: inline-block;
+        .submit-btn {
             background-color: var(--black);
             color: white;
-            padding: 15px 40px;
-            text-decoration: none;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
             font-size: 1.2rem;
-            border-radius: 30px;
             font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
         }
 
-        footer {
-            background: var(--black);
-            color: white;
-            padding: 40px 5%;
-            text-align: center;
-        }
+        .submit-btn:hover { background-color: var(--gold); }
     </style>
 </head>
 <body>
 
-<nav class="top-nav">
-    <a href="#" class="logo-area" onclick="showBuyers()">
-        <span style="color: var(--gold)">🐾</span> clubofpuppy.com
-    </a>
+<header class="dashboard-header">
+    <div style="font-weight: bold; font-size: 1.4rem;">🐾 clubofpuppy.com</div>
+    <div><strong>Account:</strong> Seller Portal</div>
+</header>
 
-    <div class="menu-container">
-        <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
-        <div id="myDropdown" class="dropdown-content">
-            <a href="#" onclick="showBuyers()">Find a Puppy</a>
-            <a href="#" onclick="showSellers()" style="color: var(--gold);">Post a Puppy (Sellers)</a>
-            <a href="#">Sign In</a>
-        </div>
+<div class="container">
+    <h1>Create Your Listing</h1>
+    <p>Fill out the details of your puppy below. Your listing will go live once payment is confirmed.</p>
+
+    <div class="form-group">
+        <label>Puppy Breed</label>
+        <input type="text" placeholder="e.g. Golden Retriever">
     </div>
-</nav>
 
-<section id="buyer-section" class="main-hero">
-    <h1>Find Your New Best Friend</h1>
-    <p>Browse thousands of puppies from verified members nationwide.</p>
-    <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Puppies" style="max-width:80%; border-radius:10px; margin-top:20px;">
-</section>
-
-<section id="seller-section">
-    <div class="price-card">
-        <h2 style="letter-spacing: 1px;">SELLER MEMBERSHIP</h2>
-        <p>Post unlimited puppies and reach buyers nationwide.</p>
-        <div class="price-amount">$20<span>/mo</span></div>
-        <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 25px;">
-            <li>★ Unlimited Active Ads</li>
-            <li>★ Direct Messaging Access</li>
-            <li>★ Identity Verification Badge</li>
-        </ul>
-        <a href="#" class="cta-button">Start Listing</a>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea rows="5" placeholder="Tell us about the puppy's personality, health, and parents..."></textarea>
     </div>
-</section>
 
-<footer>
-    <p>clubofpuppy.com | USA Nationwide</p>
-    <p style="font-size: 0.7rem; color: #888;">We are a membership platform and do not sell animals.</p>
-</footer>
+    <div class="photo-upload">
+        <span style="font-size: 2rem;">📷</span><br>
+        <strong>Click to Upload Photos</strong>
+    </div>
+
+    <div class="payment-required-box">
+        <h3>Publishing Fee</h3>
+        <p>To keep our community safe and verified, we charge a monthly advertising fee for all active listings.</p>
+        <div class="price-text">$20<span>/mo</span></div>
+        <p style="font-size: 0.85rem; color: #666;">Includes unlimited listings & direct messaging access.</p>
+        
+        <button class="submit-btn" onclick="goToStripe()">
+            Pay $20 & Publish Listing
+        </button>
+        
+        <p style="font-size: 0.75rem; margin-top: 10px; color: #888;">
+            Securely processed via Stripe. Cancel subscription anytime.
+        </p>
+    </div>
+</div>
 
 <script>
-    function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
-
-    function showSellers() {
-        document.getElementById("buyer-section").style.display = "none";
-        document.getElementById("seller-section").style.display = "block";
-        toggleMenu(); // close menu
-    }
-
-    function showBuyers() {
-        document.getElementById("seller-section").style.display = "none";
-        document.getElementById("buyer-section").style.display = "block";
-        // don't toggle menu here if just clicking logo
-    }
-
-    window.onclick = function(event) {
-        if (!event.target.matches('.menu-button')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            for (var i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) openDropdown.classList.remove('show');
-            }
-        }
+    function goToStripe() {
+        // Replace this with your actual Stripe Payment Link
+        window.location.href = "https://buy.stripe.com/your_actual_link_here";
     }
 </script>
 
