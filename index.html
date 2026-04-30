@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>clubofpuppy.com - Tampa, FL</title>
+    <title>clubofpuppy.com - Nationwide Puppy Club</title>
     <style>
         :root {
             --gold: #c5a059;
@@ -89,6 +89,13 @@
         .footer-info { margin-bottom: 30px; }
         .footer-info p { margin: 5px 0; font-size: 1.1rem; }
         
+        .about-section {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            border-bottom: 1px solid #444;
+        }
+
         .legal-nav { margin: 20px 0; }
         .legal-nav a { 
             color: var(--gold); 
@@ -110,7 +117,7 @@
             line-height: 1.4;
         }
 
-        /* Default: English UI visible */
+        /* Language visibility */
         .es-text { display: none; }
         .en-text { display: block; }
         .cta-button.en-text { display: inline-block; }
@@ -131,36 +138,43 @@
 
 <section class="hero">
     <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="clubofpuppy.com" class="main-card">
-    <h1 class="en-text">Happy Puppies, Happy Families</h1>
-    <h1 class="es-text">Cachorros Felices, Familias Felices</h1>
+    <h1 class="en-text">Connecting Puppy Lovers Nationwide</h1>
+    <h1 class="es-text">Conectando amantes de cachorros en todo el país</h1>
     
-    <a href="puppies.html" class="cta-button en-text">View Available Puppies</a>
-    <a href="puppies.html" class="cta-button es-text">Ver Cachorros Disponibles</a>
+    <a href="puppies.html" class="cta-button en-text">Browse USA Listings</a>
+    <a href="puppies.html" class="cta-button es-text">Explorar anuncios en USA</a>
 </section>
 
 <section class="reviews">
-    <h2 class="en-text">Customer Reviews</h2>
-    <h2 class="es-text">Testimonios de Clientes</h2>
+    <h2 class="en-text">Success Stories from Coast to Coast</h2>
+    <h2 class="es-text">Historias de éxito de costa a costa</h2>
     <div class="review-grid">
         <div class="review-card">
             <div class="stars">★★★★★</div>
-            <p class="en-text">"Our little Luna has brought so much happiness. Thank you!"</p>
-            <p class="es-text">"Nuestra pequeña Luna ha traído tanta felicidad. ¡Gracias!"</p>
-            <strong>- Familia Perez</strong>
+            <p class="en-text">"Found our perfect Poodle listing through the club. Highly recommend!"</p>
+            <p class="es-text">"Encontramos nuestro anuncio de Poodle perfecto a través del club. ¡Muy recomendable!"</p>
+            <strong>- The Miller Family (New York)</strong>
         </div>
         <div class="review-card">
             <div class="stars">★★★★★</div>
-            <p class="en-text">"The care and professionalism are incredible. Highly recommended."</p>
-            <p class="es-text">"El cuidado y la profesionalidad son increíbles. Súper recomendados."</p>
-            <strong>- Carlos M.</strong>
+            <p class="en-text">"Best platform to connect with responsible pet enthusiasts across the USA."</p>
+            <p class="es-text">"La mejor plataforma para conectar con entusiastas de mascotas responsables en todo USA."</p>
+            <strong>- Jessica R. (California)</strong>
         </div>
     </div>
 </section>
 
 <footer>
+    <div class="about-section">
+        <h3 class="en-text">Our Mission</h3>
+        <h3 class="es-text">Nuestra Misión</h3>
+        <p class="en-text">Clubofpuppy.com is the premier national membership community for dog enthusiasts. We provide a secure digital space for members to list and find high-quality information and community connections across the United States.</p>
+        <p class="es-text">Clubofpuppy.com es la comunidad nacional de membresía líder para entusiastas de los perros. Brindamos un espacio digital seguro para que los miembros publiquen y encuentren información de alta calidad y conexiones comunitarias en todo Estados Unidos.</p>
+    </div>
+
     <div class="footer-info">
         <a href="tel:8632770168" class="phone-link">863-277-0168</a>
-        <p>Tampa, FL | @clubdecachorros</p>
+        <p>Nationwide Service | USA</p>
         <p>Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
     </div>
 
@@ -184,7 +198,7 @@
             es.forEach(el => {
                 if(el.classList.contains('cta-button')) {
                     el.style.display = 'inline-block';
-                } else if(el.tagName === 'SPAN') {
+                } else if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
                     el.style.display = 'inline';
                 } else {
                     el.style.display = 'block';
@@ -195,7 +209,7 @@
             en.forEach(el => {
                 if(el.classList.contains('cta-button')) {
                     el.style.display = 'inline-block';
-                } else if(el.tagName === 'SPAN') {
+                } else if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
                     el.style.display = 'inline';
                 } else {
                     el.style.display = 'block';
