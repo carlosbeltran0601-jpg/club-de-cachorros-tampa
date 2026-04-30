@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club de Cachorros - Tampa, FL</title>
+    <title>Club Cachorros - Tampa, FL</title>
     <style>
         :root {
             --gold: #c5a059;
@@ -77,7 +77,6 @@
         .review-card { background: var(--cream); padding: 25px; border-radius: 10px; border: 1px solid #eee; }
         .stars { color: var(--gold); margin-bottom: 10px; font-size: 1.2rem; }
         
-        /* FOOTER & LEGAL STYLES */
         footer { 
             background: var(--black); 
             color: white; 
@@ -111,42 +110,48 @@
             line-height: 1.4;
         }
 
-        .en-text { display: none; }
+        /* Default: English is visible, Spanish is hidden */
+        .es-text { display: none; }
+        .en-text { display: block; }
+        .cta-button.en-text { display: inline-block; }
     </style>
 </head>
 <body>
 
 <div class="header-nav">
-    <div style="font-weight: bold; letter-spacing: 2px;">CLUB DE CACHORROS</div>
+    <div style="font-weight: bold; letter-spacing: 2px;">
+        <span class="en-text">CLUB CACHORROS</span>
+        <span class="es-text">CLUB DE CACHORROS</span>
+    </div>
     <select class="lang-select" onchange="changeLang(this.value)">
-        <option value="es">Español 🇪🇸</option>
         <option value="en">English 🇺🇸</option>
+        <option value="es">Español 🇪🇸</option>
     </select>
 </div>
 
 <section class="hero">
-    <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Club de Cachorros" class="main-card">
-    <h1 class="es-text">Cachorros Felices, Familias Felices</h1>
+    <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Club Cachorros" class="main-card">
     <h1 class="en-text">Happy Puppies, Happy Families</h1>
+    <h1 class="es-text">Cachorros Felices, Familias Felices</h1>
     
-    <a href="puppies.html" class="cta-button es-text">Ver Cachorros Disponibles</a>
     <a href="puppies.html" class="cta-button en-text">View Available Puppies</a>
+    <a href="puppies.html" class="cta-button es-text">Ver Cachorros Disponibles</a>
 </section>
 
 <section class="reviews">
-    <h2 class="es-text">Testimonios de Clientes</h2>
     <h2 class="en-text">Customer Reviews</h2>
+    <h2 class="es-text">Testimonios de Clientes</h2>
     <div class="review-grid">
         <div class="review-card">
             <div class="stars">★★★★★</div>
-            <p class="es-text">"Nuestra pequeña Luna ha traído tanta felicidad. ¡Gracias!"</p>
             <p class="en-text">"Our little Luna has brought so much happiness. Thank you!"</p>
+            <p class="es-text">"Nuestra pequeña Luna ha traído tanta felicidad. ¡Gracias!"</p>
             <strong>- Familia Perez</strong>
         </div>
         <div class="review-card">
             <div class="stars">★★★★★</div>
-            <p class="es-text">"El cuidado y la profesionalidad son increíbles. Súper recomendados."</p>
             <p class="en-text">"The care and professionalism are incredible. Highly recommended."</p>
+            <p class="es-text">"El cuidado y la profesionalidad son increíbles. Súper recomendados."</p>
             <strong>- Carlos M.</strong>
         </div>
     </div>
@@ -165,8 +170,8 @@
     </div>
 
     <div class="disclaimer-box">
-        <p class="es-text">Club de Cachorros es una plataforma de membresía digital y anuncios clasificados. No somos una tienda de mascotas y no procesamos pagos por la venta de animales. Todos los pagos realizados en este sitio son por servicios de publicidad y acceso a la comunidad.</p>
         <p class="en-text">Club of Puppy is a digital membership and classified listings platform. We are not a pet store and do not process payments for the sale of animals. All payments made on this site are for advertising services and community access.</p>
+        <p class="es-text">Club de Cachorros es una plataforma de membresía digital y anuncios clasificados. No somos una tienda de mascotas y no procesamos pagos por la venta de animales. Todos los pagos realizados en este sitio son por servicios de publicidad y acceso a la comunidad.</p>
     </div>
 </footer>
 
@@ -174,25 +179,28 @@
     function changeLang(lang) {
         const es = document.querySelectorAll('.es-text');
         const en = document.querySelectorAll('.en-text');
-        if (lang === 'en') {
-            es.forEach(el => el.style.display = 'none');
-            en.forEach(el => {
-                // Ensure buttons stay inline-block
+        if (lang === 'es') {
+            en.forEach(el => el.style.display = 'none');
+            es.forEach(el => {
                 if(el.classList.contains('cta-button')) {
                     el.style.display = 'inline-block';
+                } else if(el.tagName === 'SPAN') {
+                    el.style.display = 'inline';
                 } else {
                     el.style.display = 'block';
                 }
             });
         } else {
-            es.forEach(el => {
+            es.forEach(el => el.style.display = 'none');
+            en.forEach(el => {
                 if(el.classList.contains('cta-button')) {
                     el.style.display = 'inline-block';
+                } else if(el.tagName === 'SPAN') {
+                    el.style.display = 'inline';
                 } else {
                     el.style.display = 'block';
                 }
             });
-            en.forEach(el => el.style.display = 'none');
         }
     }
 </script>
