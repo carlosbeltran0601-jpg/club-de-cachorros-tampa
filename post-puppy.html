@@ -6,20 +6,56 @@
     <title>Post a Puppy | clubofpuppy.com</title>
     <style>
         :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; }
-        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); padding: 40px 20px; }
-        .form-card { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; border: 1px solid var(--gold); }
-        h2 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); padding: 20px; }
         
-        /* Image Preview Style */
-        #preview-container { margin-top: 10px; display: none; text-align: center; }
-        #imagePreview { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; border: 1px solid var(--gold); }
+        .form-card { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            border: 1px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
 
-        .submit-btn { width: 100%; background: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s; margin-top: 10px; }
+        h2 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-top: 10px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        /* Image Preview Box */
+        #preview-container { 
+            margin-top: 15px; 
+            display: none; 
+            text-align: center; 
+            border: 1px dashed var(--gold);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        #imagePreview { width: 100%; max-height: 250px; object-fit: cover; border-radius: 5px; }
+
+        .submit-btn { 
+            width: 100%; 
+            background: var(--black); 
+            color: white; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 30px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 1.1rem; 
+            transition: 0.3s;
+        }
         .submit-btn:hover { background: var(--gold); }
-        .loading-text { display: none; color: var(--gold); font-weight: bold; text-align: center; margin-bottom: 10px; }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -27,20 +63,23 @@
 <div class="form-card">
     <a href="dashboard.html" style="color: var(--gold); text-decoration: none; font-weight: bold;">← Back to Dashboard</a>
     <h2>Post a New Puppy</h2>
+    
     <form id="puppyForm">
         <div class="input-group">
             <label>Breed</label>
             <input type="text" id="breed" placeholder="e.g. French Bulldog" required>
         </div>
+
         <div class="input-group">
             <label>Price ($)</label>
             <input type="number" id="price" placeholder="2500" required>
         </div>
+
         <div class="input-group">
             <label>Gender</label>
             <select id="gender">
-                <option>Male</option>
-                <option>Female</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
             </select>
         </div>
 
@@ -48,17 +87,16 @@
             <label>Puppy Photo</label>
             <input type="file" id="imageFile" accept="image/*" capture="environment" required>
             <div id="preview-container">
-                <p style="font-size: 0.8rem; color: #666;">Image Preview:</p>
                 <img id="imagePreview" src="" alt="Preview">
+                <p style="font-size: 0.8rem; color: var(--gold);">✓ Photo Loaded</p>
             </div>
         </div>
 
         <div class="input-group">
             <label>Description</label>
-            <textarea id="description" rows="4" placeholder="Tell buyers about the puppy's personality, vaccinations, etc."></textarea>
+            <textarea id="description" rows="4" placeholder="Personality, vaccinations, etc."></textarea>
         </div>
 
-        <div id="loadingStatus" class="loading-text">Processing image... Please wait.</div>
         <button type="submit" class="submit-btn" id="submitBtn">Publish Listing</button>
     </form>
 </div>
@@ -67,67 +105,80 @@
     const imageInput = document.getElementById('imageFile');
     const imagePreview = document.getElementById('imagePreview');
     const previewContainer = document.getElementById('preview-container');
+    const submitBtn = document.getElementById('submitBtn');
 
-    // Show preview when a photo is taken or picked
-    imageInput.onchange = function() {
-        const file = imageInput.files[0];
+    // 1. WATCH FOR FILE SELECTION & SHOW PREVIEW
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 imagePreview.src = e.target.result;
                 previewContainer.style.display = 'block';
-            }
+            };
             reader.readAsDataURL(file);
         }
-    };
+    });
 
+    // 2. HANDLE FORM SUBMISSION
     document.getElementById('puppyForm').onsubmit = function(e) {
         e.preventDefault();
         
-        const submitBtn = document.getElementById('submitBtn');
-        const loadingStatus = document.getElementById('loadingStatus');
         const file = imageInput.files[0];
+        if (!file) {
+            alert("Please take or select a photo!");
+            return;
+        }
 
-        // Disable button so they don't click twice
         submitBtn.disabled = true;
-        submitBtn.style.opacity = "0.5";
-        loadingStatus.style.display = "block";
+        submitBtn.innerText = "Processing Image...";
 
         const reader = new FileReader();
-        
-        reader.onloadend = function() {
-            const puppyData = {
-                id: Date.now(),
-                breed: document.getElementById('breed').value,
-                price: document.getElementById('price').value,
-                gender: document.getElementById('gender').value,
-                image: reader.result, // This is the actual photo data
-                description: document.getElementById('description').value
+        reader.onload = function(event) {
+            const img = new Image();
+            img.src = event.target.result;
+
+            img.onload = function() {
+                // COMPRESSION LOGIC: Shrinks the photo so it fits in browser memory
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                const maxWidth = 600; // Limit width to 600px
+                const scale = maxWidth / img.width;
+                canvas.width = maxWidth;
+                canvas.height = img.height * scale;
+                
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // Convert to small JPG string
+                const compressedData = canvas.toDataURL('image/jpeg', 0.6); 
+
+                // Create the Puppy Object
+                const puppyData = {
+                    id: Date.now(),
+                    breed: document.getElementById('breed').value,
+                    price: document.getElementById('price').value,
+                    gender: document.getElementById('gender').value,
+                    image: compressedData,
+                    description: document.getElementById('description').value
+                };
+
+                // Save to Storage
+                let puppyList = JSON.parse(localStorage.getItem('myPuppies')) || [];
+                puppyList.push(puppyData);
+
+                try {
+                    localStorage.setItem('myPuppies', JSON.stringify(puppyList));
+                    alert("Success! Your puppy is now live.");
+                    window.location.href = "dashboard.html";
+                } catch (err) {
+                    alert("File too large. Try taking a simpler photo.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Publish Listing";
+                }
             };
-
-            let puppyList = JSON.parse(localStorage.getItem('myPuppies')) || [];
-            puppyList.push(puppyData);
-
-            try {
-                localStorage.setItem('myPuppies', JSON.stringify(puppyList));
-                alert("Success! Your puppy is now live.");
-                window.location.href = "dashboard.html";
-            } catch (error) {
-                alert("The photo is too large! Please try a smaller photo or clear your browser data.");
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = "1";
-                loadingStatus.style.display = "none";
-            }
         };
-
-        if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            alert("Please select a photo first!");
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = "1";
-            loadingStatus.style.display = "none";
-        }
+        reader.readAsDataURL(file);
     };
 </script>
 
