@@ -1,3 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | clubofpuppy.com</title>
+    <style>
+        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
+        body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .signin-card { background: var(--white); padding: 40px; border-radius: 12px; border: 1px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: var(--black); margin-bottom: 5px; }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .cta-button { width: 100%; background-color: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .cta-button:hover { background-color: var(--gold); }
+        .footer-links { margin-top: 25px; font-size: 0.9rem; }
+        .footer-links a { color: var(--gold); text-decoration: none; font-weight: bold; margin: 0 10px; }
+    </style>
+</head>
+<body>
+
+<div class="signin-card">
+    <div style="font-size: 2.5rem; margin-bottom: 10px;">🐾</div>
+    <h2>Sign In</h2>
+    <p>Welcome back to the Club</p>
+
+    <form id="signinForm">
+        <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="example@mail.com" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="cta-button">Sign In</button>
+    </form>
+
+    <div class="footer-links">
+        <a href="signup.html">Create Account</a>
+        <span>|</span>
+        <a href="index.html">Home</a>
+    </div>
+</div>
+
 <script>
     document.getElementById('signinForm').onsubmit = function(e) {
         e.preventDefault();
@@ -5,26 +53,25 @@
         const emailInput = document.getElementById('email').value;
         const passInput = document.getElementById('password').value;
 
-        // 1. Retrieve the saved data from LocalStorage
         const savedEmail = localStorage.getItem('clubUserEmail');
         const savedPass = localStorage.getItem('clubUserPassword');
 
-        // 2. Check if the user even exists yet
         if (!savedEmail) {
             alert("No account found. Please Sign Up first!");
             window.location.href = "signup.html";
             return;
         }
 
-        // 3. Validate credentials
         if (emailInput === savedEmail && passInput === savedPass) {
-            // SET THE LOGIN FLAG (Crucial for the Dashboard to let you in)
+            // This is what tells the dashboard "this person is allowed in"
             localStorage.setItem('isLoggedIn', 'true');
-            
-            alert("Login successful! Welcome back.");
+            alert("Login successful!");
             window.location.href = "dashboard.html"; 
         } else {
-            alert("Invalid email or password. Please try again.");
+            alert("Invalid email or password.");
         }
     };
 </script>
+
+</body>
+</html>
