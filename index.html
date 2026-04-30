@@ -19,7 +19,7 @@
             color: var(--black);
         }
 
-        /* Top Nav */
+        /* Top Nav - Puppies.com Layout */
         .top-nav {
             display: flex;
             justify-content: space-between;
@@ -61,16 +61,42 @@
             margin-bottom: 30px;
         }
 
+        /* Pricing Card Section */
+        .membership-section {
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .price-card {
+            background: white;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .price-card h2 { margin: 0; color: var(--black); text-transform: uppercase; letter-spacing: 1px; }
+        .price-amount { font-size: 3.5rem; font-weight: bold; margin: 20px 0; color: var(--black); }
+        .price-amount span { font-size: 1rem; color: #666; }
+
+        .features { text-align: left; padding: 0; list-style: none; margin-bottom: 30px; }
+        .features li { padding: 10px 0; border-bottom: 1px solid #eee; }
+        .features li::before { content: "★ "; color: var(--gold); }
+
         .cta-button {
             display: inline-block;
             background-color: var(--gold);
             color: white;
-            padding: 12px 25px;
+            padding: 15px 40px;
             text-decoration: none;
-            font-size: 1.1rem;
-            border-radius: 5px;
+            font-size: 1.2rem;
+            border-radius: 30px;
             font-weight: bold;
+            transition: transform 0.2s;
         }
+        .cta-button:hover { transform: scale(1.05); }
 
         /* Footer */
         footer {
@@ -87,17 +113,6 @@
             text-decoration: none; 
             margin: 0 15px; 
             font-size: 0.9rem; 
-            text-transform: uppercase;
-        }
-
-        .contact-btn {
-            color: var(--gold);
-            text-decoration: none;
-            border: 1px solid var(--gold);
-            padding: 8px 16px;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 15px 0;
         }
 
         .disclaimer-box {
@@ -133,20 +148,38 @@
     <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Puppy Listings" class="hero-img">
     <h1 class="en-text">Connecting Puppy Lovers Nationwide</h1>
     <h1 class="es-text">Conectando amantes de cachorros en todo el país</h1>
-    <a href="puppies.html" class="cta-button en-text">View Listings</a>
-    <a href="puppies.html" class="cta-button es-text">Ver Anuncios</a>
+</section>
+
+<section class="membership-section">
+    <div class="price-card">
+        <h2 class="en-text">Premium Club Membership</h2>
+        <h2 class="es-text">Membresía Premium del Club</h2>
+        
+        <div class="price-amount">$20<span>/mo</span></div>
+        
+        <ul class="features">
+            <li class="en-text">Unlimited Nationwide Search</li>
+            <li class="es-text">Búsqueda Ilimitada Nacional</li>
+            <li class="en-text">Verified Member Classifieds</li>
+            <li class="es-text">Anuncios de Miembros Verificados</li>
+            <li class="en-text">Community Direct Connect</li>
+            <li class="es-text">Conexión Directa Comunitaria</li>
+        </ul>
+
+        <a href="#" class="cta-button en-text">Join the Club</a>
+        <a href="#" class="cta-button es-text">Únete al Club</a>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #666; font-style: italic;">Securely processed via Stripe</p>
+    </div>
 </section>
 
 <footer>
     <div class="footer-info">
         <p>USA Nationwide | Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
-        <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn en-text">Contact Support</a>
-        <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn es-text">Contactar Soporte</a>
     </div>
 
     <div class="legal-nav">
-        <a href="#" onclick="alert('Refund Policy: All membership and listing fees are non-refundable. For technical support, contact us within 14 days.')">Refund Policy</a>
-        <a href="#" onclick="alert('Terms of Service: Club of Puppy provides a digital listing platform. We do not facilitate or process payments for the sale of live animals.')">Terms of Service</a>
+        <a href="#" onclick="alert('Refund Policy: All membership and listing fees are non-refundable.')">Refund Policy</a>
+        <a href="#" onclick="alert('Terms of Service: Club of Puppy provides a digital listing platform. We do not process payments for live animals.')">Terms of Service</a>
     </div>
 
     <div class="disclaimer-box">
@@ -162,24 +195,16 @@
         if (lang === 'es') {
             en.forEach(el => el.style.display = 'none');
             es.forEach(el => {
-                if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
-                    el.style.display = 'inline';
-                } else if (el.classList.contains('cta-button') || el.classList.contains('contact-btn')) {
-                    el.style.display = 'inline-block';
-                } else {
-                    el.style.display = 'block';
-                }
+                if(el.tagName === 'SPAN' || el.tagName === 'STRONG') el.style.display = 'inline';
+                else if (el.classList.contains('cta-button')) el.style.display = 'inline-block';
+                else el.style.display = 'block';
             });
         } else {
             es.forEach(el => el.style.display = 'none');
             en.forEach(el => {
-                if(el.tagName === 'SPAN' || el.tagName === 'STRONG') {
-                    el.style.display = 'inline';
-                } else if (el.classList.contains('cta-button') || el.classList.contains('contact-btn')) {
-                    el.style.display = 'inline-block';
-                } else {
-                    el.style.display = 'block';
-                }
+                if(el.tagName === 'SPAN' || el.tagName === 'STRONG') el.style.display = 'inline';
+                else if (el.classList.contains('cta-button')) el.style.display = 'inline-block';
+                else el.style.display = 'block';
             });
         }
     }
