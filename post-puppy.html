@@ -6,11 +6,11 @@
     <title>Post a Puppy | clubofpuppy.com</title>
     <style>
         :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; }
-        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); padding: 20px; }
+        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); padding: 20px; margin: 0; }
         
         .form-card { 
             max-width: 600px; 
-            margin: 0 auto; 
+            margin: 20px auto; 
             background: white; 
             padding: 30px; 
             border-radius: 12px; 
@@ -18,9 +18,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        h2 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-top: 10px; }
+        h2 { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-top: 10px; color: var(--black); }
         .input-group { margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
         
         input, select, textarea { 
             width: 100%; 
@@ -29,18 +29,25 @@
             border-radius: 8px; 
             box-sizing: border-box;
             font-size: 1rem;
+            font-family: inherit;
         }
 
-        /* Image Preview Box */
+        /* Custom File Button Styling */
+        input[type="file"] {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px dashed var(--gold);
+        }
+
         #preview-container { 
             margin-top: 15px; 
             display: none; 
             text-align: center; 
-            border: 1px dashed var(--gold);
+            border: 1px solid #eee;
             padding: 10px;
             border-radius: 8px;
         }
-        #imagePreview { width: 100%; max-height: 250px; object-fit: cover; border-radius: 5px; }
+        #imagePreview { width: 100%; max-height: 300px; object-fit: cover; border-radius: 5px; }
 
         .submit-btn { 
             width: 100%; 
@@ -53,26 +60,29 @@
             cursor: pointer; 
             font-size: 1.1rem; 
             transition: 0.3s;
+            margin-top: 10px;
         }
         .submit-btn:hover { background: var(--gold); }
         .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .back-btn { text-decoration: none; color: var(--gold); font-weight: bold; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
 <div class="form-card">
-    <a href="dashboard.html" style="color: var(--gold); text-decoration: none; font-weight: bold;">← Back to Dashboard</a>
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
     <h2>Post a New Puppy</h2>
     
     <form id="puppyForm">
         <div class="input-group">
             <label>Breed</label>
-            <input type="text" id="breed" placeholder="e.g. French Bulldog" required>
+            <input type="text" id="breed" placeholder="e.g. Golden Retriever" required>
         </div>
 
         <div class="input-group">
             <label>Price ($)</label>
-            <input type="number" id="price" placeholder="2500" required>
+            <input type="number" id="price" placeholder="1500" required>
         </div>
 
         <div class="input-group">
@@ -84,17 +94,17 @@
         </div>
 
         <div class="input-group">
-            <label>Puppy Photo</label>
-            <input type="file" id="imageFile" accept="image/*" capture="environment" required>
+            <label>📸 Puppy Photo (Gallery or Camera)</label>
+            <input type="file" id="imageFile" accept="image/*" required>
             <div id="preview-container">
+                <p style="font-size: 0.7rem; color: #666; margin-bottom: 5px;">PREVIEW:</p>
                 <img id="imagePreview" src="" alt="Preview">
-                <p style="font-size: 0.8rem; color: var(--gold);">✓ Photo Loaded</p>
             </div>
         </div>
 
         <div class="input-group">
             <label>Description</label>
-            <textarea id="description" rows="4" placeholder="Personality, vaccinations, etc."></textarea>
+            <textarea id="description" rows="4" placeholder="Tell us about the puppy..."></textarea>
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtn">Publish Listing</button>
@@ -107,7 +117,7 @@
     const previewContainer = document.getElementById('preview-container');
     const submitBtn = document.getElementById('submitBtn');
 
-    // 1. WATCH FOR FILE SELECTION & SHOW PREVIEW
+    // 1. Show preview as soon as a photo is picked
     imageInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
@@ -120,18 +130,18 @@
         }
     });
 
-    // 2. HANDLE FORM SUBMISSION
+    // 2. Handle the Save process
     document.getElementById('puppyForm').onsubmit = function(e) {
         e.preventDefault();
         
         const file = imageInput.files[0];
         if (!file) {
-            alert("Please take or select a photo!");
+            alert("Please select a photo!");
             return;
         }
 
         submitBtn.disabled = true;
-        submitBtn.innerText = "Processing Image...";
+        submitBtn.innerText = "Compressing Photo...";
 
         const reader = new FileReader();
         reader.onload = function(event) {
@@ -139,21 +149,20 @@
             img.src = event.target.result;
 
             img.onload = function() {
-                // COMPRESSION LOGIC: Shrinks the photo so it fits in browser memory
+                // Shrink image to save space
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 
-                const maxWidth = 600; // Limit width to 600px
+                const maxWidth = 800; 
                 const scale = maxWidth / img.width;
                 canvas.width = maxWidth;
                 canvas.height = img.height * scale;
                 
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // Convert to small JPG string
-                const compressedData = canvas.toDataURL('image/jpeg', 0.6); 
+                // Convert to compressed JPG string
+                const compressedData = canvas.toDataURL('image/jpeg', 0.7); 
 
-                // Create the Puppy Object
                 const puppyData = {
                     id: Date.now(),
                     breed: document.getElementById('breed').value,
@@ -163,16 +172,15 @@
                     description: document.getElementById('description').value
                 };
 
-                // Save to Storage
                 let puppyList = JSON.parse(localStorage.getItem('myPuppies')) || [];
                 puppyList.push(puppyData);
 
                 try {
                     localStorage.setItem('myPuppies', JSON.stringify(puppyList));
-                    alert("Success! Your puppy is now live.");
+                    alert("Success! Your listing is live.");
                     window.location.href = "dashboard.html";
                 } catch (err) {
-                    alert("File too large. Try taking a simpler photo.");
+                    alert("Memory full! Try a smaller photo or delete old listings.");
                     submitBtn.disabled = false;
                     submitBtn.innerText = "Publish Listing";
                 }
