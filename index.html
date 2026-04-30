@@ -15,7 +15,6 @@
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            /* Improved Gradient for a premium feel */
             background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
             color: var(--black);
             min-height: 100vh;
@@ -118,7 +117,7 @@
 
         .cta-button:hover { background-color: var(--gold); transform: translateY(-2px); }
 
-        /* Footer & Legal Navigation */
+        /* Footer */
         footer {
             background: var(--black);
             color: white;
@@ -136,6 +135,12 @@
             font-size: 0.9rem;
         }
         .legal-nav a:hover { text-decoration: underline; }
+
+        .contact-email {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -149,9 +154,10 @@
         <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
         <div id="myDropdown" class="dropdown-content">
             <a href="puppies.html">Find a Puppy</a>
-            <a href="signup.html" style="color: var(--gold);">Sign Up (Sellers)</a>
+            <a href="signup.html" style="color: var(--gold);">Sign Up</a>
             <a href="#" onclick="showSellers()">Post a Puppy</a>
             <a href="signin.html">Sign In</a>
+            <a href="mailto:clubofpuppyhelp@gmail.com" style="font-size: 0.8rem; color: #888;">Contact Support</a>
         </div>
     </div>
 </nav>
@@ -175,6 +181,8 @@
             <li>★ Identity Verification Badge</li>
         </ul>
         <a href="signup.html" class="cta-button">Start Listing</a>
+        <br>
+        <a href="#" onclick="showBuyers()" style="display:inline-block; margin-top:15px; color: var(--gold); text-decoration:none; font-size:0.9rem;">← Back to Buyer View</a>
     </div>
 </section>
 
@@ -184,6 +192,7 @@
         <a href="refund.html">Refund Policy</a>
         <a href="terms.html">Privacy Policy</a>
     </div>
+    <p>Contact: <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-email">clubofpuppyhelp@gmail.com</a></p>
     <p><strong>clubofpuppy.com</strong> | USA Nationwide Puppy Club</p>
     <p style="font-size: 0.8rem; color: #888; max-width: 600px; margin: 20px auto; line-height: 1.4;">
         Club of Puppy is a membership and advertising platform. We do not sell animals. We provide the space for verified members to connect.
@@ -196,7 +205,7 @@
     function showSellers() {
         document.getElementById("buyer-section").style.display = "none";
         document.getElementById("seller-section").style.display = "block";
-        toggleMenu(); 
+        if(document.getElementById("myDropdown").classList.contains('show')) toggleMenu(); 
     }
 
     function showBuyers() {
