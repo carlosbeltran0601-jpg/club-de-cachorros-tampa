@@ -1,5 +1,18 @@
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+<script>
+    // 1. THE CONFIG (The "ID Card" for your database)
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
+        authDomain: "clubofpuppy.firebaseapp.com",
+        projectId: "clubofpuppy",
+        storageBucket: "clubofpuppy.firebasestorage.app",
+        messagingSenderId: "536581562349",
+        appId: "1:536581562349:web:041e792ff70639ccba91e4"
+    };
+
+    // 2. INITIALIZE (Turn the engine on)
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
 
     const signinForm = document.getElementById('signinForm');
@@ -14,25 +27,23 @@
         loginBtn.innerText = "Opening Club Gates...";
         loginBtn.disabled = true;
 
+        // 3. THE LOGIN ACTION
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 console.log("Login Success!");
-                // We use replace instead of href for a faster, smoother jump on mobile
+                // Jump to dashboard
                 window.location.replace("dashboard.html");
-                
-                // Fallback: If it doesn't move in 1 second, try the other method
-                setTimeout(() => {
-                    window.location.href = "dashboard.html";
-                }, 1000);
             })
             .catch((error) => {
                 loginBtn.innerText = "Sign In";
                 loginBtn.disabled = false;
                 
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                // Better error messages
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
                     alert("Invalid email or password. Please try again.");
                 } else {
                     alert("Error: " + error.message);
                 }
             });
     };
+</script>
