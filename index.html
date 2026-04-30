@@ -15,7 +15,7 @@
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
-            /* Added a sophisticated background color gradient */
+            /* Improved Gradient for a premium feel */
             background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
             color: var(--black);
             min-height: 100vh;
@@ -82,10 +82,9 @@
         .main-hero {
             text-align: center;
             padding: 80px 20px;
-            background: transparent; /* Let body background show through */
         }
 
-        .main-hero h1 { font-size: 2.5rem; }
+        .main-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
 
         #seller-section {
             display: none; 
@@ -117,11 +116,9 @@
             transition: 0.3s;
         }
 
-        .cta-button:hover {
-            background-color: var(--gold);
-        }
+        .cta-button:hover { background-color: var(--gold); transform: translateY(-2px); }
 
-        /* Footer & Legal (Crucial for Stripe) */
+        /* Footer & Legal Navigation */
         footer {
             background: var(--black);
             color: white;
@@ -130,20 +127,15 @@
             margin-top: 50px;
         }
 
-        .legal-nav {
-            margin-bottom: 20px;
-        }
-
+        .legal-nav { margin-bottom: 25px; }
         .legal-nav a {
             color: var(--gold);
             text-decoration: none;
             margin: 0 15px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
-
-        .legal-nav a:hover {
-            text-decoration: underline;
-        }
+        .legal-nav a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -188,12 +180,12 @@
 
 <footer>
     <div class="legal-nav">
-        <a href="#">Terms of Service</a>
-        <a href="#">Refund Policy</a>
-        <a href="#">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="refund.html">Refund Policy</a>
+        <a href="terms.html">Privacy Policy</a>
     </div>
     <p><strong>clubofpuppy.com</strong> | USA Nationwide Puppy Club</p>
-    <p style="font-size: 0.8rem; color: #888; max-width: 600px; margin: 20px auto;">
+    <p style="font-size: 0.8rem; color: #888; max-width: 600px; margin: 20px auto; line-height: 1.4;">
         Club of Puppy is a membership and advertising platform. We do not sell animals. We provide the space for verified members to connect.
     </p>
 </footer>
