@@ -10,6 +10,8 @@
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
+            --price-bg: #d4edda;
+            --price-text: #155724;
         }
 
         body {
@@ -17,6 +19,7 @@
             margin: 0;
             background-color: var(--cream);
             color: var(--black);
+            scroll-behavior: smooth; /* This makes the transition smooth when clicking the button */
         }
 
         /* Top Navigation */
@@ -34,9 +37,10 @@
             border: 1px solid var(--gold);
             border-radius: 20px;
             cursor: pointer;
+            font-family: serif;
         }
 
-        /* Hero Section with People/Dog Background */
+        /* Hero Section */
         .hero {
             position: relative;
             background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), 
@@ -55,6 +59,94 @@
             margin-bottom: 20px;
             border: 5px solid white;
         }
+
+        /* Button Style */
+        .cta-button {
+            display: inline-block;
+            background-color: var(--gold);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
+        }
+
+        .cta-button:hover {
+            background-color: #b08e4d;
+            transform: translateY(-2px);
+        }
+
+        /* Puppy Gallery Section */
+        .available-puppies {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        .puppy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .puppy-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .image-box {
+            position: relative;
+            width: 100%;
+            height: 350px;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            left: 15px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .age-badge { bottom: 45px; background: white; color: black; }
+        .id-badge { bottom: 12px; background: #e8f4fd; color: #1976d2; border: 1px solid #b3e5fc; }
+
+        .puppy-details {
+            padding: 20px;
+        }
+
+        .price-tag {
+            background: var(--price-bg);
+            color: var(--price-text);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .puppy-details h3 { margin: 5px 0; font-size: 1.4rem; }
+        .puppy-details p { color: #666; margin: 0; font-style: italic; }
 
         /* Testimonials Section */
         .reviews {
@@ -112,9 +204,44 @@
 
 <section class="hero">
     <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Club de Cachorros" class="main-card">
-    
     <h1 class="es-text">Cachorros Felices, Familias Felices</h1>
     <h1 class="en-text">Happy Puppies, Happy Families</h1>
+    
+    <a href="#puppies" class="cta-button es-text">Ver Cachorros Disponibles</a>
+    <a href="#puppies" class="cta-button en-text">View Available Puppies</a>
+</section>
+
+<section class="available-puppies" id="puppies">
+    <h2 class="section-title es-text">Nuestros Cachorros</h2>
+    <h2 class="section-title en-text">Our Puppies</h2>
+    
+    <div class="puppy-grid">
+        <div class="puppy-card">
+            <div class="image-box">
+                <img src="pom_image.jpg" alt="Pomeranian"> 
+                <div class="badge age-badge">4 WEEKS</div>
+                <div class="badge id-badge">✓ ID VERIFIED</div>
+            </div>
+            <div class="puppy-details">
+                <div class="price-tag">$1300</div>
+                <h3>Pomeranian</h3>
+                <p>Tampa, FL</p>
+            </div>
+        </div>
+
+        <div class="puppy-card">
+            <div class="image-box">
+                <img src="poodle_image.jpg" alt="Toy Poodle">
+                <div class="badge age-badge">8 WEEKS</div>
+                <div class="badge id-badge">✓ ID VERIFIED</div>
+            </div>
+            <div class="puppy-details">
+                <div class="price-tag">$1300</div>
+                <h3>Toy Poodle</h3>
+                <p>Tampa, FL</p>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section class="reviews">
@@ -134,24 +261,6 @@
             <p class="en-text">"The care and professionalism are incredible. Highly recommended."</p>
             <strong>- Carlos M.</strong>
         </div>
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="es-text">"Una experiencia maravillosa. El criadero es impecable."</p>
-            <p class="en-text">"A wonderful experience. The kennel is impeccable."</p>
-            <strong>- Ana L.</strong>
-        </div>
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="es-text">"Encontramos a nuestro mejor amigo aquí. Muy sano y juguetón."</p>
-            <p class="en-text">"We found our best friend here. Very healthy and playful."</p>
-            <strong>- The Thompsons</strong>
-        </div>
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="es-text">"Excelente servicio de principio a fin. El veterinario quedó impresionado."</p>
-            <p class="en-text">"Excellent service from start to finish. Our vet was impressed."</p>
-            <strong>- Jessica K.</strong>
-        </div>
     </div>
 </section>
 
@@ -168,9 +277,22 @@
         const en = document.querySelectorAll('.en-text');
         if (lang === 'en') {
             es.forEach(el => el.style.display = 'none');
-            en.forEach(el => el.style.display = 'block');
+            en.forEach(el => {
+                // Check if it's the button (inline-block) or text (block)
+                if (el.classList.contains('cta-button')) {
+                    el.style.display = 'inline-block';
+                } else {
+                    el.style.display = 'block';
+                }
+            });
         } else {
-            es.forEach(el => el.style.display = 'block');
+            es.forEach(el => {
+                if (el.classList.contains('cta-button')) {
+                    el.style.display = 'inline-block';
+                } else {
+                    el.style.display = 'block';
+                }
+            });
             en.forEach(el => el.style.display = 'none');
         }
     }
