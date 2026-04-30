@@ -10,7 +10,7 @@
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
-            --price-bg: #2e7d32; /* Darker green like your screenshot */
+            --price-bg: #2e7d32; 
             --price-text: #ffffff;
         }
 
@@ -21,7 +21,6 @@
             color: var(--black);
         }
 
-        /* Header */
         .header-nav {
             display: flex;
             justify-content: space-between;
@@ -53,7 +52,6 @@
             margin: 0 auto;
         }
 
-        /* Puppy Cards */
         .puppy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -149,7 +147,7 @@
                 <div class="info-line"><span class="info-label">Breed:</span> Pomeranian</div>
                 <div class="info-line"><span class="info-label">Location:</span> Tampa, FL</div>
                 <div class="info-line"><span class="info-label">Gender:</span> <span class="es-text">Macho</span><span class="en-text">Male</span></div>
-                <div class="info-line"><span class="info-label">Born:</span> 03/03/26 (8 weeks)</div>
+                <div class="info-line"><span class="info-label">Born:</span> 03/03/26 (<span id="age-pom"></span>)</div>
             </div>
         </div>
 
@@ -167,7 +165,7 @@
                 <div class="info-line"><span class="info-label">Breed:</span> Poodle - Toy</div>
                 <div class="info-line"><span class="info-label">Location:</span> Tampa, FL</div>
                 <div class="info-line"><span class="info-label">Gender:</span> <span class="es-text">Macho</span><span class="en-text">Male</span></div>
-                <div class="info-line"><span class="info-label">Born:</span> 03/03/26 (8 weeks)</div>
+                <div class="info-line"><span class="info-label">Born:</span> 03/03/26 (<span id="age-poodle"></span>)</div>
             </div>
         </div>
     </div>
@@ -181,6 +179,26 @@
 </footer>
 
 <script>
+    // AUTOMATIC AGE CALCULATOR
+    function setAge(birthDate, elementId) {
+        const born = new Date(birthDate);
+        const now = new Date();
+        const diff = now - born;
+        const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
+        
+        const element = document.getElementById(elementId);
+        if (weeks < 0) {
+            element.innerText = "Newborn";
+        } else {
+            element.innerText = weeks + " weeks";
+        }
+    }
+
+    // Run age calculation for both puppies
+    setAge("2026-03-03", "age-pom");
+    setAge("2026-03-03", "age-poodle");
+
+    // LANGUAGE TOGGLE
     function changeLang(lang) {
         const es = document.querySelectorAll('.es-text');
         const en = document.querySelectorAll('.en-text');
