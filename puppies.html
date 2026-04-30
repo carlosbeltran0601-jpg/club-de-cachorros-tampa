@@ -10,8 +10,8 @@
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
-            --price-bg: #d4edda;
-            --price-text: #155724;
+            --price-bg: #2e7d32; /* Darker green like your screenshot */
+            --price-text: #ffffff;
         }
 
         body {
@@ -21,7 +21,7 @@
             color: var(--black);
         }
 
-        /* Header with Language Toggle */
+        /* Header */
         .header-nav {
             display: flex;
             justify-content: space-between;
@@ -53,9 +53,10 @@
             margin: 0 auto;
         }
 
+        /* Puppy Cards */
         .puppy-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
         }
 
@@ -83,18 +84,28 @@
         .id-badge { bottom: 42px; background: #e8f4fd; color: #1976d2; border: 1px solid #b3e5fc; }
         .vac-badge { bottom: 10px; background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
 
-        .puppy-details { padding: 20px; }
+        .puppy-details { padding: 25px; }
+        
         .price-tag {
             background: var(--price-bg);
             color: var(--price-text);
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 20px;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
         }
 
-        /* Footer styling matches Main Page */
+        .info-line {
+            margin: 8px 0;
+            font-size: 1.05rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+
+        .info-label { font-weight: bold; }
+
         footer { background: var(--black); color: white; padding: 50px 20px; text-align: center; margin-top: 50px; }
         .phone-link { color: var(--gold); font-size: 2.5rem; text-decoration: none; font-weight: bold; display: block; margin: 15px 0; }
         
@@ -119,54 +130,44 @@
 
 <section class="available-puppies">
     <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 30px;">
-        <span class="es-text">Cachorros Disponibles</span>
-        <span class="en-text">Available Puppies</span>
+        <span class="es-text">Nuestros Cachorros</span>
+        <span class="en-text">Our Puppies</span>
     </h2>
     
     <div class="puppy-grid">
         <div class="puppy-card">
             <div class="image-box">
                 <img src="pom_image.jpg" alt="Pomeranian"> 
-                <div class="badge status-badge">
-                    <span class="es-text">LISTO PARA IR A CASA</span>
-                    <span class="en-text">READY TO GO HOME</span>
-                </div>
-                <div class="badge id-badge">
-                    <span class="es-text">✓ CERTIFICADO DE SALUD</span>
-                    <span class="en-text">✓ HEALTH CERTIFICATE</span>
-                </div>
-                <div class="badge vac-badge">
-                    <span class="es-text">💉 VACUNACIÓN</span>
-                    <span class="en-text">💉 VACCINATION</span>
-                </div>
+                <div class="badge status-badge"><span class="es-text">LISTO PARA IR A CASA</span><span class="en-text">READY TO GO HOME</span></div>
+                <div class="badge id-badge"><span class="es-text">✓ CERTIFICADO DE SALUD</span><span class="en-text">✓ HEALTH CERTIFICATE</span></div>
+                <div class="badge vac-badge"><span class="es-text">💉 VACUNACIÓN</span><span class="en-text">💉 VACCINATION</span></div>
             </div>
             <div class="puppy-details">
                 <div class="price-tag">$1300</div>
-                <h3>Pomeranian</h3>
-                <p>Tampa, FL</p>
+                <h3 style="font-size: 1.8rem; margin: 0 0 15px 0;">Pomeranian</h3>
+                
+                <div class="info-line"><span class="info-label">Breed:</span> Pomeranian</div>
+                <div class="info-line"><span class="info-label">Location:</span> Tampa, FL</div>
+                <div class="info-line"><span class="info-label">Gender:</span> <span class="es-text">Macho</span><span class="en-text">Male</span></div>
+                <div class="info-line"><span class="info-label">Born:</span> 03/03/26 (8 weeks)</div>
             </div>
         </div>
 
         <div class="puppy-card">
             <div class="image-box">
                 <img src="poodle_image.jpg" alt="Toy Poodle">
-                <div class="badge status-badge">
-                    <span class="es-text">LISTO PARA IR A CASA</span>
-                    <span class="en-text">READY TO GO HOME</span>
-                </div>
-                <div class="badge id-badge">
-                    <span class="es-text">✓ CERTIFICADO DE SALUD</span>
-                    <span class="en-text">✓ HEALTH CERTIFICATE</span>
-                </div>
-                <div class="badge vac-badge">
-                    <span class="es-text">💉 VACUNACIÓN</span>
-                    <span class="en-text">💉 VACCINATION</span>
-                </div>
+                <div class="badge status-badge"><span class="es-text">LISTO PARA IR A CASA</span><span class="en-text">READY TO GO HOME</span></div>
+                <div class="badge id-badge"><span class="es-text">✓ CERTIFICADO DE SALUD</span><span class="en-text">✓ HEALTH CERTIFICATE</span></div>
+                <div class="badge vac-badge"><span class="es-text">💉 VACUNACIÓN</span><span class="en-text">💉 VACCINATION</span></div>
             </div>
             <div class="puppy-details">
                 <div class="price-tag">$1300</div>
-                <h3>Toy Poodle</h3>
-                <p>Tampa, FL</p>
+                <h3 style="font-size: 1.8rem; margin: 0 0 15px 0;">Toy Poodle</h3>
+                
+                <div class="info-line"><span class="info-label">Breed:</span> Poodle - Toy</div>
+                <div class="info-line"><span class="info-label">Location:</span> Tampa, FL</div>
+                <div class="info-line"><span class="info-label">Gender:</span> <span class="es-text">Macho</span><span class="en-text">Male</span></div>
+                <div class="info-line"><span class="info-label">Born:</span> 03/03/26 (8 weeks)</div>
             </div>
         </div>
     </div>
@@ -185,9 +186,9 @@
         const en = document.querySelectorAll('.en-text');
         if (lang === 'en') {
             es.forEach(el => el.style.display = 'none');
-            en.forEach(el => el.style.display = 'inline-block');
+            en.forEach(el => el.style.display = 'inline');
         } else {
-            es.forEach(el => el.style.display = 'inline-block');
+            es.forEach(el => el.style.display = 'inline');
             en.forEach(el => el.style.display = 'none');
         }
     }
