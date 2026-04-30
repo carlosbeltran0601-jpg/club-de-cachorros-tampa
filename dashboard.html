@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard | clubofpuppy.com</title>
+    <style>
+        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
+        body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); margin: 0; }
+        
+        .nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
+        .nav a { text-decoration: none; color: var(--black); font-weight: bold; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        
+        .welcome-card { background: white; padding: 30px; border-radius: 12px; border-left: 5px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .stat-box { background: white; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+        .stat-box h3 { margin: 0; color: var(--gold); font-size: 2rem; }
+        
+        .action-btn { background: var(--black); color: white; padding: 15px 30px; border-radius: 30px; text-decoration: none; display: inline-block; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        .action-btn:hover { background: var(--gold); }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <a href="index.html">🐾 clubofpuppy.com</a>
+    <a href="index.html" onclick="localStorage.removeItem('isLoggedIn')">Sign Out</a>
+</nav>
+
+<div class="container">
+    <div class="welcome-card">
+        <h2>Welcome Back, <span id="userEmailDisplay">Member</span>!</h2>
+        <p>Status: <span style="color: var(--gold); font-weight: bold;">✔ Identity Verified</span></p>
+        <a href="post-puppy.html" class="action-btn">+ Post New Puppy</a>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-box">
+            <h3>0</h3>
+            <p>Active Listings</p>
+        </div>
+        <div class="stat-box">
+            <h3>0</h3>
+            <p>Inquiries</p>
+        </div>
+        <div class="stat-box">
+            <h3>$20</h3>
+            <p>Monthly Plan</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Display the email saved during signup
+    const email = localStorage.getItem('clubUserEmail') || "Member";
+    document.getElementById('userEmailDisplay').innerText = email;
+</script>
+
+</body>
+</html>
