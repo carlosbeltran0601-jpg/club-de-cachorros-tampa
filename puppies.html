@@ -21,19 +21,30 @@
             color: var(--black);
         }
 
+        /* Header with Language Toggle */
         .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 15px 5%;
             background: white;
             border-bottom: 2px solid var(--gold);
-            text-align: center;
+        }
+
+        .lang-select {
+            padding: 5px 10px;
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Times New Roman', serif;
         }
 
         .back-link {
-            display: inline-block;
-            margin-top: 10px;
             color: var(--gold);
             text-decoration: none;
             font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
         }
 
         .available-puppies {
@@ -56,12 +67,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .image-box {
-            position: relative;
-            width: 100%;
-            height: 350px;
-        }
-
+        .image-box { position: relative; width: 100%; height: 350px; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
 
         .badge {
@@ -71,7 +77,6 @@
             border-radius: 5px;
             font-size: 0.75rem;
             font-weight: bold;
-            font-family: 'Times New Roman', serif;
         }
 
         .status-badge { bottom: 75px; background: white; color: black; }
@@ -88,29 +93,52 @@
             display: inline-block;
             margin-bottom: 10px;
         }
+
+        /* Footer styling matches Main Page */
+        footer { background: var(--black); color: white; padding: 50px 20px; text-align: center; margin-top: 50px; }
+        .phone-link { color: var(--gold); font-size: 2.5rem; text-decoration: none; font-weight: bold; display: block; margin: 15px 0; }
         
-        .puppy-details h3 { margin: 5px 0; font-size: 1.4rem; }
-        
-        footer { background: var(--black); color: white; padding: 30px; text-align: center; margin-top: 50px; }
+        .en-text { display: none; }
     </style>
 </head>
 <body>
 
 <div class="header-nav">
-    <div style="font-weight: bold; letter-spacing: 2px;">CLUB DE CACHORROS</div>
-    <a href="index.html" class="back-link">← Volver al Inicio / Back to Home</a>
+    <div>
+        <div style="font-weight: bold; letter-spacing: 2px;">CLUB DE CACHORROS</div>
+        <a href="index.html" class="back-link">
+            <span class="es-text">← Volver</span>
+            <span class="en-text">← Back</span>
+        </a>
+    </div>
+    <select class="lang-select" onchange="changeLang(this.value)">
+        <option value="es">Español 🇪🇸</option>
+        <option value="en">English 🇺🇸</option>
+    </select>
 </div>
 
 <section class="available-puppies">
-    <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 30px;">Cachorros Disponibles</h2>
+    <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 30px;">
+        <span class="es-text">Cachorros Disponibles</span>
+        <span class="en-text">Available Puppies</span>
+    </h2>
     
     <div class="puppy-grid">
         <div class="puppy-card">
             <div class="image-box">
                 <img src="pom_image.jpg" alt="Pomeranian"> 
-                <div class="badge status-badge">READY TO GO HOME</div>
-                <div class="badge id-badge">✓ HEALTH CERTIFICATE</div>
-                <div class="badge vac-badge">💉 VACCINATION</div>
+                <div class="badge status-badge">
+                    <span class="es-text">LISTO PARA IR A CASA</span>
+                    <span class="en-text">READY TO GO HOME</span>
+                </div>
+                <div class="badge id-badge">
+                    <span class="es-text">✓ CERTIFICADO DE SALUD</span>
+                    <span class="en-text">✓ HEALTH CERTIFICATE</span>
+                </div>
+                <div class="badge vac-badge">
+                    <span class="es-text">💉 VACUNACIÓN</span>
+                    <span class="en-text">💉 VACCINATION</span>
+                </div>
             </div>
             <div class="puppy-details">
                 <div class="price-tag">$1300</div>
@@ -122,9 +150,18 @@
         <div class="puppy-card">
             <div class="image-box">
                 <img src="poodle_image.jpg" alt="Toy Poodle">
-                <div class="badge status-badge">READY TO GO HOME</div>
-                <div class="badge id-badge">✓ HEALTH CERTIFICATE</div>
-                <div class="badge vac-badge">💉 VACCINATION</div>
+                <div class="badge status-badge">
+                    <span class="es-text">LISTO PARA IR A CASA</span>
+                    <span class="en-text">READY TO GO HOME</span>
+                </div>
+                <div class="badge id-badge">
+                    <span class="es-text">✓ CERTIFICADO DE SALUD</span>
+                    <span class="en-text">✓ HEALTH CERTIFICATE</span>
+                </div>
+                <div class="badge vac-badge">
+                    <span class="es-text">💉 VACUNACIÓN</span>
+                    <span class="en-text">💉 VACCINATION</span>
+                </div>
             </div>
             <div class="puppy-details">
                 <div class="price-tag">$1300</div>
@@ -136,8 +173,25 @@
 </section>
 
 <footer>
-    <p>Contact us: 863-277-0168 | Tampa, FL</p>
+    <p class="es-text">¿Listo para conocer a tu nuevo mejor amigo? Llámanos hoy:</p>
+    <p class="en-text">Ready to meet your new best friend? Call us today:</p>
+    <a href="tel:8632770168" class="phone-link">863-277-0168</a>
+    <p>Tampa, FL | @clubdecachorros</p>
 </footer>
+
+<script>
+    function changeLang(lang) {
+        const es = document.querySelectorAll('.es-text');
+        const en = document.querySelectorAll('.en-text');
+        if (lang === 'en') {
+            es.forEach(el => el.style.display = 'none');
+            en.forEach(el => el.style.display = 'inline-block');
+        } else {
+            es.forEach(el => el.style.display = 'inline-block');
+            en.forEach(el => el.style.display = 'none');
+        }
+    }
+</script>
 
 </body>
 </html>
