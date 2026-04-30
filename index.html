@@ -10,7 +10,6 @@
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
-            --blue-link: #007bff; /* Similar to puppies.com link color */
         }
 
         body {
@@ -20,7 +19,7 @@
             color: var(--black);
         }
 
-        /* Puppies.com style Top Navigation */
+        /* Top Nav */
         .top-nav {
             display: flex;
             justify-content: space-between;
@@ -41,39 +40,19 @@
             color: var(--black);
         }
 
-        .logo-icon {
-            font-size: 24px;
-            color: var(--gold); /* Your brand gold */
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+        .logo-icon { font-size: 24px; color: var(--gold); }
+        .logo-text { font-size: 1.5rem; font-weight: bold; }
 
         .lang-select {
             padding: 4px 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 14px;
             cursor: pointer;
             font-family: inherit;
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: white;
-        }
-
+        /* Hero */
+        .hero { text-align: center; padding: 60px 20px; background: white; }
         .hero-img {
             max-width: 850px;
             width: 100%;
@@ -91,12 +70,9 @@
             font-size: 1.1rem;
             border-radius: 5px;
             font-weight: bold;
-            transition: background 0.3s;
         }
 
-        .cta-button:hover { background-color: #b08e4d; }
-
-        /* Footer & Legal */
+        /* Footer */
         footer {
             background: var(--black);
             color: white;
@@ -105,11 +81,13 @@
             margin-top: 50px;
         }
 
-        .mission-box {
-            max-width: 800px;
-            margin: 0 auto 30px;
-            border-bottom: 1px solid #444;
-            padding-bottom: 20px;
+        .legal-nav { margin: 20px 0; }
+        .legal-nav a { 
+            color: var(--gold); 
+            text-decoration: none; 
+            margin: 0 15px; 
+            font-size: 0.9rem; 
+            text-transform: uppercase;
         }
 
         .contact-btn {
@@ -119,17 +97,20 @@
             padding: 8px 16px;
             border-radius: 4px;
             display: inline-block;
-            margin-top: 10px;
+            margin: 15px 0;
         }
 
         .disclaimer-box {
             font-size: 0.8rem;
             color: #aaa;
-            margin-top: 30px;
+            max-width: 700px;
+            margin: 20px auto 0;
             line-height: 1.5;
+            border-top: 1px solid #444;
+            padding-top: 20px;
         }
 
-        /* Multi-language Logic */
+        /* Multi-language */
         .es-text { display: none; }
         .en-text { display: block; }
         span.en-text, span.es-text { display: inline; }
@@ -142,40 +123,35 @@
         <span class="logo-icon">🐾</span>
         <span class="logo-text">clubofpuppy.com</span>
     </a>
-    
-    <div class="nav-right">
-        <select class="lang-select" onchange="changeLang(this.value)">
-            <option value="en">English 🇺🇸</option>
-            <option value="es">Español 🇪🇸</option>
-        </select>
-    </div>
+    <select class="lang-select" onchange="changeLang(this.value)">
+        <option value="en">English 🇺🇸</option>
+        <option value="es">Español 🇪🇸</option>
+    </select>
 </nav>
 
 <section class="hero">
     <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Puppy Listings" class="hero-img">
-    
-    <h1 class="en-text">Find Your New Best Friend Nationwide</h1>
-    <h1 class="es-text">Encuentra tu nuevo mejor amigo en todo el país</h1>
-    
+    <h1 class="en-text">Connecting Puppy Lovers Nationwide</h1>
+    <h1 class="es-text">Conectando amantes de cachorros en todo el país</h1>
     <a href="puppies.html" class="cta-button en-text">View Listings</a>
     <a href="puppies.html" class="cta-button es-text">Ver Anuncios</a>
 </section>
 
 <footer>
-    <div class="mission-box">
-        <h3 class="en-text">Our Mission</h3>
-        <h3 class="es-text">Nuestra Misión</h3>
-        <p class="en-text">Clubofpuppy.com is a premier digital membership platform for dog lovers across the USA. We facilitate community connections and listings for enthusiasts.</p>
-        <p class="es-text">Clubofpuppy.com es una plataforma de membresía digital de primer nivel para amantes de los perros en todo EE. UU. Facilitamos conexiones comunitarias y anuncios.</p>
+    <div class="footer-info">
+        <p>USA Nationwide | Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
+        <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn en-text">Contact Support</a>
+        <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn es-text">Contactar Soporte</a>
     </div>
 
-    <p>USA Nationwide | Email: <strong>clubofpuppyhelp@gmail.com</strong></p>
-    <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn en-text">Contact Support</a>
-    <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-btn es-text">Contactar Soporte</a>
+    <div class="legal-nav">
+        <a href="#" onclick="alert('Refund Policy: All membership and listing fees are non-refundable. For technical support, contact us within 14 days.')">Refund Policy</a>
+        <a href="#" onclick="alert('Terms of Service: Club of Puppy provides a digital listing platform. We do not facilitate or process payments for the sale of live animals.')">Terms of Service</a>
+    </div>
 
     <div class="disclaimer-box">
-        <p class="en-text">Club of Puppy is a classified listings platform. We do not process payments for the sale of live animals. Fees are for membership and advertising services.</p>
-        <p class="es-text">Club de Cachorros es una plataforma de anuncios clasificados. No procesamos pagos por la venta de animales. Las tarifas son por membresía y servicios publicitarios.</p>
+        <p class="en-text">Club of Puppy is a digital membership and classified listings platform. We are not a pet store and do not process payments for the sale of animals. All payments made on this site are for advertising services and community access.</p>
+        <p class="es-text">Club de Cachorros es una plataforma de membresía digital y anuncios clasificados. No somos una tienda de mascotas y no procesamos pagos por la venta de animales. Todos los pagos realizados en este sitio son por servicios de publicidad y acceso a la comunidad.</p>
     </div>
 </footer>
 
