@@ -154,9 +154,13 @@
         <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
         <div id="myDropdown" class="dropdown-content">
             <a href="puppies.html">Find a Puppy</a>
-            <a href="signup.html" style="color: var(--gold);">Sign Up</a>
+            
+            <span id="auth-links">
+                <a href="signup.html" style="color: var(--gold);">Sign Up</a>
+                <a href="signin.html">Sign In</a>
+            </span>
+
             <a href="#" onclick="showSellers()">Post a Puppy</a>
-            <a href="signin.html">Sign In</a>
             <a href="mailto:clubofpuppyhelp@gmail.com" style="font-size: 0.8rem; color: #888;">Contact Support</a>
         </div>
     </div>
@@ -180,7 +184,7 @@
             <li>★ Direct Messaging Access</li>
             <li>★ Identity Verification Badge</li>
         </ul>
-        <a href="signup.html" class="cta-button">Start Listing</a>
+        <a href="signup.html" id="seller-cta" class="cta-button">Start Listing</a>
         <br>
         <a href="#" onclick="showBuyers()" style="display:inline-block; margin-top:15px; color: var(--gold); text-decoration:none; font-size:0.9rem;">← Back to Buyer View</a>
     </div>
@@ -194,15 +198,17 @@
     </div>
     <p>Contact: <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-email">clubofpuppyhelp@gmail.com</a></p>
     <p><strong>clubofpuppy.com</strong> | USA Nationwide Puppy Club</p>
-    <p style="font-size: 0.8rem; color: #888; max-width: 600px; margin: 20px auto; line-height: 1.4;">
-        Club of Puppy is a membership and advertising platform. We do not sell animals. We provide the space for verified members to connect.
-    </p>
 </footer>
 
 <script>
     function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
 
     function showSellers() {
+        // If logged in, go straight to dashboard
+        if(localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = "dashboard.html";
+            return;
+        }
         document.getElementById("buyer-section").style.display = "none";
         document.getElementById("seller-section").style.display = "block";
         if(document.getElementById("myDropdown").classList.contains('show')) toggleMenu(); 
@@ -212,6 +218,34 @@
         document.getElementById("seller-section").style.display = "none";
         document.getElementById("buyer-section").style.display = "block";
     }
+
+    // --- NEW LOGIC: CHECK LOGIN STATUS ---
+    function checkLogin() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        const authLinks = document.getElementById('auth-links');
+        const sellerCta = document.getElementById('seller-cta');
+
+        if (isLoggedIn === 'true') {
+            // Update Menu
+            authLinks.innerHTML = `
+                <a href="dashboard.html" style="color: var(--gold);">My Dashboard</a>
+                <a href="#" onclick="logoutUser()">Log Out</a>
+            `;
+            // Update Seller Card Button
+            if(sellerCta) {
+                sellerCta.innerText = "Go to Dashboard";
+                sellerCta.href = "dashboard.html";
+            }
+        }
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('isLoggedIn');
+        window.location.reload();
+    }
+
+    // Run the check when page loads
+    checkLogin();
 
     window.onclick = function(event) {
         if (!event.target.matches('.menu-button')) {
