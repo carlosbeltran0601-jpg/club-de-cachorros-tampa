@@ -10,8 +10,6 @@
             --black: #1a1a1a;
             --cream: #fdfaf5;
             --white: #ffffff;
-            --price-bg: #d4edda;
-            --price-text: #155724;
         }
 
         body {
@@ -19,10 +17,8 @@
             margin: 0;
             background-color: var(--cream);
             color: var(--black);
-            scroll-behavior: smooth;
         }
 
-        /* Top Navigation */
         .header-nav {
             display: flex;
             justify-content: space-between;
@@ -40,7 +36,6 @@
             font-family: 'Times New Roman', serif;
         }
 
-        /* Hero Section */
         .hero {
             position: relative;
             background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), 
@@ -70,85 +65,18 @@
             border-radius: 30px;
             font-weight: bold;
             margin-top: 20px;
-            cursor: pointer;
-            border: none;
+            transition: transform 0.2s;
             font-family: 'Times New Roman', serif;
             box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
         }
 
-        /* HIDE PUPPIES BY DEFAULT */
-        #puppies {
-            display: none; 
-            padding: 60px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            font-family: 'Times New Roman', serif;
-        }
-
-        .puppy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .puppy-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .image-box {
-            position: relative;
-            width: 100%;
-            height: 350px;
-        }
-
-        .image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .badge {
-            position: absolute;
-            left: 15px;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            font-family: 'Times New Roman', serif;
-        }
-
-        .status-badge { bottom: 75px; background: white; color: black; }
-        .id-badge { bottom: 42px; background: #e8f4fd; color: #1976d2; border: 1px solid #b3e5fc; }
-        .vac-badge { bottom: 10px; background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
-
-        .puppy-details { padding: 20px; font-family: 'Times New Roman', serif; }
-        .price-tag {
-            background: var(--price-bg);
-            color: var(--price-text);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .puppy-details h3 { margin: 5px 0; font-size: 1.4rem; }
-        .puppy-details p { color: #666; margin: 0; font-style: italic; }
+        .cta-button:hover { transform: translateY(-2px); }
 
         .reviews { padding: 60px 5%; text-align: center; background: white; }
         .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
-        .review-card { background: var(--cream); padding: 25px; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .review-card { background: var(--cream); padding: 25px; border-radius: 10px; border: 1px solid #eee; }
         .stars { color: var(--gold); margin-bottom: 10px; font-size: 1.2rem; }
+        
         footer { background: var(--black); color: white; padding: 50px 20px; text-align: center; }
         .phone-link { color: var(--gold); font-size: 2.5rem; text-decoration: none; font-weight: bold; display: block; margin: 15px 0; }
 
@@ -170,49 +98,8 @@
     <h1 class="es-text">Cachorros Felices, Familias Felices</h1>
     <h1 class="en-text">Happy Puppies, Happy Families</h1>
     
-    <button onclick="showPuppies()" class="cta-button es-text">Ver Cachorros Disponibles</button>
-    <button onclick="showPuppies()" class="cta-button en-text">View Available Puppies</button>
-</section>
-
-<section id="puppies">
-    <h2 class="section-title es-text">Nuestros Cachorros</h2>
-    <h2 class="section-title en-text">Our Puppies</h2>
-    
-    <div class="puppy-grid">
-        <div class="puppy-card">
-            <div class="image-box">
-                <img src="pom_image.jpg" alt="Pomeranian"> 
-                <div class="badge status-badge es-text">LISTO PARA IR A CASA</div>
-                <div class="badge status-badge en-text">READY TO GO HOME</div>
-                <div class="badge id-badge es-text">✓ CERTIFICADO DE SALUD</div>
-                <div class="badge id-badge en-text">✓ HEALTH CERTIFICATE</div>
-                <div class="badge vac-badge es-text">💉 VACUNACIÓN</div>
-                <div class="badge vac-badge en-text">💉 VACCINATION</div>
-            </div>
-            <div class="puppy-details">
-                <div class="price-tag">$1300</div>
-                <h3>Pomeranian</h3>
-                <p>Tampa, FL</p>
-            </div>
-        </div>
-
-        <div class="puppy-card">
-            <div class="image-box">
-                <img src="poodle_image.jpg" alt="Toy Poodle">
-                <div class="badge status-badge es-text">LISTO PARA IR A CASA</div>
-                <div class="badge status-badge en-text">READY TO GO HOME</div>
-                <div class="badge id-badge es-text">✓ CERTIFICADO DE SALUD</div>
-                <div class="badge id-badge en-text">✓ HEALTH CERTIFICATE</div>
-                <div class="badge vac-badge es-text">💉 VACUNACIÓN</div>
-                <div class="badge vac-badge en-text">💉 VACCINATION</div>
-            </div>
-            <div class="puppy-details">
-                <div class="price-tag">$1300</div>
-                <h3>Toy Poodle</h3>
-                <p>Tampa, FL</p>
-            </div>
-        </div>
-    </div>
+    <a href="puppies.html" class="cta-button es-text">Ver Cachorros Disponibles</a>
+    <a href="puppies.html" class="cta-button en-text">View Available Puppies</a>
 </section>
 
 <section class="reviews">
@@ -235,38 +122,22 @@
 </section>
 
 <footer>
-    <p class="es-text">¿Listo para conocer a tu nuevo mejor amigo? Llámanos hoy:</p>
-    <p class="en-text">Ready to meet your new best friend? Call us today:</p>
     <a href="tel:8632770168" class="phone-link">863-277-0168</a>
     <p>Tampa, FL | @clubdecachorros</p>
 </footer>
 
 <script>
-    function showPuppies() {
-        const puppySection = document.getElementById('puppies');
-        puppySection.style.display = 'block';
-        puppySection.scrollIntoView({ behavior: 'smooth' });
-    }
-
     function changeLang(lang) {
         const es = document.querySelectorAll('.es-text');
         const en = document.querySelectorAll('.en-text');
         if (lang === 'en') {
             es.forEach(el => el.style.display = 'none');
             en.forEach(el => {
-                if (el.classList.contains('cta-button') || el.classList.contains('badge')) {
-                    el.style.display = 'inline-block';
-                } else {
-                    el.style.display = 'block';
-                }
+                el.style.display = el.classList.contains('cta-button') ? 'inline-block' : 'block';
             });
         } else {
             es.forEach(el => {
-                if (el.classList.contains('cta-button') || el.classList.contains('badge')) {
-                    el.style.display = 'inline-block';
-                } else {
-                    el.style.display = 'block';
-                }
+                el.style.display = el.classList.contains('cta-button') ? 'inline-block' : 'block';
             });
             en.forEach(el => el.style.display = 'none');
         }
