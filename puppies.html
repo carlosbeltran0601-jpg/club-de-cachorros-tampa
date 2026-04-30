@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Puppies | clubofpuppy.com</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <style>
         :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
         
@@ -14,7 +18,6 @@
             color: var(--black);
         }
 
-        /* Nav Bar */
         .nav { 
             background: white; 
             padding: 15px 5%; 
@@ -22,7 +25,9 @@
             justify-content: space-between; 
             align-items: center; 
             border-bottom: 1px solid #ddd; 
-            sticky: top;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .nav a { text-decoration: none; color: var(--black); font-weight: bold; }
 
@@ -31,14 +36,12 @@
         .header-area { text-align: center; margin-bottom: 40px; }
         .header-area h1 { font-size: 2.5rem; color: var(--black); margin-bottom: 10px; }
 
-        /* The Grid */
         .puppy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
         }
 
-        /* Puppy Card */
         .puppy-card {
             background: white;
             border-radius: 15px;
@@ -115,42 +118,67 @@
     </div>
 
     <div class="puppy-grid" id="puppyGrid">
-        </div>
+        <div class="empty-state">Loading puppies...</div>
+    </div>
 </div>
 
 <script>
-    function displayPuppies() {
+    // YOUR FIREBASE CONFIG
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
+        authDomain: "clubofpuppy.firebaseapp.com",
+        projectId: "clubofpuppy",
+        storageBucket: "clubofpuppy.firebasestorage.app",
+        messagingSenderId: "536581562349",
+        appId: "1:536581562349:web:041e792ff70639ccba91e4"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function listenForPuppies() {
         const grid = document.getElementById('puppyGrid');
-        // Get the puppies from local storage
-        const allPuppies = JSON.parse(localStorage.getItem('myPuppies')) || [];
 
-        if (allPuppies.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-state">
-                    <h3>No puppies found</h3>
-                    <p>Be the first to post a puppy! <a href="post-puppy.html" style="color: var(--gold);">Click here</a></p>
-                </div>
-            `;
-            return;
-        }
+        // This "onSnapshot" means the page updates automatically 
+        // if anyone (like your girlfriend) adds a puppy!
+        db.collection("puppies").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+            
+            if (snapshot.empty) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No puppies found</h3>
+                        <p>Be the first to post a puppy! <a href="post-puppy.html" style="color: var(--gold);">Click here</a></p>
+                    </div>
+                `;
+                return;
+            }
 
-        // Loop through the data and build cards
-        grid.innerHTML = allPuppies.map(puppy => `
-            <div class="puppy-card">
-                <img src="${puppy.image}" class="puppy-img" alt="${puppy.breed}" onerror="this.src='https://placedog.net/500'">
-                <div class="puppy-info">
-                    <p class="puppy-breed">${puppy.breed}</p>
-                    <p class="puppy-price">$${puppy.price}</p>
-                    <p class="puppy-details">${puppy.gender} • Verified Seller</p>
-                    <p class="puppy-desc">${puppy.description || "No description provided."}</p>
-                    <a href="mailto:support@clubofpuppy.com?subject=Inquiry about ${puppy.breed}" class="contact-btn">Contact Seller</a>
-                </div>
-            </div>
-        `).join('');
+            let html = "";
+            snapshot.forEach((doc) => {
+                const puppy = doc.data();
+                html += `
+                    <div class="puppy-card">
+                        <img src="${puppy.image}" class="puppy-img" alt="${puppy.breed}" onerror="this.src='https://placedog.net/500'">
+                        <div class="puppy-info">
+                            <p class="puppy-breed">${puppy.breed}</p>
+                            <p class="puppy-price">$${puppy.price}</p>
+                            <p class="puppy-details">${puppy.gender} • Posted by ${puppy.sellerEmail || "Club Member"}</p>
+                            <p class="puppy-desc">${puppy.description || "No description provided."}</p>
+                            <a href="mailto:${puppy.sellerEmail}?subject=Inquiry about ${puppy.breed}" class="contact-btn">Contact Seller</a>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }, (error) => {
+            console.error("Error loading puppies:", error);
+            grid.innerHTML = `<div class="empty-state">Error loading data. Check Database Rules.</div>`;
+        });
     }
 
-    // Load the puppies when the page opens
-    displayPuppies();
+    // Start listening to the cloud
+    listenForPuppies();
 </script>
 
 </body>
