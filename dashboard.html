@@ -13,42 +13,72 @@
 
         .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
         
+        /* Back Link Style */
+        .back-link { display: block; margin-bottom: 20px; color: var(--gold); text-decoration: none; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
+
         .welcome-card { background: white; padding: 30px; border-radius: 12px; border-left: 5px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
         
+        /* Menu Tabs */
+        .dashboard-tabs { display: flex; gap: 20px; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer; color: #666; padding: 5px 10px; }
+        .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .stat-box { background: white; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
         .stat-box h3 { margin: 0; color: var(--gold); font-size: 2rem; }
         
         .action-btn { background: var(--black); color: white; padding: 15px 30px; border-radius: 30px; text-decoration: none; display: inline-block; font-weight: bold; margin-top: 20px; transition: 0.3s; }
         .action-btn:hover { background: var(--gold); }
+
+        /* Listing Section Style */
+        .hidden { display: none; }
+        .listing-card { background: white; padding: 20px; border-radius: 8px; border: 1px dashed #ccc; text-align: center; color: #888; }
     </style>
 </head>
 <body>
 
 <nav class="nav">
     <a href="index.html">🐾 clubofpuppy.com</a>
-    <a href="index.html" onclick="localStorage.removeItem('isLoggedIn')">Sign Out</a>
+    <a href="index.html" onclick="localStorage.removeItem('clubUserEmail')">Sign Out</a>
 </nav>
 
 <div class="container">
+    <a href="index.html" class="back-link">← Back to Homepage</a>
+
     <div class="welcome-card">
         <h2>Welcome Back, <span id="userEmailDisplay">Member</span>!</h2>
         <p>Status: <span style="color: var(--gold); font-weight: bold;">✔ Identity Verified</span></p>
-        <a href="post-puppy.html" class="action-btn">+ Post New Puppy</a>
-    </div>
+        
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="switchTab('puppies')">My Puppies for Sale</button>
+        </div>
 
-    <div class="stats-grid">
-        <div class="stat-box">
-            <h3>0</h3>
-            <p>Active Listings</p>
+        <div id="overview-section">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <h3>0</h3>
+                    <p>Active Listings</p>
+                </div>
+                <div class="stat-box">
+                    <h3>0</h3>
+                    <p>Inquiries</p>
+                </div>
+                <div class="stat-box">
+                    <h3>$20</h3>
+                    <p>Monthly Plan</p>
+                </div>
+            </div>
+            <a href="post-puppy.html" class="action-btn">+ Post New Puppy</a>
         </div>
-        <div class="stat-box">
-            <h3>0</h3>
-            <p>Inquiries</p>
-        </div>
-        <div class="stat-box">
-            <h3>$20</h3>
-            <p>Monthly Plan</p>
+
+        <div id="puppies-section" class="hidden">
+            <h3>Your Live Listings</h3>
+            <div class="listing-card">
+                <p>You haven't listed any puppies yet.</p>
+                <a href="post-puppy.html" style="color: var(--gold); font-weight: bold; text-decoration: none;">Create your first listing now</a>
+            </div>
         </div>
     </div>
 </div>
@@ -57,6 +87,25 @@
     // Display the email saved during signup
     const email = localStorage.getItem('clubUserEmail') || "Member";
     document.getElementById('userEmailDisplay').innerText = email;
+
+    // Switch between Overview and Puppies
+    function switchTab(tabName) {
+        const overview = document.getElementById('overview-section');
+        const puppies = document.getElementById('puppies-section');
+        const buttons = document.querySelectorAll('.tab-btn');
+
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        if (tabName === 'overview') {
+            overview.classList.remove('hidden');
+            puppies.classList.add('hidden');
+            buttons[0].classList.add('active');
+        } else {
+            overview.classList.add('hidden');
+            puppies.classList.remove('hidden');
+            buttons[1].classList.add('active');
+        }
+    }
 </script>
 
 </body>
