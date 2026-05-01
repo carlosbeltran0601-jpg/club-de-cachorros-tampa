@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Profile | clubofpuppy.com</title>
+    <style>
+        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; }
+        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); margin: 0; text-align: center; }
+        
+        .nav { padding: 20px; background: white; border-bottom: 1px solid #ddd; }
+        .nav a { color: var(--gold); text-decoration: none; font-weight: bold; }
+
+        .profile-container { max-width: 800px; margin: 40px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        
+        /* The Bigger Picture */
+        .big-photo { 
+            width: 100%; 
+            max-height: 500px; 
+            object-fit: contain; 
+            border-radius: 10px; 
+            background: #000; /* Makes portrait photos look better */
+        }
+
+        .seller-info { margin-top: 30px; border-top: 2px solid var(--gold); padding-top: 20px; }
+        .contact-btn { 
+            display: inline-block; background: var(--black); color: white; 
+            padding: 15px 40px; border-radius: 30px; text-decoration: none; 
+            font-weight: bold; margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav">
+    <a href="puppies.html">← Back to All Puppies</a>
+</div>
+
+<div class="profile-container">
+    <img id="mainPhoto" class="big-photo" src="" alt="Puppy Large View">
+
+    <div class="seller-info">
+        <h2>Seller Profile</h2>
+        <p>Verified Seller: <strong id="sellerEmail">...</strong></p>
+        <p>Location: USA Nationwide Club Member</p>
+        
+        <a href="" id="mailLink" class="contact-btn">Message Seller</a>
+    </div>
+</div>
+
+<script>
+    // 1. Get the data from the URL (The email and image link)
+    const urlParams = new URLSearchParams(window.location.search);
+    const seller = urlParams.get('seller');
+    const image = urlParams.get('img');
+
+    // 2. Put the data on the page
+    if (seller && image) {
+        document.getElementById('mainPhoto').src = image;
+        document.getElementById('sellerEmail').innerText = seller;
+        document.getElementById('mailLink').href = `mailto:${seller}?subject=Inquiry about your puppy on clubofpuppy.com`;
+    } else {
+        window.location.href = "puppies.html"; // Redirect if no info found
+    }
+</script>
+
+</body>
+</html>
