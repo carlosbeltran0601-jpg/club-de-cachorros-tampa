@@ -17,7 +17,7 @@
         .nav { padding: 15px 5%; background: white; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .nav a { color: var(--gold); text-decoration: none; font-weight: bold; font-family: sans-serif; }
 
-        /* The Grid Layout */
+        /* Grid */
         .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
         .puppy-grid { 
             display: grid; 
@@ -26,7 +26,7 @@
             margin-top: 20px;
         }
 
-        /* Puppy Card Styling */
+        /* Card Styling */
         .puppy-card { 
             background: white; 
             border-radius: 15px; 
@@ -38,12 +38,16 @@
         }
         .puppy-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
 
-        .img-container { width: 100%; height: 220px; background: #f0f0f0; overflow: hidden; }
+        .img-container { width: 100%; height: 240px; background: #f0f0f0; overflow: hidden; position: relative; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        .puppy-info { padding: 15px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .puppy-info h3 { margin: 5px 0; font-size: 1.4rem; color: var(--black); }
-        .price { color: #666; font-weight: bold; margin-bottom: 15px; font-family: sans-serif; }
+        /* Auto-Age Tag */
+        .age-tag { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 12px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; font-family: sans-serif; }
+
+        .puppy-info { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
+        .puppy-info h3 { margin: 0; font-size: 1.5rem; color: var(--black); font-weight: bold; }
+        .price { color: var(--black); font-size: 1.3rem; font-weight: bold; margin: 8px 0; font-family: sans-serif; }
+        .location-text { color: #888; font-size: 0.9rem; margin-bottom: 15px; font-family: sans-serif; }
 
         /* Buttons */
         .action-btn { 
@@ -55,9 +59,10 @@
             font-family: sans-serif;
             font-size: 0.9rem;
             text-align: center;
+            margin-top: auto;
         }
-        .btn-message { background: var(--gold); color: white; }
-        .btn-login { background: var(--black); color: white; }
+        .btn-message { background: var(--black); color: white; }
+        .btn-login { border: 1px solid var(--black); color: var(--black); }
         
         .loading-text { text-align: center; margin-top: 50px; color: #888; font-style: italic; }
     </style>
@@ -73,7 +78,7 @@
 </div>
 
 <div class="container">
-    <h2 style="text-align: center; margin-top: 30px; letter-spacing: 1px;">AVAILABLE PUPPIES</h2>
+    <h2 style="text-align: center; margin-top: 30px; letter-spacing: 1px; font-size: 2rem;">Available Puppies</h2>
     <div id="puppy-container" class="puppy-grid">
         <p class="loading-text">Searching the club...</p>
     </div>
@@ -93,10 +98,19 @@
     const db = firebase.firestore();
     const auth = firebase.auth();
 
+    // Live Age Calculation
+    function getLiveAge(birthTimestamp) {
+        if (!birthTimestamp) return "8 WEEKS"; 
+        const birthDate = birthTimestamp.toDate();
+        const now = new Date();
+        const diffInMs = now - birthDate;
+        const diffInWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
+        return diffInWeeks + " WEEKS";
+    }
+
     function fetchPuppies(user) {
         const container = document.getElementById('puppy-container');
         
-        // Use onSnapshot for real-time updates
         db.collection("puppies").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
             if (snapshot.empty) {
                 container.innerHTML = '<p class="loading-text">No puppies found. Check back soon!</p>';
@@ -106,17 +120,15 @@
             let html = "";
             snapshot.forEach((doc) => {
                 const p = doc.data();
-                
-                // Fallback for missing data
-                const breed = p.breed || "Unknown Breed";
-                const price = p.price || "Contact for price";
-                const gender = p.gender || "";
-                const img = p.image || "https://via.placeholder.com/300?text=No+Image";
+                const breed = p.breed || "Puppy";
+                const price = p.price || "0";
+                const img = p.image || "";
+                const location = p.location || "Location TBD";
                 const seller = p.sellerEmail || "";
+                const liveAgeTag = getLiveAge(p.birthDate);
 
                 let actionButton = "";
                 if (user) {
-                    // Safe URL building for the profile page
                     const profileLink = `profile.html?seller=${encodeURIComponent(seller)}&breed=${encodeURIComponent(breed)}&img=${encodeURIComponent(img)}`;
                     actionButton = `<a href="${profileLink}" class="action-btn btn-message">Message Seller</a>`;
                 } else {
@@ -127,24 +139,20 @@
                   <div class="puppy-card">
                       <div class="img-container">
                           <img src="${img}" alt="${breed}" onerror="this.src='https://via.placeholder.com/300?text=Image+Error'">
+                          <div class="age-tag">${liveAgeTag}</div>
                       </div>
                       <div class="puppy-info">
-                          <div>
-                              <h3>${breed}</h3>
-                              <p class="price">$${price} ${gender ? '• ' + gender : ''}</p>
-                          </div>
+                          <div class="price">$${price}</div>
+                          <h3>${breed}</h3>
+                          <p class="location-text">${location}</p>
                           ${actionButton}
                       </div>
                   </div>`;
             });
             container.innerHTML = html;
-        }, (error) => {
-            console.error("Error fetching puppies:", error);
-            container.innerHTML = '<p class="loading-text" style="color: red;">Error loading puppies. Please refresh.</p>';
         });
     }
 
-    // This makes sure the page updates the moment someone logs in/out
     auth.onAuthStateChanged((user) => {
         fetchPuppies(user);
     });
