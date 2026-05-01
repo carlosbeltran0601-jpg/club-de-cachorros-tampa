@@ -78,7 +78,7 @@
 
         <div class="input-group">
             <label>📸 Puppy Photo</label>
-            <button type="button" id="upload_widget_btn" class="upload-btn">Click to Open Camera/Gallery</button>
+            <button type="button" id="upload_widget_btn" class="upload-btn">Open Camera or Gallery</button>
             <div id="preview-container">
                 <img id="imagePreview" src="" alt="Preview">
             </div>
@@ -112,29 +112,34 @@
 
     let uploadedImageUrl = ""; 
 
-    // 2. CLOUDINARY WIDGET SETUP
+    // 2. CLOUDINARY WIDGET (The "Matchmaker")
     var myWidget = cloudinary.createUploadWidget({
         cloudName: 'drbgoqaxk', 
-        uploadPreset: 'puppy_uploads', // Matches your screenshot
+        uploadPreset: 'puppy_uploads', 
         sources: ['local', 'camera'], 
         multiple: false,
-        clientAllowedFormats: ["images"],
+        resourceType: 'image', // Forces the widget to only look for images
+        maxFileSize: 15000000 // 15MB limit
     }, (error, result) => { 
         if (!error && result && result.event === "success") { 
             uploadedImageUrl = result.info.secure_url;
             document.getElementById('imagePreview').src = uploadedImageUrl;
             document.getElementById('preview-container').style.display = 'block';
             document.getElementById('upload_widget_btn').innerText = "✅ Photo Attached";
+            document.getElementById('upload_widget_btn').style.borderColor = "#4BB543";
+        }
+        if (error) {
+            console.log("Upload Error:", error);
         }
     });
 
-    // AUTO-POP: Open camera when landing on page
+    // AUTO-POP: The camera opens as soon as the page is ready
     window.onload = () => { myWidget.open(); };
 
-    // Manual open button
+    // Manual button if they close the pop-up
     document.getElementById("upload_widget_btn").onclick = () => { myWidget.open(); };
 
-    // 3. FORM SUBMISSION
+    // 3. FINAL PUBLISH TO FIREBASE
     document.getElementById('puppyForm').onsubmit = async function(e) {
         e.preventDefault();
         
@@ -142,27 +147,30 @@
         const submitBtn = document.getElementById('submitBtn');
 
         if (!user) return alert("Please log in first!");
-        if (!uploadedImageUrl) return alert("Please upload a photo first!");
+        if (!uploadedImageUrl) {
+            alert("Please upload a photo first!");
+            myWidget.open();
+            return;
+        }
 
         submitBtn.disabled = true;
-        submitBtn.innerText = "Publishing...";
+        submitBtn.innerText = "Publishing Listing...";
 
-        // Save data to 'puppies' collection
         db.collection("puppies").add({
             breed: document.getElementById('breed').value,
             price: document.getElementById('price').value,
             gender: document.getElementById('gender').value,
-            image: uploadedImageUrl, 
+            image: uploadedImageUrl, // THE URL FROM CLOUDINARY
             description: document.getElementById('description').value,
             sellerEmail: user.email,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(() => {
-            alert("Success! Your puppy is live.");
+            alert("Success! Your puppy is now live.");
             window.location.href = "dashboard.html";
         })
         .catch((err) => {
-            alert("Error: " + err.message);
+            alert("Database Error: " + err.message);
             submitBtn.disabled = false;
             submitBtn.innerText = "Publish Listing";
         });
