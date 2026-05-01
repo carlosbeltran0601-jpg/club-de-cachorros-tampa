@@ -16,7 +16,8 @@
         p { color: #666; margin-bottom: 25px; font-size: 0.9rem; }
         .input-group { text-align: left; margin-bottom: 20px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--black); font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 1rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 1rem; outline: none; }
+        input:focus { border-color: var(--gold); }
         .cta-button { width: 100%; background-color: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         .cta-button:hover { background-color: var(--gold); transform: translateY(-1px); }
         .back-link { display: block; margin-top: 25px; color: var(--gold); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
@@ -43,11 +44,10 @@
         <button type="submit" class="cta-button" id="signupBtn">Create Account</button>
     </form>
 
-    <a href="index.html" class="back-link">← Back to Homepage</a>
+    <a href="signin.html" class="back-link">Already have an account? Sign In</a>
 </div>
 
 <script>
-    // YOUR FIREBASE CONFIG
     const firebaseConfig = {
         apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
         authDomain: "clubofpuppy.firebaseapp.com",
@@ -57,7 +57,6 @@
         appId: "1:536581562349:web:041e792ff70639ccba91e4"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -73,11 +72,10 @@
         signupBtn.innerText = "Joining the Club...";
         signupBtn.disabled = true;
 
-        // REAL FIREBASE SIGN UP
         auth.createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                alert("Success! Welcome to the Puppy Club.");
-                window.location.href = "dashboard.html"; 
+                // SUCCESS: Send them to see puppies!
+                window.location.replace("puppies.html"); 
             })
             .catch((error) => {
                 signupBtn.innerText = "Create Account";
