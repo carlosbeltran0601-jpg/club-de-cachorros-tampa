@@ -15,7 +15,8 @@
         h2 { color: var(--black); margin-bottom: 5px; }
         .input-group { text-align: left; margin-bottom: 20px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--gold); }
         .cta-button { width: 100%; background-color: var(--black); color: white; padding: 15px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         .cta-button:hover { background-color: var(--gold); }
         .footer-links { margin-top: 25px; font-size: 0.9rem; }
@@ -51,7 +52,6 @@
 </div>
 
 <script>
-    // 1. CONFIG
     const firebaseConfig = {
         apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
         authDomain: "clubofpuppy.firebaseapp.com",
@@ -61,7 +61,6 @@
         appId: "1:536581562349:web:041e792ff70639ccba91e4"
     };
 
-    // 2. INIT
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -77,14 +76,20 @@
         loginBtn.innerText = "Opening Gates...";
         loginBtn.disabled = true;
 
-        // 3. LOGIN
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                // SUCCESS
-                window.location.replace("dashboard.html");
+                // SUCCESS: Redirect logic
+                const destination = sessionStorage.getItem('redirectAfterAuth');
+                
+                if (destination) {
+                    sessionStorage.removeItem('redirectAfterAuth');
+                    window.location.replace(destination);
+                } else {
+                    // This is the line that takes them to Find a Puppy!
+                    window.location.replace("puppies.html");
+                }
             })
             .catch((error) => {
-                // ERROR
                 loginBtn.innerText = "Sign In";
                 loginBtn.disabled = false;
                 alert("Error: " + error.message);
