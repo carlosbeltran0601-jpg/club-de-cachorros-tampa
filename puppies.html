@@ -1,34 +1,149 @@
-snapshot.forEach((doc) => {
-    const p = doc.data();
-    const user = firebase.auth().currentUser;
-
-    // Create the button based on login status
-    let actionButton = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Puppy | clubofpuppy.com</title>
     
-    if (user) {
-        // USER IS SIGNED IN: Show the direct link to message
-        actionButton = `
-            <a href="profile.html?seller=${p.sellerEmail}&img=${encodeURIComponent(p.image)}&breed=${p.breed}" 
-               style="display: block; background: #c5a059; color: white; text-align: center; padding: 12px; text-decoration: none; border-radius: 25px; font-weight: bold;">
-               Message Seller
-            </a>`;
-    } else {
-        // USER IS NOT SIGNED IN: Show a button that takes them to signup/login
-        actionButton = `
-            <a href="signup.html" 
-               style="display: block; background: #1a1a1a; color: white; text-align: center; padding: 12px; text-decoration: none; border-radius: 25px; font-weight: bold;">
-               Sign in to Message
-            </a>`;
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <style>
+        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
+        body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); margin: 0; color: var(--black); }
+        
+        /* Navigation */
+        .nav { padding: 15px 5%; background: white; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
+        .nav a { color: var(--gold); text-decoration: none; font-weight: bold; }
+
+        /* The Grid Layout */
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+        .puppy-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            margin-top: 20px;
+        }
+
+        /* Puppy Card Styling */
+        .puppy-card { 
+            background: white; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            transition: transform 0.2s;
+        }
+        .puppy-card:hover { transform: translateY(-5px); }
+
+        .img-container { width: 100%; height: 220px; background: #eee; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        .puppy-info { padding: 15px; text-align: center; }
+        .puppy-info h3 { margin: 10px 0 5px; font-size: 1.4rem; }
+        .price { color: #666; font-weight: bold; margin-bottom: 15px; }
+
+        /* Buttons */
+        .action-btn { 
+            display: block; 
+            padding: 12px; 
+            text-decoration: none; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            transition: 0.3s;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+        }
+        .btn-message { background: var(--gold); color: white; }
+        .btn-login { background: var(--black); color: white; }
+        
+        .loading-text { text-align: center; margin-top: 50px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="nav">
+    <a href="index.html">🐾 clubofpuppy.com</a>
+    <div>
+        <a href="dashboard.html" style="margin-right: 15px;">Dashboard</a>
+        <a href="messages.html">Messages</a>
+    </div>
+</div>
+
+<div class="container">
+    <h2 style="text-align: center; margin-top: 30px;">Available Puppies</h2>
+    <div id="puppy-container" class="puppy-grid">
+        <p class="loading-text">Searching for puppies...</p>
+    </div>
+</div>
+
+<script>
+    // 1. Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
+        authDomain: "clubofpuppy.firebaseapp.com",
+        projectId: "clubofpuppy",
+        storageBucket: "clubofpuppy.firebasestorage.app",
+        messagingSenderId: "536581562349",
+        appId: "1:536581562349:web:041e792ff70639ccba91e4"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // 2. Function to Load Puppies
+    function fetchPuppies() {
+        const container = document.getElementById('puppy-container');
+        
+        db.collection("puppies").onSnapshot((snapshot) => {
+            if (snapshot.empty) {
+                container.innerHTML = '<p class="loading-text">No puppies found. Be the first to post!</p>';
+                return;
+            }
+
+            let html = "";
+            snapshot.forEach((doc) => {
+                const p = doc.data();
+                const user = auth.currentUser;
+
+                // Check Login Status for the Button
+                let actionButton = "";
+                if (user) {
+                    // Logged In: Go to profile/chat
+                    actionButton = `
+                        <a href="profile.html?seller=${p.sellerEmail}&img=${encodeURIComponent(p.image)}&breed=${p.breed}" class="action-btn btn-message">
+                            Message Seller
+                        </a>`;
+                } else {
+                    // Not Logged In: Go to signup
+                    actionButton = `
+                        <a href="signup.html" class="action-btn btn-login">
+                            Sign in to Message
+                        </a>`;
+                }
+
+                html += `
+                  <div class="puppy-card">
+                      <div class="img-container">
+                          <img src="${p.image}" alt="${p.breed}">
+                      </div>
+                      <div class="puppy-info">
+                          <h3>${p.breed}</h3>
+                          <p class="price">$${p.price} • ${p.gender}</p>
+                          ${actionButton}
+                      </div>
+                  </div>`;
+            });
+            container.innerHTML = html;
+        });
     }
 
-    html += `
-      <div class="puppy-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 12px; background: white; margin-bottom: 20px;">
-          <img src="${p.image}" style="width:100%; border-radius:10px; height: 200px; object-fit: cover;">
-          <div style="padding: 10px 0;">
-              <h3>${p.breed}</h3>
-              <p>$${p.price} • ${p.gender}</p>
-          </div>
-          ${actionButton}
-      </div>`;
-});
-<a href="messages.html">My Messages</a>
+    // 3. Start Fetching when Auth is ready
+    auth.onAuthStateChanged((user) => {
+        fetchPuppies();
+    });
+</script>
+
+</body>
+</html>
