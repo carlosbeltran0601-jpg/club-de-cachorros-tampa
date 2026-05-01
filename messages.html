@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Messages | clubofpuppy.com</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <style>
+        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; }
+        body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); margin: 0; }
+        
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 1000; }
+        .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--black); font-weight: bold; font-size: 1.5rem; }
+
+        .container { max-width: 1000px; margin: 20px auto; padding: 10px; }
+        
+        /* Chat Layout */
+        .chat-container { display: flex; height: 80vh; border: 1px solid #ddd; border-radius: 12px; background: white; overflow: hidden; }
+        .chat-sidebar { width: 35%; border-right: 1px solid #eee; overflow-y: auto; background: #fafafa; }
+        .chat-main { width: 65%; display: flex; flex-direction: column; background: white; }
+        
+        .chat-list-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .chat-list-item.active { background: var(--cream); border-left: 4px solid var(--gold); }
+
+        #message-history { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 80%; padding: 10px; border-radius: 15px; font-size: 0.9rem; }
+        .msg.sent { align-self: flex-end; background: var(--gold); color: white; }
+        .msg.received { align-self: flex-start; background: #eee; color: var(--black); }
+
+        .input-area { padding: 10px; border-top: 1px solid #eee; display: flex; gap: 5px; }
+        input { flex-grow: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+        button { background: var(--black); color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; }
+
+        @media (max-width: 600px) {
+            .chat-container { flex-direction: column; }
+            .chat-sidebar { width: 100%; height: 30%; }
+            .chat-main { width: 100%; height: 70%; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <a href="index.html" class="logo-area">🐾 clubofpuppy.com</a>
+    <a href="dashboard.html" style="text-decoration:none; color:var(--gold); font-weight:bold;">Dashboard</a>
+</nav>
+
+<div class="container">
+    <h2 style="margin-left:10px;">My Conversations</h2>
+    <div class="chat-container">
+        <div class="chat-sidebar" id="chat-list">
+            <p style="padding:20px; font-size:0.8rem; color:#888;">Loading chats...</p>
+        </div>
+        <div class="chat-main">
+            <div id="message-history">
+                <p style="text-align:center; color:#999; margin-top:50px;">Select a seller to chat</p>
+            </div>
+            <div class="input-area" id="input-box" style="display:none;">
+                <input type="text" id="chatInput" placeholder="Type a message...">
+                <button onclick="sendReply()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
+        authDomain: "clubofpuppy.firebaseapp.com",
+        projectId: "clubofpuppy",
+        storageBucket: "clubofpuppy.firebasestorage.app",
+        messagingSenderId: "536581562349",
+        appId: "1:536581562349:web:041e792ff70639ccba91e4"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let activeChatId = null;
+    let myEmail = "";
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            myEmail = user.email;
+            loadMyChats();
+        } else {
+            window.location.href = "signin.html";
+        }
+    });
+
+    function loadMyChats() {
+        db.collection("chats")
+          .where("users", "array-contains", myEmail)
+          .onSnapshot(snapshot => {
+              const list = document.getElementById('chat-list');
+              let html = "";
+              snapshot.forEach(doc => {
+                  const chat = doc.data();
+                  const partner = chat.users.find(u => u !== myEmail);
+                  html += `<div class="chat-list-item" onclick="openChat('${doc.id}')" id="li-${doc.id}">
+                      <strong>${chat.breed}</strong><br>
+                      <small>Seller: ${partner}</small>
+                  </div>`;
+              });
+              list.innerHTML = html || "<p style='padding:20px;'>No messages yet.</p>";
+          });
+    }
+
+    function openChat(chatId) {
+        activeChatId = chatId;
+        document.getElementById('input-box').style.display = 'flex';
+        document.querySelectorAll('.chat-list-item').forEach(el => el.classList.remove('active'));
+        document.getElementById(`li-${chatId}`).classList.add('active');
+
+        db.collection("chats").doc(chatId).collection("messages")
+          .orderBy("timestamp", "asc")
+          .onSnapshot(snapshot => {
+              let html = "";
+              snapshot.forEach(doc => {
+                  const m = doc.data();
+                  const side = m.sender === myEmail ? 'sent' : 'received';
+                  html += `<div class="msg ${side}">${m.text}</div>`;
+              });
+              const history = document.getElementById('message-history');
+              history.innerHTML = html;
+              history.scrollTop = history.scrollHeight;
+          });
+    }
+
+    async function sendReply() {
+        const input = document.getElementById('chatInput');
+        if (!input.value.trim() || !activeChatId) return;
+
+        await db.collection("chats").doc(activeChatId).collection("messages").add({
+            sender: myEmail,
+            text: input.value,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        db.collection("chats").doc(activeChatId).update({
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        input.value = "";
+    }
+</script>
+</body>
+</html>
