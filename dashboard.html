@@ -8,12 +8,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <style>
         :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
         body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); margin: 0; }
         
-        /* Nav & Layout */
         .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 1000; }
         .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--black); font-weight: bold; font-size: 1.5rem; }
         .menu-button { background: white; border: 1px solid #ccc; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
@@ -29,7 +29,6 @@
         .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
         .hidden { display: none; }
 
-        /* Listing Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); overflow-y: auto; }
         .modal-content { background: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 15px; position: relative; }
         .close-modal { position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; }
@@ -39,11 +38,9 @@
         .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
         .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.9rem; }
 
-        /* UI Helpers */
         .action-btn { background: var(--black); color: white; padding: 12px 25px; border: none; text-decoration: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
         .action-btn:hover { background: var(--gold); }
 
-        /* Chat Styles */
         .chat-container { display: flex; height: 500px; border: 1px solid #ddd; border-radius: 12px; background: white; overflow: hidden; }
         .chat-sidebar { width: 30%; border-right: 1px solid #eee; overflow-y: auto; background: #fafafa; }
         .chat-main { width: 70%; display: flex; flex-direction: column; background: white; }
@@ -139,9 +136,10 @@
                 <option value="16">4 Months</option>
             </select>
         </div>
+        
         <div class="form-group">
-            <label>Image URL</label>
-            <input type="text" id="pImg" placeholder="Paste image link here">
+            <label>Puppy Photo</label>
+            <input type="file" id="pFile" accept="image/*">
         </div>
 
         <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
@@ -167,6 +165,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage(); // Init Storage
 
     let currentUserEmail = "";
     let activeChatId = null;
@@ -182,7 +181,6 @@
         }
     });
 
-    // Helper to show real-time age
     function calculateLiveAge(birthTimestamp) {
         if (!birthTimestamp) return "N/A";
         const birthDate = birthTimestamp.toDate();
@@ -192,38 +190,45 @@
         return diffInWeeks + " Weeks";
     }
 
-    // Save Puppy to Firestore with Auto-Aging BirthDate
+    // UPDATED: Function to handle file upload + birthdate logic
     async function savePuppy() {
         const breed = document.getElementById('pBreed').value;
         const price = document.getElementById('pPrice').value;
         const locationInput = document.getElementById('pLocation').value;
         const weeksOld = parseInt(document.getElementById('pAge').value);
-        const img = document.getElementById('pImg').value;
+        const file = document.getElementById('pFile').files[0];
         
-        if(!breed || !price || !img) { alert("Please fill breed, price, and image."); return; }
-
-        // Logic to calculate birthDate based on current selected age
-        const birthDate = new Date();
-        birthDate.setDate(birthDate.getDate() - (weeksOld * 7));
+        if(!breed || !price || !file) { alert("Please fill breed, price, and select a photo."); return; }
 
         const btn = document.getElementById('postBtn');
-        btn.innerText = "Posting...";
+        btn.innerText = "Uploading Photo...";
         btn.disabled = true;
 
         try {
+            // 1. Upload Image to Firebase Storage
+            const storageRef = storage.ref('puppies/' + Date.now() + "_" + file.name);
+            const snapshot = await storageRef.put(file);
+            const downloadURL = await snapshot.ref.getDownloadURL();
+
+            // 2. Calculate BirthDate
+            const birthDate = new Date();
+            birthDate.setDate(birthDate.getDate() - (weeksOld * 7));
+
+            // 3. Save to Firestore
             await db.collection("puppies").add({
                 breed: breed,
                 price: price,
                 location: locationInput || "Tampa, FL",
                 birthDate: firebase.firestore.Timestamp.fromDate(birthDate),
-                image: img,
+                image: downloadURL, // Link from storage
                 healthCert: document.getElementById('pHealth').checked,
                 dewormed: document.getElementById('pDewormed').checked,
                 isVerified: document.getElementById('pVerified').checked,
                 sellerEmail: currentUserEmail,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            alert("Puppy posted successfully! Age will update automatically.");
+
+            alert("Puppy posted successfully!");
             closeModal();
             location.reload(); 
         } catch (e) {
@@ -233,7 +238,6 @@
         }
     }
 
-    // Load Listings
     function loadUserPuppies() {
         db.collection("puppies").where("sellerEmail", "==", currentUserEmail).onSnapshot(s => {
             document.getElementById('activeCount').innerText = s.size;
@@ -250,7 +254,6 @@
         });
     }
 
-    // Load Chats
     function loadChatRooms() {
         db.collection("chats").where("users", "array-contains", currentUserEmail).onSnapshot(snapshot => {
             document.getElementById('msgCount').innerText = snapshot.size;
@@ -299,7 +302,6 @@
         input.value = "";
     }
 
-    // UI Helpers
     function switchTab(t) {
         ['overview', 'puppies', 'messages'].forEach(s => {
             document.getElementById(s + '-section').classList.add('hidden');
