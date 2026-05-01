@@ -29,30 +29,30 @@
         .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
         .hidden { display: none; }
 
-        /* Real-Time Chat UI */
+        /* Listing Modal */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); overflow-y: auto; }
+        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 15px; position: relative; }
+        .close-modal { position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; }
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.9rem; }
+
+        /* UI Helpers */
+        .action-btn { background: var(--black); color: white; padding: 12px 25px; border: none; text-decoration: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
+        .action-btn:hover { background: var(--gold); }
+
+        /* Chat Styles */
         .chat-container { display: flex; height: 500px; border: 1px solid #ddd; border-radius: 12px; background: white; overflow: hidden; }
         .chat-sidebar { width: 30%; border-right: 1px solid #eee; overflow-y: auto; background: #fafafa; }
         .chat-main { width: 70%; display: flex; flex-direction: column; background: white; }
-        
-        .chat-list-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: 0.2s; }
-        .chat-list-item:hover { background: #f0f0f0; }
+        .chat-list-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; }
         .chat-list-item.active { background: var(--cream); border-left: 4px solid var(--gold); }
-
-        #message-history { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fdfdfd; }
-        .msg { max-width: 70%; padding: 10px 15px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; }
+        #message-history { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 70%; padding: 10px 15px; border-radius: 18px; font-size: 0.9rem; }
         .msg.sent { align-self: flex-end; background: var(--gold); color: white; border-bottom-right-radius: 2px; }
-        .msg.received { align-self: flex-start; background: #eee; color: var(--black); border-bottom-left-radius: 2px; }
-
-        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
-        .chat-input-area input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
-        .send-chat-btn { background: var(--black); color: white; border: none; padding: 0 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
-
-        /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .stat-box { background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
-        .stat-box h3 { margin: 0; color: var(--gold); }
-
-        @media (max-width: 600px) { .chat-container { flex-direction: column; height: 600px; } .chat-sidebar { width: 100%; height: 150px; } .chat-main { width: 100%; height: 450px; } }
+        .msg.received { align-self: flex-start; background: #eee; color: black; border-bottom-left-radius: 2px; }
     </style>
 </head>
 <body>
@@ -64,7 +64,7 @@
 <div id="myDropdown" class="dropdown-content">
     <a href="puppies.html">Find a Puppy</a>
     <a href="dashboard.html">⭐ My Dashboard</a>
-    <a href="post-puppy.html">Post a Puppy</a>
+    <a href="#" onclick="openModal()">+ Post a Puppy</a>
     <a href="#" onclick="logoutUser()" style="color: #d9534f;">✕ Log Out</a>
 </div>
 
@@ -79,32 +79,78 @@
         </div>
 
         <div id="overview-section">
-            <div class="stats-grid">
-                <div class="stat-box"><h3 id="activeCount">0</h3><p>Listings</p></div>
-                <div class="stat-box"><h3 id="msgCount">0</h3><p>Chats</p></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center;">
+                    <h3 id="activeCount" style="margin:0; color:var(--gold);">0</h3><p>Live Listings</p>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center;">
+                    <h3 id="msgCount" style="margin:0; color:var(--gold);">0</h3><p>Conversations</p>
+                </div>
             </div>
-            <a href="post-puppy.html" class="action-btn" style="background: var(--black); color: white; padding: 12px 25px; text-decoration: none; border-radius: 25px; display: inline-block; margin-top: 20px; font-weight: bold;">+ Post New Puppy</a>
+            <button onclick="openModal()" class="action-btn" style="margin-top: 20px; width: 100%;">+ Post New Puppy</button>
         </div>
 
         <div id="puppies-section" class="hidden">
-            <div id="puppyListContainer">Loading...</div>
+            <div id="puppyListContainer">Loading your puppies...</div>
         </div>
 
         <div id="messages-section" class="hidden">
             <div class="chat-container">
-                <div class="chat-sidebar" id="chat-list">
-                    </div>
+                <div class="chat-sidebar" id="chat-list"></div>
                 <div class="chat-main">
                     <div id="message-history">
-                        <p style="text-align: center; color: #999; margin-top: 100px;">Select a conversation to start chatting</p>
+                        <p style="text-align: center; color: #999; margin-top: 100px;">Select a buyer to reply</p>
                     </div>
-                    <div class="chat-input-area hidden" id="input-area">
-                        <input type="text" id="chatInput" placeholder="Write a message...">
-                        <button class="send-chat-btn" onclick="sendReply()">Send</button>
+                    <div class="chat-input-area hidden" id="input-area" style="padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px;">
+                        <input type="text" id="chatInput" placeholder="Write a message..." style="flex-grow: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd;">
+                        <button class="action-btn" onclick="sendReply()">Send</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2 style="margin-top: 0;">Post New Puppy</h2>
+        
+        <div class="form-group">
+            <label>Breed</label>
+            <input type="text" id="pBreed" placeholder="e.g. Toy Poodle">
+        </div>
+        <div class="form-group">
+            <label>Price ($)</label>
+            <input type="number" id="pPrice" placeholder="1300">
+        </div>
+        <div class="form-group">
+            <label>City & State</label>
+            <input type="text" id="pLocation" placeholder="Tampa, FL">
+        </div>
+        <div class="form-group">
+            <label>Current Age</label>
+            <select id="pAge">
+                <option value="8">8 Weeks</option>
+                <option value="9">9 Weeks</option>
+                <option value="10">10 Weeks</option>
+                <option value="11">11 Weeks</option>
+                <option value="12">12 Weeks</option>
+                <option value="16">4 Months</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" id="pImg" placeholder="Paste image link here">
+        </div>
+
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+            <div class="checkbox-row"><input type="checkbox" id="pHealth"> Health Certificate</div>
+            <div class="checkbox-row"><input type="checkbox" id="pDewormed"> Dewormed</div>
+            <div class="checkbox-row"><input type="checkbox" id="pVerified" checked> ID Verified Seller</div>
+        </div>
+
+        <button class="action-btn" style="width: 100%;" id="postBtn" onclick="savePuppy()">Publish Listing</button>
     </div>
 </div>
 
@@ -122,82 +168,124 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    let activeChatId = null;
     let currentUserEmail = "";
+    let activeChatId = null;
 
     auth.onAuthStateChanged((user) => {
         if (user) {
             currentUserEmail = user.email;
             document.getElementById('userEmailDisplay').innerText = user.email;
-            loadUserPuppies(user.email);
-            loadChatRooms(user.email);
+            loadUserPuppies();
+            loadChatRooms();
         } else {
             window.location.href = "signin.html";
         }
     });
 
-    // 1. Load Puppies
-    function loadUserPuppies(email) {
-        db.collection("puppies").where("sellerEmail", "==", email).onSnapshot(s => {
+    // Helper to show real-time age
+    function calculateLiveAge(birthTimestamp) {
+        if (!birthTimestamp) return "N/A";
+        const birthDate = birthTimestamp.toDate();
+        const now = new Date();
+        const diffInMs = now - birthDate;
+        const diffInWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
+        return diffInWeeks + " Weeks";
+    }
+
+    // Save Puppy to Firestore with Auto-Aging BirthDate
+    async function savePuppy() {
+        const breed = document.getElementById('pBreed').value;
+        const price = document.getElementById('pPrice').value;
+        const locationInput = document.getElementById('pLocation').value;
+        const weeksOld = parseInt(document.getElementById('pAge').value);
+        const img = document.getElementById('pImg').value;
+        
+        if(!breed || !price || !img) { alert("Please fill breed, price, and image."); return; }
+
+        // Logic to calculate birthDate based on current selected age
+        const birthDate = new Date();
+        birthDate.setDate(birthDate.getDate() - (weeksOld * 7));
+
+        const btn = document.getElementById('postBtn');
+        btn.innerText = "Posting...";
+        btn.disabled = true;
+
+        try {
+            await db.collection("puppies").add({
+                breed: breed,
+                price: price,
+                location: locationInput || "Tampa, FL",
+                birthDate: firebase.firestore.Timestamp.fromDate(birthDate),
+                image: img,
+                healthCert: document.getElementById('pHealth').checked,
+                dewormed: document.getElementById('pDewormed').checked,
+                isVerified: document.getElementById('pVerified').checked,
+                sellerEmail: currentUserEmail,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert("Puppy posted successfully! Age will update automatically.");
+            closeModal();
+            location.reload(); 
+        } catch (e) {
+            alert("Error: " + e.message);
+            btn.innerText = "Publish Listing";
+            btn.disabled = false;
+        }
+    }
+
+    // Load Listings
+    function loadUserPuppies() {
+        db.collection("puppies").where("sellerEmail", "==", currentUserEmail).onSnapshot(s => {
             document.getElementById('activeCount').innerText = s.size;
             let html = "";
             s.forEach(doc => {
                 const p = doc.data();
-                html += `<div class="puppy-item" style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
-                    <span><strong>${p.breed}</strong> - $${p.price}</span>
+                const currentAge = calculateLiveAge(p.birthDate);
+                html += `<div style="padding:15px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                    <div><strong>${p.breed}</strong><br><small>$${p.price} • ${p.location} • ${currentAge} old</small></div>
                     <button onclick="deletePuppy('${doc.id}')" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Delete</button>
                 </div>`;
             });
-            document.getElementById('puppyListContainer').innerHTML = html || "<p>No listings.</p>";
+            document.getElementById('puppyListContainer').innerHTML = html || "<p>You haven't posted any puppies yet.</p>";
         });
     }
 
-    // 2. Load Chat Rooms
-    function loadChatRooms(email) {
-        db.collection("chats")
-          .where("users", "array-contains", email)
-          .onSnapshot(snapshot => {
-              document.getElementById('msgCount').innerText = snapshot.size;
-              const list = document.getElementById('chat-list');
-              let html = "";
-              snapshot.forEach(doc => {
-                  const chat = doc.data();
-                  const partner = chat.users.find(u => u !== email);
-                  html += `<div class="chat-list-item" onclick="openChat('${doc.id}')" id="list-${doc.id}">
-                      <strong>${chat.breed || 'Puppy'}</strong><br>
-                      <small>${partner}</small>
-                  </div>`;
-              });
-              list.innerHTML = html || "<p style='padding:15px; font-size:0.8rem;'>No active chats.</p>";
-          });
+    // Load Chats
+    function loadChatRooms() {
+        db.collection("chats").where("users", "array-contains", currentUserEmail).onSnapshot(snapshot => {
+            document.getElementById('msgCount').innerText = snapshot.size;
+            const list = document.getElementById('chat-list');
+            let html = "";
+            snapshot.forEach(doc => {
+                const chat = doc.data();
+                const partner = chat.users.find(u => u !== currentUserEmail);
+                html += `<div class="chat-list-item" onclick="openChat('${doc.id}')" id="list-${doc.id}">
+                    <strong>${chat.breed || 'Puppy'}</strong><br><small>${partner}</small>
+                </div>`;
+            });
+            list.innerHTML = html || "<p style='padding:15px;'>No chats yet.</p>";
+        });
     }
 
-    // 3. Open Specific Chat
     function openChat(chatId) {
         activeChatId = chatId;
         document.getElementById('input-area').classList.remove('hidden');
-        
-        // Highlight active chat
         document.querySelectorAll('.chat-list-item').forEach(el => el.classList.remove('active'));
         document.getElementById(`list-${chatId}`).classList.add('active');
 
-        // Listen for Messages
-        db.collection("chats").doc(chatId).collection("messages")
-          .orderBy("timestamp", "asc")
-          .onSnapshot(snapshot => {
-              let msgHtml = "";
-              snapshot.forEach(doc => {
-                  const m = doc.data();
-                  const side = m.sender === currentUserEmail ? 'sent' : 'received';
-                  msgHtml += `<div class="msg ${side}">${m.text}</div>`;
-              });
-              const history = document.getElementById('message-history');
-              history.innerHTML = msgHtml;
-              history.scrollTop = history.scrollHeight;
-          });
+        db.collection("chats").doc(chatId).collection("messages").orderBy("timestamp", "asc").onSnapshot(snapshot => {
+            let msgHtml = "";
+            snapshot.forEach(doc => {
+                const m = doc.data();
+                const side = m.sender === currentUserEmail ? 'sent' : 'received';
+                msgHtml += `<div class="msg ${side}">${m.text}</div>`;
+            });
+            const history = document.getElementById('message-history');
+            history.innerHTML = msgHtml;
+            history.scrollTop = history.scrollHeight;
+        });
     }
 
-    // 4. Send Message
     async function sendReply() {
         const input = document.getElementById('chatInput');
         const text = input.value.trim();
@@ -208,13 +296,6 @@
             text: text,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-        
-        // Update main chat doc timestamp for sorting
-        db.collection("chats").doc(activeChatId).update({
-            lastMessage: text,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
         input.value = "";
     }
 
@@ -228,8 +309,15 @@
         document.getElementById('tab-' + t).classList.add('active');
     }
     function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
-    function deletePuppy(id) { if(confirm("Delete?")) db.collection("puppies").doc(id).delete(); }
+    function openModal() { document.getElementById('postModal').style.display = 'block'; }
+    function closeModal() { document.getElementById('postModal').style.display = 'none'; }
+    function deletePuppy(id) { if(confirm("Permanently delete this listing?")) db.collection("puppies").doc(id).delete(); }
     function logoutUser() { auth.signOut().then(() => window.location.href = "index.html"); }
+    
+    window.onclick = function(event) {
+        let modal = document.getElementById('postModal');
+        if (event.target == modal) { closeModal(); }
+    }
 </script>
 </body>
 </html>
