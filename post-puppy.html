@@ -1,71 +1,87 @@
-// 1. YOUR FIREBASE CONFIG
-const firebaseConfig = {
-    apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
-    authDomain: "clubofpuppy.firebaseapp.com",
-    projectId: "clubofpuppy",
-    storageBucket: "clubofpuppy.firebasestorage.app",
-    messagingSenderId: "536581562349",
-    appId: "1:536581562349:web:041e792ff70639ccba91e4"
-};
+<script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+<script>
+    // --- FIREBASE CONFIG ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
+        authDomain: "clubofpuppy.firebaseapp.com",
+        projectId: "clubofpuppy",
+        storageBucket: "clubofpuppy.firebasestorage.app",
+        messagingSenderId: "536581562349",
+        appId: "1:536581562349:web:041e792ff70639ccba91e4"
+    };
 
-let uploadedImageUrl = ""; // This holds the link after upload
-
-// 2. INITIALIZE CLOUDINARY WIDGET
-var myWidget = cloudinary.createUploadWidget({
-    cloudName: 'YOUR_CLOUD_NAME', // REPLACE WITH YOUR ACTUAL CLOUD NAME
-    uploadPreset: 'puppy_upload', // MUST BE "UNSIGNED" IN CLOUDINARY SETTINGS
-    sources: ['local', 'camera'], 
-    multiple: false,
-    clientAllowedFormats: ["images"],
-}, (error, result) => { 
-    if (!error && result && result.event === "success") { 
-        uploadedImageUrl = result.info.secure_url;
-        // Show preview to the user
-        document.getElementById('imagePreview').src = uploadedImageUrl;
-        document.getElementById('preview-container').style.display = 'block';
-        console.log('Done! Image URL: ', uploadedImageUrl);
+    // Initialize Firebase if not already started
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
     }
-});
+    const db = firebase.firestore();
+    const auth = firebase.auth();
 
-// 3. AUTO-POP: Open camera as soon as they land on the page
-window.onload = () => {
-    myWidget.open();
-};
+    let uploadedImageUrl = ""; 
 
-// 4. HANDLE FORM SUBMISSION
-document.getElementById('puppyForm').onsubmit = async function(e) {
-    e.preventDefault();
-    
-    const user = auth.currentUser;
-    const submitBtn = document.getElementById('submitBtn');
-
-    if (!user) return alert("Please log in first!");
-    if (!uploadedImageUrl) return alert("Please upload a photo first!");
-
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Publishing...";
-
-    // SAVE DATA TO FIREBASE
-    db.collection("puppies").add({
-        breed: document.getElementById('breed').value,
-        price: document.getElementById('price').value,
-        gender: document.getElementById('gender').value,
-        image: uploadedImageUrl, // THE LIGHTWEIGHT LINK
-        description: document.getElementById('description').value,
-        sellerEmail: user.email,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-        alert("Success! Your puppy is live.");
-        window.location.href = "dashboard.html";
-    })
-    .catch((err) => {
-        alert("Error: " + err.message);
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Publish Listing";
+    // --- CLOUDINARY WIDGET SETUP ---
+    var myWidget = cloudinary.createUploadWidget({
+        cloudName: 'drbgoqaxk', // Your cloud name added!
+        uploadPreset: 'puppy_upload', 
+        sources: ['local', 'camera'], 
+        multiple: false,
+        clientAllowedFormats: ["images"],
+    }, (error, result) => { 
+        if (!error && result && result.event === "success") { 
+            uploadedImageUrl = result.info.secure_url;
+            // This shows the preview in your form
+            document.getElementById('imagePreview').src = uploadedImageUrl;
+            document.getElementById('preview-container').style.display = 'block';
+            console.log('Upload successful!');
+        }
     });
-};
+
+    // --- AUTO-POP LOGIC ---
+    // This makes the camera/gallery open as soon as the page loads
+    window.onload = function() {
+        myWidget.open();
+    };
+
+    // --- FORM SUBMISSION ---
+    document.getElementById('puppyForm').onsubmit = async function(e) {
+        e.preventDefault();
+        
+        const user = auth.currentUser;
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (!user) {
+            alert("Please log in first!");
+            return;
+        }
+
+        if (!uploadedImageUrl) {
+            alert("Please upload a photo first!");
+            myWidget.open(); // Re-open the uploader if they forgot
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Publishing Listing...";
+
+        // Save the puppy data and the Cloudinary URL to Firestore
+        db.collection("puppies").add({
+            breed: document.getElementById('breed').value,
+            price: document.getElementById('price').value,
+            gender: document.getElementById('gender').value,
+            image: uploadedImageUrl, // This is the link we got from Cloudinary
+            description: document.getElementById('description').value,
+            sellerEmail: user.email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            alert("Success! Your puppy listing is now live.");
+            window.location.href = "dashboard.html";
+        })
+        .catch((err) => {
+            alert("Error saving to database: " + err.message);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Publish Listing";
+        });
+    };
+</script>
