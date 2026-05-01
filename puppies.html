@@ -1,185 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available Puppies | clubofpuppy.com</title>
+snapshot.forEach((doc) => {
+    const p = doc.data();
+    const user = firebase.auth().currentUser;
+
+    // Create the button based on login status
+    let actionButton = "";
     
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <style>
-        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
-        
-        body { 
-            font-family: 'Times New Roman', Times, serif; 
-            background-color: var(--cream); 
-            margin: 0; 
-            color: var(--black);
-        }
-
-        .nav { 
-            background: white; 
-            padding: 15px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #ddd; 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav a { text-decoration: none; color: var(--black); font-weight: bold; }
-
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-
-        .header-area { text-align: center; margin-bottom: 40px; }
-        .header-area h1 { font-size: 2.5rem; color: var(--black); margin-bottom: 10px; }
-
-        .puppy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .puppy-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-            border: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .puppy-card:hover { transform: translateY(-5px); }
-
-        .puppy-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            background-color: #f0f0f0;
-        }
-
-        .puppy-info { padding: 20px; flex-grow: 1; }
-        
-        .puppy-breed { font-size: 1.4rem; font-weight: bold; margin: 0; }
-        .puppy-price { color: var(--gold); font-size: 1.2rem; font-weight: bold; margin: 5px 0; }
-        .puppy-details { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
-        
-        .puppy-desc { 
-            font-size: 0.9rem; 
-            line-height: 1.4; 
-            color: #444; 
-            margin-bottom: 20px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .contact-btn {
-            display: block;
-            text-align: center;
-            background: var(--black);
-            color: white;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .contact-btn:hover { background: var(--gold); }
-
-        .empty-state {
-            text-align: center;
-            grid-column: 1 / -1;
-            padding: 50px;
-            color: #888;
-        }
-    </style>
-</head>
-<body>
-
-<nav class="nav">
-    <a href="index.html" style="font-size: 1.2rem;">🐾 clubofpuppy.com</a>
-    <div style="display: flex; gap: 20px;">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">My Dashboard</a>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="header-area">
-        <h1>Find Your Puppy</h1>
-        <p>Verified listings from our club members</p>
-    </div>
-
-    <div class="puppy-grid" id="puppyGrid">
-        <div class="empty-state">Loading puppies...</div>
-    </div>
-</div>
-
-<script>
-    // YOUR FIREBASE CONFIG
-    const firebaseConfig = {
-        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
-        authDomain: "clubofpuppy.firebaseapp.com",
-        projectId: "clubofpuppy",
-        storageBucket: "clubofpuppy.firebasestorage.app",
-        messagingSenderId: "536581562349",
-        appId: "1:536581562349:web:041e792ff70639ccba91e4"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    function listenForPuppies() {
-        const grid = document.getElementById('puppyGrid');
-
-        // This "onSnapshot" means the page updates automatically 
-        // if anyone (like your girlfriend) adds a puppy!
-        db.collection("puppies").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-            
-            if (snapshot.empty) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <h3>No puppies found</h3>
-                        <p>Be the first to post a puppy! <a href="post-puppy.html" style="color: var(--gold);">Click here</a></p>
-                    </div>
-                `;
-                return;
-            }
-
-            let html = "";
-            snapshot.forEach((doc) => {
-                const puppy = doc.data();
-                html += `
-                    <div class="puppy-card">
-                        <img src="${puppy.image}" class="puppy-img" alt="${puppy.breed}" onerror="this.src='https://placedog.net/500'">
-                        <div class="puppy-info">
-                            <p class="puppy-breed">${puppy.breed}</p>
-                            <p class="puppy-price">$${puppy.price}</p>
-                            <p class="puppy-details">${puppy.gender} • Posted by ${puppy.sellerEmail || "Club Member"}</p>
-                            <p class="puppy-desc">${puppy.description || "No description provided."}</p>
-                            <a href="mailto:${puppy.sellerEmail}?subject=Inquiry about ${puppy.breed}" class="contact-btn">Contact Seller</a>
-                        </div>
-                    </div>
-                `;
-            });
-            grid.innerHTML = html;
-        }, (error) => {
-            console.error("Error loading puppies:", error);
-            grid.innerHTML = `<div class="empty-state">Error loading data. Check Database Rules.</div>`;
-        });
+    if (user) {
+        // USER IS SIGNED IN: Show the direct link to message
+        actionButton = `
+            <a href="profile.html?seller=${p.sellerEmail}&img=${encodeURIComponent(p.image)}&breed=${p.breed}" 
+               style="display: block; background: #c5a059; color: white; text-align: center; padding: 12px; text-decoration: none; border-radius: 25px; font-weight: bold;">
+               Message Seller
+            </a>`;
+    } else {
+        // USER IS NOT SIGNED IN: Show a button that takes them to signup/login
+        actionButton = `
+            <a href="signup.html" 
+               style="display: block; background: #1a1a1a; color: white; text-align: center; padding: 12px; text-decoration: none; border-radius: 25px; font-weight: bold;">
+               Sign in to Message
+            </a>`;
     }
 
-    // Start listening to the cloud
-    listenForPuppies();
-</script>
-
-</body>
-</html>
+    html += `
+      <div class="puppy-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 12px; background: white; margin-bottom: 20px;">
+          <img src="${p.image}" style="width:100%; border-radius:10px; height: 200px; object-fit: cover;">
+          <div style="padding: 10px 0;">
+              <h3>${p.breed}</h3>
+              <p>$${p.price} • ${p.gender}</p>
+          </div>
+          ${actionButton}
+      </div>`;
+});
