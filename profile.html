@@ -3,31 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Profile | clubofpuppy.com</title>
+    <title>View Puppy | clubofpuppy.com</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
     <style>
         :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; }
-        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); margin: 0; text-align: center; }
+        body { font-family: 'Times New Roman', Times, serif; background: var(--cream); margin: 0; text-align: center; color: var(--black); }
         
-        .nav { padding: 20px; background: white; border-bottom: 1px solid #ddd; }
-        .nav a { color: var(--gold); text-decoration: none; font-weight: bold; }
+        .nav { padding: 15px; background: white; border-bottom: 1px solid #ddd; display: flex; justify-content: flex-start; }
+        .nav a { color: var(--gold); text-decoration: none; font-weight: bold; margin-left: 20px; }
 
-        .profile-container { max-width: 800px; margin: 40px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .profile-container { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         
-        /* The Bigger Picture */
         .big-photo { 
             width: 100%; 
             max-height: 500px; 
             object-fit: contain; 
             border-radius: 10px; 
-            background: #000; /* Makes portrait photos look better */
+            background: #000; 
         }
 
-        .seller-info { margin-top: 30px; border-top: 2px solid var(--gold); padding-top: 20px; }
-        .contact-btn { 
-            display: inline-block; background: var(--black); color: white; 
-            padding: 15px 40px; border-radius: 30px; text-decoration: none; 
-            font-weight: bold; margin-top: 20px; 
+        .seller-info { margin-top: 25px; border-top: 2px solid var(--gold); padding-top: 20px; }
+        
+        /* Message Box Styling */
+        .message-area { margin-top: 20px; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 10px; }
+        textarea { 
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; 
+            font-family: inherit; margin-top: 10px; box-sizing: border-box; resize: vertical;
         }
+        
+        .send-btn { 
+            display: block; width: 100%; background: var(--black); color: white; 
+            padding: 15px; border: none; border-radius: 30px; font-weight: bold; 
+            cursor: pointer; font-size: 1.1rem; margin-top: 15px; transition: 0.3s;
+        }
+        .send-btn:hover { background: var(--gold); }
+        .login-note { font-size: 0.85rem; color: #666; margin-top: 10px; text-align: center; }
     </style>
 </head>
 <body>
@@ -40,27 +54,80 @@
     <img id="mainPhoto" class="big-photo" src="" alt="Puppy Large View">
 
     <div class="seller-info">
-        <h2>Seller Profile</h2>
-        <p>Verified Seller: <strong id="sellerEmail">...</strong></p>
-        <p>Location: USA Nationwide Club Member</p>
+        <h2 id="puppyTitle">Puppy Listing</h2>
+        <p>Verified Seller: <strong id="sellerEmailDisplay">...</strong></p>
         
-        <a href="" id="mailLink" class="contact-btn">Message Seller</a>
+        <div class="message-area">
+            <h3>Message Seller</h3>
+            <textarea id="userMessage" rows="4" placeholder="Hi! Is this puppy still available? I'd love to learn more."></textarea>
+            <button onclick="sendMessage()" class="send-btn">✉ Send Message</button>
+            <p class="login-note">* You must have an account to message sellers.</p>
+        </div>
     </div>
 </div>
 
 <script>
-    // 1. Get the data from the URL (The email and image link)
-    const urlParams = new URLSearchParams(window.location.search);
-    const seller = urlParams.get('seller');
-    const image = urlParams.get('img');
+    // 1. Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
+        authDomain: "clubofpuppy.firebaseapp.com",
+        projectId: "clubofpuppy",
+        storageBucket: "clubofpuppy.firebasestorage.app",
+        messagingSenderId: "536581562349",
+        appId: "1:536581562349:web:041e792ff70639ccba91e4"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
 
-    // 2. Put the data on the page
-    if (seller && image) {
+    // 2. Get Data from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const sellerEmail = urlParams.get('seller');
+    const image = urlParams.get('img');
+    const breed = urlParams.get('breed') || "Puppy";
+
+    if (sellerEmail && image) {
         document.getElementById('mainPhoto').src = image;
-        document.getElementById('sellerEmail').innerText = seller;
-        document.getElementById('mailLink').href = `mailto:${seller}?subject=Inquiry about your puppy on clubofpuppy.com`;
+        document.getElementById('sellerEmailDisplay').innerText = sellerEmail;
+        document.getElementById('puppyTitle').innerText = breed + " for Sale";
     } else {
-        window.location.href = "puppies.html"; // Redirect if no info found
+        window.location.href = "puppies.html";
+    }
+
+    // 3. Send Message Function
+    async function sendMessage() {
+        const user = auth.currentUser;
+        const messageText = document.getElementById('userMessage').value;
+
+        // AUTH CHECK
+        if (!user) {
+            alert("Please create an account or sign in to message the seller.");
+            sessionStorage.setItem('redirectAfterAuth', window.location.href);
+            window.location.href = "signup.html"; 
+            return;
+        }
+
+        if (!messageText.trim()) {
+            alert("Please type a message first!");
+            return;
+        }
+
+        try {
+            await db.collection("messages").add({
+                senderEmail: user.email,
+                receiverEmail: sellerEmail,
+                text: messageText,
+                breed: breed,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                read: false
+            });
+            
+            alert("Message sent! The seller can view this on their dashboard.");
+            document.getElementById('userMessage').value = ""; // Clear box
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to send message. Please check your connection.");
+        }
     }
 </script>
 
