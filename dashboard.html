@@ -13,85 +13,97 @@
         :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
         body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); margin: 0; }
         
-        .top-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 5%; background: white; border-bottom: 1px solid #ddd;
-            position: sticky; top: 0; z-index: 1000;
-        }
+        /* Nav & Layout */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 1000; }
         .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--black); font-weight: bold; font-size: 1.5rem; }
-        .menu-container { position: relative; }
-        .menu-button { background: white; border: 1px solid #ccc; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-family: inherit; font-weight: bold; }
-        .dropdown-content { display: none; position: absolute; right: 0; background-color: white; min-width: 220px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); border-radius: 8px; z-index: 1001; }
+        .menu-button { background: white; border: 1px solid #ccc; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .dropdown-content { display: none; position: absolute; right: 5%; background-color: white; min-width: 220px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); border-radius: 8px; z-index: 1001; }
         .dropdown-content a { color: var(--black); padding: 14px 16px; text-decoration: none; display: block; font-weight: bold; border-bottom: 1px solid #f9f9f9; }
-        .dropdown-content a:hover { background-color: var(--cream); color: var(--gold); }
         .show { display: block; }
 
-        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
-        .welcome-card { background: white; padding: 30px; border-radius: 12px; border-left: 5px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
+        .welcome-card { background: white; padding: 25px; border-radius: 12px; border-left: 5px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
         .dashboard-tabs { display: flex; gap: 20px; margin: 20px 0; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         .tab-btn { background: none; border: none; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer; color: #666; padding-bottom: 10px; }
         .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .stat-box { background: white; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
-        .stat-box h3 { margin: 0; color: var(--gold); font-size: 2rem; }
-        
-        .action-btn { background: var(--black); color: white; padding: 15px 30px; border-radius: 30px; text-decoration: none; display: inline-block; font-weight: bold; margin-top: 20px; }
         .hidden { display: none; }
-        
-        .puppy-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; background: #fff; margin-bottom: 10px; border-radius: 8px; }
-        .delete-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
 
-        /* Inbox Styling */
-        .message-card { background: #f9f9f9; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
-        .message-header { display: flex; justify-content: space-between; font-size: 0.9rem; color: #555; margin-bottom: 8px; }
-        .reply-link { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+        /* Real-Time Chat UI */
+        .chat-container { display: flex; height: 500px; border: 1px solid #ddd; border-radius: 12px; background: white; overflow: hidden; }
+        .chat-sidebar { width: 30%; border-right: 1px solid #eee; overflow-y: auto; background: #fafafa; }
+        .chat-main { width: 70%; display: flex; flex-direction: column; background: white; }
+        
+        .chat-list-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: 0.2s; }
+        .chat-list-item:hover { background: #f0f0f0; }
+        .chat-list-item.active { background: var(--cream); border-left: 4px solid var(--gold); }
+
+        #message-history { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fdfdfd; }
+        .msg { max-width: 70%; padding: 10px 15px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; }
+        .msg.sent { align-self: flex-end; background: var(--gold); color: white; border-bottom-right-radius: 2px; }
+        .msg.received { align-self: flex-start; background: #eee; color: var(--black); border-bottom-left-radius: 2px; }
+
+        .chat-input-area { padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .chat-input-area input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; outline: none; }
+        .send-chat-btn { background: var(--black); color: white; border: none; padding: 0 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .stat-box { background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+        .stat-box h3 { margin: 0; color: var(--gold); }
+
+        @media (max-width: 600px) { .chat-container { flex-direction: column; height: 600px; } .chat-sidebar { width: 100%; height: 150px; } .chat-main { width: 100%; height: 450px; } }
     </style>
 </head>
 <body>
 
 <nav class="top-nav">
     <a href="index.html" class="logo-area"><span style="color: var(--gold)">🐾</span> clubofpuppy.com</a>
-    <div class="menu-container">
-        <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
-        <div id="myDropdown" class="dropdown-content">
-            <a href="puppies.html">Find a Puppy</a>
-            <a href="dashboard.html" style="color: var(--gold);">⭐ My Dashboard</a>
-            <a href="post-puppy.html">Post a Puppy</a>
-            <a href="#" onclick="logoutUser()" style="color: #d9534f; border-top: 1px solid #eee; font-weight: bold;">✕ Log Out</a>
-        </div>
-    </div>
+    <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
 </nav>
+<div id="myDropdown" class="dropdown-content">
+    <a href="puppies.html">Find a Puppy</a>
+    <a href="dashboard.html">⭐ My Dashboard</a>
+    <a href="post-puppy.html">Post a Puppy</a>
+    <a href="#" onclick="logoutUser()" style="color: #d9534f;">✕ Log Out</a>
+</div>
 
 <div class="container">
     <div class="welcome-card">
-        <h2>Welcome Back, <span id="userEmailDisplay">...</span>!</h2>
-        <p>Status: <span style="color: var(--gold); font-weight: bold;">✔ Identity Verified</span></p>
+        <h2>Dashboard: <span id="userEmailDisplay" style="font-size: 1rem; color: #666;">...</span></h2>
         
         <div class="dashboard-tabs">
             <button class="tab-btn active" id="tab-overview" onclick="switchTab('overview')">Overview</button>
             <button class="tab-btn" id="tab-puppies" onclick="switchTab('puppies')">My Puppies</button>
-            <button class="tab-btn" id="tab-messages" onclick="switchTab('messages')">📩 Inbox</button>
+            <button class="tab-btn" id="tab-messages" onclick="switchTab('messages')">💬 Chat Room</button>
         </div>
 
         <div id="overview-section">
             <div class="stats-grid">
-                <div class="stat-box"><h3 id="activeCount">0</h3><p>Active Listings</p></div>
-                <div class="stat-box"><h3 id="msgCount">0</h3><p>New Messages</p></div>
-                <div class="stat-box"><h3>$20</h3><p>Monthly Plan</p></div>
+                <div class="stat-box"><h3 id="activeCount">0</h3><p>Listings</p></div>
+                <div class="stat-box"><h3 id="msgCount">0</h3><p>Chats</p></div>
             </div>
-            <a href="post-puppy.html" class="action-btn">+ Post New Puppy</a>
+            <a href="post-puppy.html" class="action-btn" style="background: var(--black); color: white; padding: 12px 25px; text-decoration: none; border-radius: 25px; display: inline-block; margin-top: 20px; font-weight: bold;">+ Post New Puppy</a>
         </div>
 
         <div id="puppies-section" class="hidden">
-            <h3>Your Live Listings</h3>
-            <div id="puppyListContainer">Loading your puppies...</div>
+            <div id="puppyListContainer">Loading...</div>
         </div>
 
         <div id="messages-section" class="hidden">
-            <h3>Buyer Inquiries</h3>
-            <div id="inbox-container">Checking for messages...</div>
+            <div class="chat-container">
+                <div class="chat-sidebar" id="chat-list">
+                    </div>
+                <div class="chat-main">
+                    <div id="message-history">
+                        <p style="text-align: center; color: #999; margin-top: 100px;">Select a conversation to start chatting</p>
+                    </div>
+                    <div class="chat-input-area hidden" id="input-area">
+                        <input type="text" id="chatInput" placeholder="Write a message...">
+                        <button class="send-chat-btn" onclick="sendReply()">Send</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -110,86 +122,114 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    let activeChatId = null;
+    let currentUserEmail = "";
+
     auth.onAuthStateChanged((user) => {
         if (user) {
+            currentUserEmail = user.email;
             document.getElementById('userEmailDisplay').innerText = user.email;
             loadUserPuppies(user.email);
-            loadInbox(user.email); // New: Load messages too
+            loadChatRooms(user.email);
         } else {
             window.location.href = "signin.html";
         }
     });
 
+    // 1. Load Puppies
     function loadUserPuppies(email) {
-        const container = document.getElementById('puppyListContainer');
-        db.collection("puppies").where("sellerEmail", "==", email).onSnapshot((snapshot) => {
-            document.getElementById('activeCount').innerText = snapshot.size;
-            if (snapshot.empty) {
-                container.innerHTML = '<p>No listings yet. <a href="post-puppy.html">Post one now.</a></p>';
-                return;
-            }
+        db.collection("puppies").where("sellerEmail", "==", email).onSnapshot(s => {
+            document.getElementById('activeCount').innerText = s.size;
             let html = "";
-            snapshot.forEach((doc) => {
+            s.forEach(doc => {
                 const p = doc.data();
-                html += `
-                    <div class="puppy-item">
-                        <div><strong>${p.breed}</strong> - $${p.price}</div>
-                        <button class="delete-btn" onclick="deletePuppy('${doc.id}')">Delete</button>
-                    </div>`;
+                html += `<div class="puppy-item" style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                    <span><strong>${p.breed}</strong> - $${p.price}</span>
+                    <button onclick="deletePuppy('${doc.id}')" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Delete</button>
+                </div>`;
             });
-            container.innerHTML = html;
+            document.getElementById('puppyListContainer').innerHTML = html || "<p>No listings.</p>";
         });
     }
 
-    // NEW: Load Messages Function
-    function loadInbox(email) {
-        const inbox = document.getElementById('inbox-container');
-        db.collection("messages")
-          .where("receiverEmail", "==", email)
-          .orderBy("timestamp", "desc")
-          .onSnapshot((snapshot) => {
+    // 2. Load Chat Rooms
+    function loadChatRooms(email) {
+        db.collection("chats")
+          .where("users", "array-contains", email)
+          .onSnapshot(snapshot => {
               document.getElementById('msgCount').innerText = snapshot.size;
-              if (snapshot.empty) {
-                  inbox.innerHTML = '<p>No messages received yet.</p>';
-                  return;
-              }
+              const list = document.getElementById('chat-list');
               let html = "";
-              snapshot.forEach((doc) => {
-                  const m = doc.data();
-                  const date = m.timestamp ? m.timestamp.toDate().toLocaleDateString() : "Just now";
-                  html += `
-                    <div class="message-card">
-                        <div class="message-header">
-                            <strong>From: ${m.senderEmail}</strong>
-                            <span>${date}</span>
-                        </div>
-                        <p style="margin: 5px 0;">"${m.text}"</p>
-                        <small style="color: var(--gold); display: block; margin-bottom: 8px;">Regarding: ${m.breed}</small>
-                        <a href="mailto:${m.senderEmail}" class="reply-link">↪ Reply via Email</a>
-                    </div>`;
+              snapshot.forEach(doc => {
+                  const chat = doc.data();
+                  const partner = chat.users.find(u => u !== email);
+                  html += `<div class="chat-list-item" onclick="openChat('${doc.id}')" id="list-${doc.id}">
+                      <strong>${chat.breed || 'Puppy'}</strong><br>
+                      <small>${partner}</small>
+                  </div>`;
               });
-              inbox.innerHTML = html;
+              list.innerHTML = html || "<p style='padding:15px; font-size:0.8rem;'>No active chats.</p>";
           });
     }
 
-    function deletePuppy(docId) {
-        if(confirm("Are you sure you want to remove this listing?")) {
-            db.collection("puppies").doc(docId).delete().then(() => alert("Removed."));
-        }
+    // 3. Open Specific Chat
+    function openChat(chatId) {
+        activeChatId = chatId;
+        document.getElementById('input-area').classList.remove('hidden');
+        
+        // Highlight active chat
+        document.querySelectorAll('.chat-list-item').forEach(el => el.classList.remove('active'));
+        document.getElementById(`list-${chatId}`).classList.add('active');
+
+        // Listen for Messages
+        db.collection("chats").doc(chatId).collection("messages")
+          .orderBy("timestamp", "asc")
+          .onSnapshot(snapshot => {
+              let msgHtml = "";
+              snapshot.forEach(doc => {
+                  const m = doc.data();
+                  const side = m.sender === currentUserEmail ? 'sent' : 'received';
+                  msgHtml += `<div class="msg ${side}">${m.text}</div>`;
+              });
+              const history = document.getElementById('message-history');
+              history.innerHTML = msgHtml;
+              history.scrollTop = history.scrollHeight;
+          });
     }
 
-    function switchTab(tabName) {
-        const sections = ['overview', 'puppies', 'messages'];
-        sections.forEach(s => {
+    // 4. Send Message
+    async function sendReply() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text || !activeChatId) return;
+
+        await db.collection("chats").doc(activeChatId).collection("messages").add({
+            sender: currentUserEmail,
+            text: text,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Update main chat doc timestamp for sorting
+        db.collection("chats").doc(activeChatId).update({
+            lastMessage: text,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        input.value = "";
+    }
+
+    // UI Helpers
+    function switchTab(t) {
+        ['overview', 'puppies', 'messages'].forEach(s => {
             document.getElementById(s + '-section').classList.add('hidden');
             document.getElementById('tab-' + s).classList.remove('active');
         });
-        document.getElementById(tabName + '-section').classList.remove('hidden');
-        document.getElementById('tab-' + tabName).classList.add('active');
+        document.getElementById(t + '-section').classList.remove('hidden');
+        document.getElementById('tab-' + t).classList.add('active');
     }
-
     function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
-    function logoutUser() { auth.signOut().then(() => { window.location.href = "index.html"; }); }
+    function deletePuppy(id) { if(confirm("Delete?")) db.collection("puppies").doc(id).delete(); }
+    function logoutUser() { auth.signOut().then(() => window.location.href = "index.html"); }
 </script>
 </body>
 </html>
