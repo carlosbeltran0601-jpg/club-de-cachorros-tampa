@@ -1,325 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Dashboard | clubofpuppy.com</title>
+// REPLACE your current savePuppy function with this one:
+
+async function savePuppy() {
+    const breed = document.getElementById('pBreed').value;
+    const price = document.getElementById('pPrice').value;
+    const locationInput = document.getElementById('pLocation').value;
+    const weeksOld = parseInt(document.getElementById('pAge').value);
     
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-
-    <style>
-        :root { --gold: #c5a059; --black: #1a1a1a; --cream: #fdfaf5; --white: #ffffff; }
-        body { font-family: 'Times New Roman', Times, serif; background-color: var(--cream); margin: 0; }
-        
-        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 1000; }
-        .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--black); font-weight: bold; font-size: 1.5rem; }
-        .menu-button { background: white; border: 1px solid #ccc; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .dropdown-content { display: none; position: absolute; right: 5%; background-color: white; min-width: 220px; box-shadow: 0px 8px 16px rgba(0,0,0,0.1); border-radius: 8px; z-index: 1001; }
-        .dropdown-content a { color: var(--black); padding: 14px 16px; text-decoration: none; display: block; font-weight: bold; border-bottom: 1px solid #f9f9f9; }
-        .show { display: block; }
-
-        .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
-        .welcome-card { background: white; padding: 25px; border-radius: 12px; border-left: 5px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        
-        .dashboard-tabs { display: flex; gap: 20px; margin: 20px 0; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer; color: #666; padding-bottom: 10px; }
-        .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
-        .hidden { display: none; }
-
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); overflow-y: auto; }
-        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 15px; position: relative; }
-        .close-modal { position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; }
-        
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.9rem; }
-
-        .action-btn { background: var(--black); color: white; padding: 12px 25px; border: none; text-decoration: none; border-radius: 25px; cursor: pointer; font-weight: bold; }
-        .action-btn:hover { background: var(--gold); }
-
-        .chat-container { display: flex; height: 500px; border: 1px solid #ddd; border-radius: 12px; background: white; overflow: hidden; }
-        .chat-sidebar { width: 30%; border-right: 1px solid #eee; overflow-y: auto; background: #fafafa; }
-        .chat-main { width: 70%; display: flex; flex-direction: column; background: white; }
-        .chat-list-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; }
-        .chat-list-item.active { background: var(--cream); border-left: 4px solid var(--gold); }
-        #message-history { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { max-width: 70%; padding: 10px 15px; border-radius: 18px; font-size: 0.9rem; }
-        .msg.sent { align-self: flex-end; background: var(--gold); color: white; border-bottom-right-radius: 2px; }
-        .msg.received { align-self: flex-start; background: #eee; color: black; border-bottom-left-radius: 2px; }
-    </style>
-</head>
-<body>
-
-<nav class="top-nav">
-    <a href="index.html" class="logo-area"><span style="color: var(--gold)">🐾</span> clubofpuppy.com</a>
-    <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
-</nav>
-<div id="myDropdown" class="dropdown-content">
-    <a href="puppies.html">Find a Puppy</a>
-    <a href="dashboard.html">⭐ My Dashboard</a>
-    <a href="#" onclick="openModal()">+ Post a Puppy</a>
-    <a href="#" onclick="logoutUser()" style="color: #d9534f;">✕ Log Out</a>
-</div>
-
-<div class="container">
-    <div class="welcome-card">
-        <h2>Dashboard: <span id="userEmailDisplay" style="font-size: 1rem; color: #666;">...</span></h2>
-        
-        <div class="dashboard-tabs">
-            <button class="tab-btn active" id="tab-overview" onclick="switchTab('overview')">Overview</button>
-            <button class="tab-btn" id="tab-puppies" onclick="switchTab('puppies')">My Puppies</button>
-            <button class="tab-btn" id="tab-messages" onclick="switchTab('messages')">💬 Chat Room</button>
-        </div>
-
-        <div id="overview-section">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
-                <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center;">
-                    <h3 id="activeCount" style="margin:0; color:var(--gold);">0</h3><p>Live Listings</p>
-                </div>
-                <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #eee; text-align: center;">
-                    <h3 id="msgCount" style="margin:0; color:var(--gold);">0</h3><p>Conversations</p>
-                </div>
-            </div>
-            <button onclick="openModal()" class="action-btn" style="margin-top: 20px; width: 100%;">+ Post New Puppy</button>
-        </div>
-
-        <div id="puppies-section" class="hidden">
-            <div id="puppyListContainer">Loading your puppies...</div>
-        </div>
-
-        <div id="messages-section" class="hidden">
-            <div class="chat-container">
-                <div class="chat-sidebar" id="chat-list"></div>
-                <div class="chat-main">
-                    <div id="message-history">
-                        <p style="text-align: center; color: #999; margin-top: 100px;">Select a buyer to reply</p>
-                    </div>
-                    <div class="chat-input-area hidden" id="input-area" style="padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px;">
-                        <input type="text" id="chatInput" placeholder="Write a message..." style="flex-grow: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd;">
-                        <button class="action-btn" onclick="sendReply()">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="postModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h2 style="margin-top: 0;">Post New Puppy</h2>
-        
-        <div class="form-group">
-            <label>Breed</label>
-            <input type="text" id="pBreed" placeholder="e.g. Toy Poodle">
-        </div>
-        <div class="form-group">
-            <label>Price ($)</label>
-            <input type="number" id="pPrice" placeholder="1300">
-        </div>
-        <div class="form-group">
-            <label>City & State</label>
-            <input type="text" id="pLocation" placeholder="Tampa, FL">
-        </div>
-        <div class="form-group">
-            <label>Current Age</label>
-            <select id="pAge">
-                <option value="8">8 Weeks</option>
-                <option value="9">9 Weeks</option>
-                <option value="10">10 Weeks</option>
-                <option value="11">11 Weeks</option>
-                <option value="12">12 Weeks</option>
-                <option value="16">4 Months</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Puppy Photo</label>
-            <input type="file" id="pFile" accept="image/*">
-        </div>
-
-        <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-            <div class="checkbox-row"><input type="checkbox" id="pHealth"> Health Certificate</div>
-            <div class="checkbox-row"><input type="checkbox" id="pDewormed"> Dewormed</div>
-            <div class="checkbox-row"><input type="checkbox" id="pVerified" checked> ID Verified Seller</div>
-        </div>
-
-        <button class="action-btn" style="width: 100%;" id="postBtn" onclick="savePuppy()">Publish Listing</button>
-    </div>
-</div>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
-        authDomain: "clubofpuppy.firebaseapp.com",
-        projectId: "clubofpuppy",
-        storageBucket: "clubofpuppy.firebasestorage.app",
-        messagingSenderId: "536581562349",
-        appId: "1:536581562349:web:041e792ff70639ccba91e4"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage(); // Init Storage
-
-    let currentUserEmail = "";
-    let activeChatId = null;
-
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            currentUserEmail = user.email;
-            document.getElementById('userEmailDisplay').innerText = user.email;
-            loadUserPuppies();
-            loadChatRooms();
-        } else {
-            window.location.href = "signin.html";
-        }
-    });
-
-    function calculateLiveAge(birthTimestamp) {
-        if (!birthTimestamp) return "N/A";
-        const birthDate = birthTimestamp.toDate();
-        const now = new Date();
-        const diffInMs = now - birthDate;
-        const diffInWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
-        return diffInWeeks + " Weeks";
+    // 1. Get ALL files selected
+    const fileInput = document.getElementById('pFile');
+    const files = fileInput.files;
+    
+    if(!breed || !price || files.length === 0) { 
+        alert("Please fill breed, price, and select at least one photo."); 
+        return; 
     }
 
-    // UPDATED: Function to handle file upload + birthdate logic
-    async function savePuppy() {
-        const breed = document.getElementById('pBreed').value;
-        const price = document.getElementById('pPrice').value;
-        const locationInput = document.getElementById('pLocation').value;
-        const weeksOld = parseInt(document.getElementById('pAge').value);
-        const file = document.getElementById('pFile').files[0];
-        
-        if(!breed || !price || !file) { alert("Please fill breed, price, and select a photo."); return; }
+    const btn = document.getElementById('postBtn');
+    btn.innerText = `Uploading ${files.length} Photos...`;
+    btn.disabled = true;
 
-        const btn = document.getElementById('postBtn');
-        btn.innerText = "Uploading Photo...";
-        btn.disabled = true;
+    try {
+        const imageUrls = [];
 
-        try {
-            // 1. Upload Image to Firebase Storage
+        // 2. Loop through every file and upload individually
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
             const storageRef = storage.ref('puppies/' + Date.now() + "_" + file.name);
             const snapshot = await storageRef.put(file);
             const downloadURL = await snapshot.ref.getDownloadURL();
-
-            // 2. Calculate BirthDate
-            const birthDate = new Date();
-            birthDate.setDate(birthDate.getDate() - (weeksOld * 7));
-
-            // 3. Save to Firestore
-            await db.collection("puppies").add({
-                breed: breed,
-                price: price,
-                location: locationInput || "Tampa, FL",
-                birthDate: firebase.firestore.Timestamp.fromDate(birthDate),
-                image: downloadURL, // Link from storage
-                healthCert: document.getElementById('pHealth').checked,
-                dewormed: document.getElementById('pDewormed').checked,
-                isVerified: document.getElementById('pVerified').checked,
-                sellerEmail: currentUserEmail,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            alert("Puppy posted successfully!");
-            closeModal();
-            location.reload(); 
-        } catch (e) {
-            alert("Error: " + e.message);
-            btn.innerText = "Publish Listing";
-            btn.disabled = false;
+            imageUrls.push(downloadURL); // Collect the URLs in an array
         }
-    }
 
-    function loadUserPuppies() {
-        db.collection("puppies").where("sellerEmail", "==", currentUserEmail).onSnapshot(s => {
-            document.getElementById('activeCount').innerText = s.size;
-            let html = "";
-            s.forEach(doc => {
-                const p = doc.data();
-                const currentAge = calculateLiveAge(p.birthDate);
-                html += `<div style="padding:15px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
-                    <div><strong>${p.breed}</strong><br><small>$${p.price} • ${p.location} • ${currentAge} old</small></div>
-                    <button onclick="deletePuppy('${doc.id}')" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Delete</button>
-                </div>`;
-            });
-            document.getElementById('puppyListContainer').innerHTML = html || "<p>You haven't posted any puppies yet.</p>";
+        // 3. Calculate BirthDate
+        const birthDate = new Date();
+        birthDate.setDate(birthDate.getDate() - (weeksOld * 7));
+
+        // 4. Save to Firestore
+        await db.collection("puppies").add({
+            breed: breed,
+            price: price,
+            location: locationInput || "Tampa, FL",
+            birthDate: firebase.firestore.Timestamp.fromDate(birthDate),
+            images: imageUrls, // Store as an array 'images'
+            image: imageUrls[0], // Store first one as 'image' for backwards compatibility
+            healthCert: document.getElementById('pHealth').checked,
+            dewormed: document.getElementById('pDewormed').checked,
+            isVerified: document.getElementById('pVerified').checked,
+            sellerEmail: currentUserEmail,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-    }
 
-    function loadChatRooms() {
-        db.collection("chats").where("users", "array-contains", currentUserEmail).onSnapshot(snapshot => {
-            document.getElementById('msgCount').innerText = snapshot.size;
-            const list = document.getElementById('chat-list');
-            let html = "";
-            snapshot.forEach(doc => {
-                const chat = doc.data();
-                const partner = chat.users.find(u => u !== currentUserEmail);
-                html += `<div class="chat-list-item" onclick="openChat('${doc.id}')" id="list-${doc.id}">
-                    <strong>${chat.breed || 'Puppy'}</strong><br><small>${partner}</small>
-                </div>`;
-            });
-            list.innerHTML = html || "<p style='padding:15px;'>No chats yet.</p>";
-        });
+        alert("Puppy posted successfully with " + files.length + " photos!");
+        closeModal();
+        location.reload(); 
+    } catch (e) {
+        alert("Upload Error: " + e.message);
+        btn.innerText = "Publish Listing";
+        btn.disabled = false;
     }
-
-    function openChat(chatId) {
-        activeChatId = chatId;
-        document.getElementById('input-area').classList.remove('hidden');
-        document.querySelectorAll('.chat-list-item').forEach(el => el.classList.remove('active'));
-        document.getElementById(`list-${chatId}`).classList.add('active');
-
-        db.collection("chats").doc(chatId).collection("messages").orderBy("timestamp", "asc").onSnapshot(snapshot => {
-            let msgHtml = "";
-            snapshot.forEach(doc => {
-                const m = doc.data();
-                const side = m.sender === currentUserEmail ? 'sent' : 'received';
-                msgHtml += `<div class="msg ${side}">${m.text}</div>`;
-            });
-            const history = document.getElementById('message-history');
-            history.innerHTML = msgHtml;
-            history.scrollTop = history.scrollHeight;
-        });
-    }
-
-    async function sendReply() {
-        const input = document.getElementById('chatInput');
-        const text = input.value.trim();
-        if (!text || !activeChatId) return;
-
-        await db.collection("chats").doc(activeChatId).collection("messages").add({
-            sender: currentUserEmail,
-            text: text,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        input.value = "";
-    }
-
-    function switchTab(t) {
-        ['overview', 'puppies', 'messages'].forEach(s => {
-            document.getElementById(s + '-section').classList.add('hidden');
-            document.getElementById('tab-' + s).classList.remove('active');
-        });
-        document.getElementById(t + '-section').classList.remove('hidden');
-        document.getElementById('tab-' + t).classList.add('active');
-    }
-    function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
-    function openModal() { document.getElementById('postModal').style.display = 'block'; }
-    function closeModal() { document.getElementById('postModal').style.display = 'none'; }
-    function deletePuppy(id) { if(confirm("Permanently delete this listing?")) db.collection("puppies").doc(id).delete(); }
-    function logoutUser() { auth.signOut().then(() => window.location.href = "index.html"); }
-    
-    window.onclick = function(event) {
-        let modal = document.getElementById('postModal');
-        if (event.target == modal) { closeModal(); }
-    }
-</script>
-</body>
-</html>
+}
