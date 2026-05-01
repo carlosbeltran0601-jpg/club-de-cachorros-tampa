@@ -52,6 +52,7 @@
 </div>
 
 <script>
+    // 1. Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
         authDomain: "clubofpuppy.firebaseapp.com",
@@ -73,23 +74,29 @@
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
+        // Visual feedback
         loginBtn.innerText = "Opening Gates...";
         loginBtn.disabled = true;
 
+        // 2. Login Process
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                // SUCCESS: Redirect logic
+                console.log("Login successful!");
+                
+                // Check if user was trying to reach a specific page (like a puppy profile)
                 const destination = sessionStorage.getItem('redirectAfterAuth');
                 
-                if (destination) {
+                if (destination && destination !== "undefined") {
                     sessionStorage.removeItem('redirectAfterAuth');
-                    window.location.replace(destination);
+                    window.location.href = destination;
                 } else {
-                    // This is the line that takes them to Find a Puppy!
-                    window.location.replace("puppies.html");
+                    // Otherwise, go straight to the puppy listings
+                    window.location.href = "puppies.html";
                 }
             })
             .catch((error) => {
+                // This prevents the button from staying stuck if login fails
+                console.error("Login Error:", error.message);
                 loginBtn.innerText = "Sign In";
                 loginBtn.disabled = false;
                 alert("Error: " + error.message);
