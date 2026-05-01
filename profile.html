@@ -14,7 +14,7 @@
         body { font-family: 'Times New Roman', Times, serif; background: var(--cream); margin: 0; text-align: center; color: var(--black); }
         
         .nav { padding: 15px; background: white; border-bottom: 1px solid #ddd; display: flex; justify-content: flex-start; }
-        .nav a { color: var(--gold); text-decoration: none; font-weight: bold; margin-left: 20px; }
+        .nav a { color: var(--gold); text-decoration: none; font-weight: bold; margin-left: 20px; font-family: sans-serif; }
 
         .profile-container { max-width: 800px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         
@@ -23,12 +23,11 @@
             max-height: 500px; 
             object-fit: contain; 
             border-radius: 10px; 
-            background: #000; 
+            background: #f0f0f0; 
         }
 
         .seller-info { margin-top: 25px; border-top: 2px solid var(--gold); padding-top: 20px; }
         
-        /* Message Box Styling */
         .message-area { margin-top: 20px; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 10px; }
         textarea { 
             width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; 
@@ -51,7 +50,7 @@
 </div>
 
 <div class="profile-container">
-    <img id="mainPhoto" class="big-photo" src="" alt="Puppy Large View">
+    <img id="mainPhoto" class="big-photo" src="" alt="Puppy">
 
     <div class="seller-info">
         <h2 id="puppyTitle">Puppy Listing</h2>
@@ -59,7 +58,7 @@
         
         <div class="message-area">
             <h3>Message Seller</h3>
-            <textarea id="userMessage" rows="4" placeholder="Hi! Is this puppy still available? I'd love to learn more."></textarea>
+            <textarea id="userMessage" rows="4" placeholder="Hi! Is this puppy still available?"></textarea>
             <button onclick="sendMessage()" class="send-btn">✉ Send Message</button>
             <p class="login-note">* You must have an account to message sellers.</p>
         </div>
@@ -67,7 +66,6 @@
 </div>
 
 <script>
-    // 1. Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyA9jhhmqYLdWmyDSKvv3KI8T6fF2vQ5pZE",
         authDomain: "clubofpuppy.firebaseapp.com",
@@ -80,7 +78,6 @@
     const db = firebase.firestore();
     const auth = firebase.auth();
 
-    // 2. Get Data from URL
     const urlParams = new URLSearchParams(window.location.search);
     const sellerEmail = urlParams.get('seller');
     const image = urlParams.get('img');
@@ -90,46 +87,46 @@
         document.getElementById('mainPhoto').src = image;
         document.getElementById('sellerEmailDisplay').innerText = sellerEmail;
         document.getElementById('puppyTitle').innerText = breed + " for Sale";
-    } else {
-        window.location.href = "puppies.html";
     }
 
-    // 3. Send Message Function
     async function sendMessage() {
         const user = auth.currentUser;
         const messageText = document.getElementById('userMessage').value;
 
-        // AUTH CHECK
         if (!user) {
-            alert("Please create an account or sign in to message the seller.");
-            sessionStorage.setItem('redirectAfterAuth', window.location.href);
+            alert("Please sign in to message the seller.");
             window.location.href = "signup.html"; 
             return;
         }
 
-        if (!messageText.trim()) {
-            alert("Please type a message first!");
-            return;
-        }
+        if (!messageText.trim()) return;
+
+        // CREATE A UNIQUE CHAT ID (Buyer Email + Seller Email sorted)
+        const chatId = [user.email.replace(/[^a-zA-Z0-9]/g, ''), sellerEmail.replace(/[^a-zA-Z0-9]/g, '')].sort().join('_');
 
         try {
-            await db.collection("messages").add({
-                senderEmail: user.email,
-                receiverEmail: sellerEmail,
-                text: messageText,
+            // 1. Ensure the Chat Room exists
+            await db.collection("chats").doc(chatId).set({
+                users: [user.email, sellerEmail],
                 breed: breed,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                read: false
+                lastMessage: messageText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+            // 2. Add message to the sub-collection
+            await db.collection("chats").doc(chatId).collection("messages").add({
+                sender: user.email,
+                text: messageText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             
-            alert("Message sent! The seller can view this on their dashboard.");
-            document.getElementById('userMessage').value = ""; // Clear box
+            alert("Message sent! Taking you to your messages...");
+            window.location.href = "messages.html"; 
         } catch (error) {
             console.error("Error:", error);
-            alert("Failed to send message. Please check your connection.");
+            alert("Failed to send message. Make sure your Firebase Rules are updated!");
         }
     }
 </script>
-
 </body>
 </html>
