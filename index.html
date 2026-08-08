@@ -1,263 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>clubofpuppy.com - Nationwide Puppy Club</title>
-    <style>
-        :root {
-            --gold: #c5a059;
-            --black: #1a1a1a;
-            --cream: #fdfaf5;
-            --white: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Paws | Puppies & Dog Events</title>
 
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            margin: 0;
-            background: linear-gradient(180deg, var(--white) 0%, var(--cream) 100%);
-            color: var(--black);
-            min-height: 100vh;
-        }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-        /* Nav Bar */
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 5%;
-            background: white;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+body {
+  font-family: Arial, sans-serif;
+  color: #222;
+  background: white;
+}
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--black);
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
+nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 20px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,.3);
+  z-index: 5;
+}
 
-        .menu-container { position: relative; }
-        .menu-button {
-            background: white;
-            border: 1px solid #ccc;
-            padding: 8px 15px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-family: inherit;
-            font-weight: bold;
-        }
+.logo {
+  color: white;
+  text-decoration: none;
+  font-size: 26px;
+  font-weight: bold;
+}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: white;
-            min-width: 220px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            z-index: 1001;
-        }
+.links {
+  display: flex;
+  gap: 25px;
+}
 
-        .dropdown-content a {
-            color: var(--black);
-            padding: 14px 16px;
-            text-decoration: none;
-            display: block;
-            font-weight: bold;
-            border-bottom: 1px solid #f9f9f9;
-        }
+.links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-        .dropdown-content a:hover { background-color: var(--cream); color: var(--gold); }
-        .show { display: block; }
+.hero {
+  min-height: 680px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 120px 20px 70px;
 
-        /* Main Sections */
-        .main-hero {
-            text-align: center;
-            padding: 80px 20px;
-        }
+  background:
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55)),
+    url("assets/puppy-blue-bow.jpeg");
 
-        .main-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+  background-size: cover;
+  background-position: center;
+}
 
-        #seller-section {
-            display: none; 
-            padding: 60px 5%;
-            text-align: center;
-        }
+.hero-inner {
+  max-width: 850px;
+}
 
-        .price-card {
-            background: white;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 40px;
-            border-radius: 12px;
-            border: 2px solid var(--gold);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
+.hero h1 {
+  font-size: clamp(42px,7vw,74px);
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
 
-        .price-amount { font-size: 3.5rem; font-weight: bold; margin: 15px 0; }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--black);
-            color: white;
-            padding: 15px 40px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+.hero p {
+  font-size: 20px;
+  margin-bottom: 28px;
+}
 
-        .cta-button:hover { background-color: var(--gold); transform: translateY(-2px); }
+.btn {
+  display: inline-block;
+  background: #e9899e;
+  color: white;
+  text-decoration: none;
+  padding: 14px 27px;
+  border-radius: 30px;
+  font-weight: bold;
+  margin: 5px;
+}
 
-        /* Footer */
-        footer {
-            background: var(--black);
-            color: white;
-            padding: 50px 5%;
-            text-align: center;
-            margin-top: 50px;
-        }
+.btn.light {
+  background: white;
+  color: #333;
+}
 
-        .legal-nav { margin-bottom: 25px; }
-        .legal-nav a {
-            color: var(--gold);
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        .legal-nav a:hover { text-decoration: underline; }
+section {
+  padding: 75px 6%;
+}
 
-        .contact-email {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+.title {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.title h2 {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+.title p {
+  color: #707070;
+}
+
+.cards {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 25px;
+}
+
+.card {
+  background: #fafafa;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0,0,0,.08);
+}
+
+.card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 23px;
+}
+
+.card h3 {
+  font-size: 23px;
+  margin-bottom: 6px;
+}
+
+.card p {
+  color: #707070;
+}
+
+.event {
+  background: #f8f2ee;
+}
+
+.event-box {
+  max-width: 1150px;
+  margin: auto;
+  background: white;
+  border-radius: 22px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow: 0 10px 35px rgba(0,0,0,.1);
+}
+
+.event-img {
+  min-height: 430px;
+  background:
+    url("assets/golden-puppy.png")
+    center/cover no-repeat;
+}
+
+.event-info {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tag {
+  color: #e27c95;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.event-info h2 {
+  font-size: 38px;
+  margin: 10px 0 15px;
+}
+
+.event-info p {
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.details {
+  margin-bottom: 20px;
+}
+
+.details div {
+  margin: 7px 0;
+}
+
+.contact {
+  text-align: center;
+  background: #fff5f7;
+}
+
+.contact h2 {
+  font-size: 38px;
+}
+
+.phone {
+  display: inline-block;
+  margin: 15px 0;
+  color: #e27c95;
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+footer {
+  background: #181818;
+  color: #aaa;
+  text-align: center;
+  padding: 30px;
+}
+
+@media(max-width:800px) {
+
+  .links {
+    display: none;
+  }
+
+  .hero {
+    min-height: 620px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .event-box {
+    grid-template-columns: 1fr;
+  }
+
+  .event-img {
+    min-height: 320px;
+  }
+
+  .event-info {
+    padding: 35px 25px;
+  }
+
+  .event-info h2,
+  .title h2,
+  .contact h2 {
+    font-size: 31px;
+  }
+
+  section {
+    padding: 60px 5%;
+  }
+}
+</style>
 </head>
+
 <body>
 
-<nav class="top-nav">
-    <a href="index.html" class="logo-area">
-        <span style="color: var(--gold)">🐾</span> clubofpuppy.com
-    </a>
+<nav>
+  <a class="logo" href="index.html">🐾 Happy Paws</a>
 
-    <div class="menu-container">
-        <button class="menu-button" onclick="toggleMenu()">MENU ☰</button>
-        <div id="myDropdown" class="dropdown-content">
-            <a href="puppies.html">Find a Puppy</a>
-            
-            <span id="auth-links">
-                <a href="signup.html" style="color: var(--gold);">Sign Up</a>
-                <a href="signin.html">Sign In</a>
-            </span>
-
-            <a href="#" onclick="showSellers()">Post a Puppy</a>
-            <a href="mailto:clubofpuppyhelp@gmail.com" style="font-size: 0.8rem; color: #888;">Contact Support</a>
-        </div>
-    </div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="#puppies">Puppies</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+  </div>
 </nav>
 
-<section id="buyer-section" class="main-hero">
-    <h1>Find Your New Best Friend</h1>
-    <p>Browse thousands of puppies from verified members nationwide.</p>
-    <a href="puppies.html" class="cta-button" style="background-color: var(--gold); margin-top: 20px;">View Listings</a>
-    <br>
-    <img src="DF3EE4A4-5740-4788-8960-0D5333BABDAB.png" alt="Puppies" style="max-width:80%; border-radius:10px; margin-top:40px;">
+
+<header class="hero">
+
+  <div class="hero-inner">
+
+    <h1>Where Every Puppy Feels at Home 🐶</h1>
+
+    <p>
+      Happy puppies, loving families, and fun experiences
+      for dog lovers.
+    </p>
+
+    <a class="btn" href="#puppies">
+      Meet Our Puppies
+    </a>
+
+    <a class="btn light" href="#events">
+      Dog Events
+    </a>
+
+  </div>
+
+</header>
+
+
+<section>
+
+  <div class="title">
+
+    <h2>A Place for Puppy Lovers</h2>
+
+    <p>
+      We focus on providing puppies with a loving,
+      comfortable environment while helping families
+      find their new best friend.
+    </p>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-body">
+        <h3>❤️ Lots of Love</h3>
+        <p>
+          Plenty of attention, affection, and interaction every day.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-body">
+        <h3>🐾 Happy Puppies</h3>
+        <p>
+          A comfortable environment where puppies can play and grow.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-body">
+        <h3>🏆 Dog Events</h3>
+        <p>
+          Fun activities and friendly competitions for dog lovers.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
 </section>
 
-<section id="seller-section">
-    <div class="price-card">
-        <h2 style="letter-spacing: 1px;">SELLER MEMBERSHIP</h2>
-        <p>Post unlimited puppies and reach buyers nationwide.</p>
-        <div class="price-amount">$20<span>/mo</span></div>
-        <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 25px;">
-            <li>★ Unlimited Active Ads</li>
-            <li>★ Direct Messaging Access</li>
-            <li>★ Identity Verification Badge</li>
-        </ul>
-        <a href="signup.html" id="seller-cta" class="cta-button">Start Listing</a>
-        <br>
-        <a href="#" onclick="showBuyers()" style="display:inline-block; margin-top:15px; color: var(--gold); text-decoration:none; font-size:0.9rem;">← Back to Buyer View</a>
+
+<section id="events" class="event">
+
+  <div class="event-box">
+
+    <div class="event-img"></div>
+
+    <div class="event-info">
+
+      <div class="tag">
+        Featured Event
+      </div>
+
+      <h2>Happy Paws Dog Contest</h2>
+
+      <p>
+        Celebrate our four-legged friends with games,
+        activities, and friendly dog competitions.
+      </p>
+
+      <div class="details">
+
+        <div>📅 <strong>Coming Soon</strong></div>
+
+        <div>📍 <strong>Local Community Event</strong></div>
+
+        <div>🏆 <strong>Fun & Friendly Competition</strong></div>
+
+      </div>
+
+      <a class="btn" href="#contact">
+        Contact Us
+      </a>
+
     </div>
+
+  </div>
+
 </section>
+
+
+<section id="puppies">
+
+  <div class="title">
+
+    <h2>Meet Our Puppies</h2>
+
+    <p>
+      Sweet, playful companions looking for loving families.
+    </p>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+
+      <img
+        src="assets/puppy-blue-bow.jpeg"
+        alt="White puppy wearing a blue bow"
+      >
+
+      <div class="card-body">
+
+        <h3>Sweet Puppy</h3>
+
+        <p>
+          Playful, cuddly, and full of personality.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <img
+        src="assets/golden-puppy.png"
+        alt="Golden puppy"
+      >
+
+      <div class="card-body">
+
+        <h3>Golden Puppy</h3>
+
+        <p>
+          Happy, curious, and ready for a new family.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <img
+        src="assets/white-puppy.jpeg"
+        alt="White fluffy puppy"
+      >
+
+      <div class="card-body">
+
+        <h3>Fluffy Puppy</h3>
+
+        <p>
+          Sweet, affectionate, and always ready to play.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section id="contact" class="contact">
+
+  <h2>Have Questions?</h2>
+
+  <p>
+    Call or text us for more information about our puppies.
+  </p>
+
+  <a class="phone" href="tel:8134993860">
+    📞 813-499-3860
+  </a>
+
+</section>
+
 
 <footer>
-    <div class="legal-nav">
-        <a href="terms.html">Terms of Service</a>
-        <a href="refund.html">Refund Policy</a>
-        <a href="terms.html">Privacy Policy</a>
-    </div>
-    <p>Contact: <a href="mailto:clubofpuppyhelp@gmail.com" class="contact-email">clubofpuppyhelp@gmail.com</a></p>
-    <p><strong>clubofpuppy.com</strong> | USA Nationwide Puppy Club</p>
+
+  <strong>🐾 Happy Paws</strong>
+
+  <p>Puppies & Dog Events</p>
+
 </footer>
-
-<script>
-    function toggleMenu() { document.getElementById("myDropdown").classList.toggle("show"); }
-
-    function showSellers() {
-        // If logged in, go straight to dashboard
-        if(localStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = "dashboard.html";
-            return;
-        }
-        document.getElementById("buyer-section").style.display = "none";
-        document.getElementById("seller-section").style.display = "block";
-        if(document.getElementById("myDropdown").classList.contains('show')) toggleMenu(); 
-    }
-
-    function showBuyers() {
-        document.getElementById("seller-section").style.display = "none";
-        document.getElementById("buyer-section").style.display = "block";
-    }
-
-    // --- NEW LOGIC: CHECK LOGIN STATUS ---
-    function checkLogin() {
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        const authLinks = document.getElementById('auth-links');
-        const sellerCta = document.getElementById('seller-cta');
-
-        if (isLoggedIn === 'true') {
-            // Update Menu
-            authLinks.innerHTML = `
-                <a href="dashboard.html" style="color: var(--gold);">My Dashboard</a>
-                <a href="#" onclick="logoutUser()">Log Out</a>
-            `;
-            // Update Seller Card Button
-            if(sellerCta) {
-                sellerCta.innerText = "Go to Dashboard";
-                sellerCta.href = "dashboard.html";
-            }
-        }
-    }
-
-    function logoutUser() {
-        localStorage.removeItem('isLoggedIn');
-        window.location.reload();
-    }
-
-    // Run the check when page loads
-    checkLogin();
-
-    window.onclick = function(event) {
-        if (!event.target.matches('.menu-button')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            for (var i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) openDropdown.classList.remove('show');
-            }
-        }
-    }
-</script>
 
 </body>
 </html>
-<a href="messages.html">My Messages</a>
