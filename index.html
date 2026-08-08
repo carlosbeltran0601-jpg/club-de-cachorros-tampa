@@ -1,648 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- TESTIMONIALS -->
 
-<title>Paw Paradise</title>
+<section class="testimonials" id="testimonials">
+
+  <h2>What Families Say</h2>
+
+  <p class="testimonial-subtitle">
+    Sample testimonials — replace these with reviews from your actual puppy families.
+  </p>
+
+  <div class="testimonial-grid">
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “Our puppy has been such a wonderful addition to our family.
+        He is playful, loving and has such a great personality.”
+      </p>
+
+      <h3>— Happy Puppy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “From the first conversation, we felt comfortable and
+        appreciated how much care and attention went into the puppies.”
+      </p>
+
+      <h3>— New Puppy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “Our puppy is happy, affectionate and loves everyone he meets.
+        We couldn't be happier with our new family member.”
+      </p>
+
+      <h3>— Puppy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “The entire experience was smooth and easy. We received
+        plenty of communication and our puppy arrived home happy.”
+      </p>
+
+      <h3>— Happy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “We absolutely adore our puppy. She has such a sweet
+        personality and has quickly become part of the family.”
+      </p>
+
+      <h3>— Puppy Parent</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “You can tell these puppies receive lots of love and
+        attention. Our puppy is playful, friendly and affectionate.”
+      </p>
+
+      <h3>— Happy Puppy Owner</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “We had a great experience and are so grateful for our
+        new puppy. He has brought so much happiness to our home.”
+      </p>
+
+      <h3>— Puppy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “Our puppy is doing great and has such a fun personality.
+        Everyone who meets her falls in love with her.”
+      </p>
+
+      <h3>— Happy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “We love our new puppy! She is sweet, playful and already
+        feels like she has always been part of our family.”
+      </p>
+
+      <h3>— New Puppy Family</h3>
+    </div>
+
+
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+
+      <p>
+        “Our experience was wonderful from beginning to end.
+        We are very happy with our puppy and would recommend
+        Skies Galore to our friends.”
+      </p>
+
+      <h3>— Happy Puppy Family</h3>
+    </div>
+
+  </div>
+
+</section>
+
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f5f7f4;
-  color: #222;
-}
-
-/* NAVIGATION */
-
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 72px;
-  z-index: 1000;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0 7%;
-
-  background: rgba(255,255,255,.94);
-  backdrop-filter: blur(10px);
-
-  box-shadow: 0 3px 20px rgba(0,0,0,.15);
-}
-
-.logo {
-  font-size: 25px;
-  font-weight: 900;
-  color: #24733b;
-}
-
-.logo span {
-  color: #e85d32;
-}
-
-nav a {
-  color: #333;
-  text-decoration: none;
-  margin-left: 25px;
-  font-weight: bold;
-}
-
-nav a:hover {
-  color: #e85d32;
-}
-
-
-/* HERO */
-
-.hero {
-  height: 720px;
-
-  background-image:
+.testimonials {
+  padding: 85px 7%;
+  background:
     linear-gradient(
-      rgba(0,0,0,.28),
-      rgba(0,0,0,.42)
-    ),
-    url("https://static.wixstatic.com/media/b0ab09_2c4b559f450a4bf1a7d1ba46370fcc87~mv2.jpeg/v1/fill/w_1600,h_1055,al_c,q_85/b0ab09_2c4b559f450a4bf1a7d1ba46370fcc87~mv2.jpeg");
+      135deg,
+      #f5fff3,
+      #ffffff
+    );
+}
 
-  background-size: cover;
-  background-position: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+.testimonials h2 {
   text-align: center;
-  color: white;
-
-  padding: 100px 20px 40px;
-}
-
-.hero-content {
-  max-width: 850px;
-}
-
-.hero h1 {
-  font-size: clamp(45px, 7vw, 82px);
-  line-height: 1;
-  margin-bottom: 20px;
-
-  text-shadow: 0 4px 15px rgba(0,0,0,.6);
-}
-
-.hero p {
-  font-size: 21px;
-  line-height: 1.6;
-  margin-bottom: 30px;
-
-  text-shadow: 0 2px 8px rgba(0,0,0,.7);
-}
-
-.button {
-  display: inline-block;
-
-  background: #ef6839;
-  color: white;
-
-  padding: 16px 32px;
-
-  border-radius: 35px;
-
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 17px;
-
-  box-shadow: 0 6px 15px rgba(0,0,0,.25);
-
-  transition: .2s;
-}
-
-.button:hover {
-  transform: translateY(-3px);
-  background: #d94f29;
-}
-
-
-/* INTRO */
-
-.intro {
-  padding: 80px 7%;
-  text-align: center;
-  background: white;
-}
-
-.intro h2 {
-  font-size: 42px;
-  color: #26763c;
-  margin-bottom: 15px;
-}
-
-.intro p {
-  max-width: 750px;
-  margin: auto;
-  font-size: 18px;
-  line-height: 1.7;
-  color: #666;
-}
-
-
-/* PHOTO CARDS */
-
-.photos {
-  padding: 75px 7%;
-  background: #eef5ed;
-}
-
-.photos h2 {
-  text-align: center;
-  font-size: 42px;
+  font-size: 45px;
   color: #26763c;
   margin-bottom: 12px;
 }
 
-.subtitle {
+.testimonial-subtitle {
   text-align: center;
-  color: #666;
-  margin-bottom: 40px;
-  font-size: 18px;
+  color: #777;
+  font-size: 16px;
+  margin-bottom: 45px;
 }
 
-.photo-grid {
+.testimonial-grid {
   max-width: 1200px;
   margin: auto;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 25px;
 }
 
-.photo-card {
+.testimonial {
   background: white;
-  border-radius: 18px;
-  overflow: hidden;
+  padding: 30px;
 
-  box-shadow: 0 8px 25px rgba(0,0,0,.12);
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.09);
+
+  border-left: 5px solid #54a866;
 
   transition: .25s;
 }
 
-.photo-card:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 15px 30px rgba(0,0,0,.18);
+.testimonial:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 15px 30px rgba(0,0,0,.14);
 }
 
-.photo-card img {
-  width: 100%;
-  height: 270px;
-  object-fit: cover;
-  display: block;
-}
-
-.photo-card-content {
-  padding: 22px;
-}
-
-.photo-card h3 {
-  color: #26763c;
-  font-size: 23px;
-  margin-bottom: 8px;
-}
-
-.photo-card p {
-  color: #666;
-  line-height: 1.5;
-}
-
-
-/* CONTEST */
-
-.contest {
-  min-height: 620px;
-
-  background-image:
-    linear-gradient(
-      rgba(0,0,0,.35),
-      rgba(0,0,0,.55)
-    ),
-    url("https://prcdn.freetls.fastly.net/release_image/143891/17/143891-17-79d453fef01c8f75021346eb45f87bb9-1800x1201.jpg?auto=webp&bg-color=fff&fit=bounds&format=jpeg&height=1350&quality=85%2C65&width=1950");
-
-  background-size: cover;
-  background-position: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 70px 20px;
-}
-
-.contest-box {
-  max-width: 700px;
-
-  background: rgba(255,255,255,.95);
-
-  padding: 45px;
-
-  border-radius: 25px;
-
-  text-align: center;
-
-  box-shadow: 0 15px 40px rgba(0,0,0,.3);
-}
-
-.contest-box h2 {
-  font-size: 45px;
-  color: #d85c27;
+.stars {
+  color: #f3b52b;
+  font-size: 22px;
+  letter-spacing: 3px;
   margin-bottom: 15px;
 }
 
-.contest-box p {
-  font-size: 18px;
-  line-height: 1.6;
+.testimonial p {
   color: #555;
-  margin-bottom: 25px;
+  font-size: 17px;
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 18px;
 }
 
-.contest-button {
-  display: inline-block;
-
-  background: #287a43;
-  color: white;
-
-  padding: 15px 28px;
-
-  border-radius: 30px;
-
-  text-decoration: none;
-  font-weight: bold;
+.testimonial h3 {
+  color: #26763c;
+  font-size: 15px;
 }
-
-
-/* ACTIVITIES */
-
-.activities {
-  padding: 80px 7%;
-  background: white;
-}
-
-.activities h2 {
-  text-align: center;
-  font-size: 42px;
-  color: #287a43;
-  margin-bottom: 40px;
-}
-
-.activity-grid {
-  max-width: 1100px;
-  margin: auto;
-
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-}
-
-.activity {
-  padding: 32px;
-
-  border-radius: 18px;
-
-  background: #f4f8f3;
-
-  border-top: 6px solid #3b914f;
-}
-
-.activity:nth-child(2) {
-  border-top-color: #e87538;
-}
-
-.activity:nth-child(3) {
-  border-top-color: #4386c7;
-}
-
-.activity h3 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.activity p {
-  color: #666;
-  line-height: 1.6;
-}
-
-
-/* FOOTER */
-
-footer {
-  background: #21452b;
-  color: white;
-
-  text-align: center;
-
-  padding: 45px 20px;
-}
-
-footer h2 {
-  margin-bottom: 10px;
-}
-
-footer p {
-  color: #c8d9cc;
-}
-
-
-/* MOBILE */
 
 @media(max-width:800px) {
 
-  header {
-    height: auto;
-    padding: 15px 20px;
-
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  nav a {
-    margin: 0 8px;
-    font-size: 14px;
-  }
-
-  .hero {
-    height: 650px;
-    padding-top: 130px;
-  }
-
-  .hero h1 {
-    font-size: 45px;
-  }
-
-  .hero p {
-    font-size: 17px;
-  }
-
-  .photo-grid,
-  .activity-grid {
+  .testimonial-grid {
     grid-template-columns: 1fr;
   }
 
-  .intro h2,
-  .photos h2,
-  .activities h2 {
-    font-size: 34px;
+  .testimonials h2 {
+    font-size: 35px;
   }
 
-  .contest-box {
-    padding: 30px 20px;
-  }
-
-  .contest-box h2 {
-    font-size: 34px;
-  }
 }
+
 </style>
-</head>
-
-
-<body>
-
-<!-- NAVIGATION -->
-
-<header>
-
-  <div class="logo">
-    Paw <span>Paradise</span> 🐾
-  </div>
-
-  <nav>
-    <a href="#park">Park</a>
-    <a href="#dogs">Dogs</a>
-    <a href="#contest">Contest</a>
-    <a href="#activities">Activities</a>
-  </nav>
-
-</header>
-
-
-<!-- REAL PHOTO HERO -->
-
-<section class="hero" id="park">
-
-  <div class="hero-content">
-
-    <h1>Welcome to Paw Paradise</h1>
-
-    <p>
-      A place where dogs run free, people make friends,
-      and every day at the park becomes an adventure.
-    </p>
-
-    <a href="#dogs" class="button">
-      Explore the Park
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- INTRO -->
-
-<section class="intro">
-
-  <h2>A Real Place for Dogs & Their People</h2>
-
-  <p>
-    Come enjoy the grass, sunshine, fresh air and plenty
-    of four-legged friends. From casual walks to exciting
-    dog competitions, there is always something happening
-    at Paw Paradise.
-  </p>
-
-</section>
-
-
-<!-- REAL PHOTOS -->
-
-<section class="photos" id="dogs">
-
-  <h2>Life at the Park</h2>
-
-  <p class="subtitle">
-    Dogs and their owners enjoying a day outside.
-  </p>
-
-  <div class="photo-grid">
-
-    <div class="photo-card">
-
-      <img
-        src="https://mywoof.com/cdn/shop/files/the-importance-of-socializing-your-dog_6196555497715133208_20250405.jpg"
-        alt="Dogs playing at a dog park"
-      >
-
-      <div class="photo-card-content">
-
-        <h3>Play Time</h3>
-
-        <p>
-          Dogs running around and making new friends
-          in the open grass.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="photo-card">
-
-      <img
-        src="https://static.wixstatic.com/media/b0ab09_2c4b559f450a4bf1a7d1ba46370fcc87~mv2.jpeg/v1/fill/w_1600,h_1055,al_c,q_85/b0ab09_2c4b559f450a4bf1a7d1ba46370fcc87~mv2.jpeg"
-        alt="People and dogs at a dog park"
-      >
-
-      <div class="photo-card-content">
-
-        <h3>Meet Other Dog Lovers</h3>
-
-        <p>
-          A friendly community of people enjoying
-          the park with their dogs.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="photo-card">
-
-      <img
-        src="https://assets.sfstandard.com/image/994911177489/image_et5omre6ed59l3els7s990aa01/-S3840x2559-FPNG"
-        alt="Dogs playing in a grassy park"
-      >
-
-      <div class="photo-card-content">
-
-        <h3>Run & Explore</h3>
-
-        <p>
-          Plenty of space for dogs to run, play
-          and explore.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- DOG CONTEST -->
-
-<section class="contest" id="contest">
-
-  <div class="contest-box">
-
-    <h2>🏆 Dog Contest</h2>
-
-    <p>
-      Welcome to the Paw Paradise Dog Contest!
-      Watch dogs compete in fun challenges,
-      tricks and races while their owners cheer them on.
-    </p>
-
-    <a href="#activities" class="contest-button">
-      View Today's Activities
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- ACTIVITIES -->
-
-<section class="activities" id="activities">
-
-  <h2>What's Happening Today?</h2>
-
-  <div class="activity-grid">
-
-    <div class="activity">
-
-      <h3>Dog Play Area</h3>
-
-      <p>
-        Dogs can run, chase balls and socialize
-        with other dogs.
-      </p>
-
-    </div>
-
-
-    <div class="activity">
-
-      <h3>🏆 Dog Contest</h3>
-
-      <p>
-        Watch our competitors show off their
-        tricks, speed and personality.
-      </p>
-
-    </div>
-
-
-    <div class="activity">
-
-      <h3>People & Pets</h3>
-
-      <p>
-        Meet other dog owners and enjoy a
-        relaxing afternoon at the park.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- FOOTER -->
-
-<footer>
-
-  <h2>Paw Paradise 🐾</h2>
-
-  <p>
-    Where dogs come to play.
-  </p>
-
-  <br>
-
-  <p>
-    © 2026 Paw Paradise
-  </p>
-
-</footer>
-
-
-</body>
-</html>
