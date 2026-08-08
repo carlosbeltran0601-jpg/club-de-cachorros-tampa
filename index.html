@@ -1,503 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Paws | Puppies & Dog Events</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  color: #222;
-  background: white;
-}
-
-nav {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding: 20px 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(0,0,0,.3);
-  z-index: 5;
-}
-
-.logo {
-  color: white;
-  text-decoration: none;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.links {
-  display: flex;
-  gap: 25px;
-}
-
-.links a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.hero {
-  min-height: 680px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  padding: 120px 20px 70px;
-
-  background:
-    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55)),
-    url("assets/puppy-blue-bow.jpeg");
-
-  background-size: cover;
-  background-position: center;
-}
-
-.hero-inner {
-  max-width: 850px;
-}
-
-.hero h1 {
-  font-size: clamp(42px,7vw,74px);
-  line-height: 1.05;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 20px;
-  margin-bottom: 28px;
-}
-
-.btn {
-  display: inline-block;
-  background: #e9899e;
-  color: white;
-  text-decoration: none;
-  padding: 14px 27px;
-  border-radius: 30px;
-  font-weight: bold;
-  margin: 5px;
-}
-
-.btn.light {
-  background: white;
-  color: #333;
-}
-
-section {
-  padding: 75px 6%;
-}
-
-.title {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 40px;
-}
-
-.title h2 {
-  font-size: 38px;
-  margin-bottom: 10px;
-}
-
-.title p {
-  color: #707070;
-}
-
-.cards {
-  max-width: 1150px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 25px;
-}
-
-.card {
-  background: #fafafa;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 6px 25px rgba(0,0,0,.08);
-}
-
-.card img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  display: block;
-}
-
-.card-body {
-  padding: 23px;
-}
-
-.card h3 {
-  font-size: 23px;
-  margin-bottom: 6px;
-}
-
-.card p {
-  color: #707070;
-}
-
-.event {
-  background: #f8f2ee;
-}
-
-.event-box {
-  max-width: 1150px;
-  margin: auto;
-  background: white;
-  border-radius: 22px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  box-shadow: 0 10px 35px rgba(0,0,0,.1);
-}
-
-.event-img {
-  min-height: 430px;
-  background:
-    url("assets/golden-puppy.png")
-    center/cover no-repeat;
-}
-
-.event-info {
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.tag {
-  color: #e27c95;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.event-info h2 {
-  font-size: 38px;
-  margin: 10px 0 15px;
-}
-
-.event-info p {
-  color: #666;
-  margin-bottom: 18px;
-}
-
-.details {
-  margin-bottom: 20px;
-}
-
-.details div {
-  margin: 7px 0;
-}
-
-.contact {
-  text-align: center;
-  background: #fff5f7;
-}
-
-.contact h2 {
-  font-size: 38px;
-}
-
-.phone {
-  display: inline-block;
-  margin: 15px 0;
-  color: #e27c95;
-  font-size: 25px;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-footer {
-  background: #181818;
-  color: #aaa;
-  text-align: center;
-  padding: 30px;
-}
-
-@media(max-width:800px) {
-
-  .links {
-    display: none;
-  }
-
-  .hero {
-    min-height: 620px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .event-box {
-    grid-template-columns: 1fr;
-  }
-
-  .event-img {
-    min-height: 320px;
-  }
-
-  .event-info {
-    padding: 35px 25px;
-  }
-
-  .event-info h2,
-  .title h2,
-  .contact h2 {
-    font-size: 31px;
-  }
-
-  section {
-    padding: 60px 5%;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paw Paradise 🐾</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #dff6ff 0%, #fef6d8 45%, #d9f7d0 100%);
+      color: #263238;
+    }
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #6c2bd9, #ff4f9a);
+      color: white;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo {
+      font-size: 27px;
+      font-weight: 900;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ffe66d;
+    }
+    /* HERO */
+    .hero {
+      min-height: 480px;
+      padding: 70px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      background:
+        radial-gradient(circle at 80% 20%, #fff1a8 0 70px, transparent 71px),
+        linear-gradient(135deg, #5ecbff, #9b6cff);
+      color: white;
+      overflow: hidden;
+    }
+    .hero-text {
+      max-width: 600px;
+    }
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: 0.95;
+      margin-bottom: 22px;
+    }
+    .hero p {
+      font-size: 20px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .button {
+      display: inline-block;
+      padding: 15px 27px;
+      border-radius: 30px;
+      background: #ffcf33;
+      color: #542700;
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: 0 6px 0 #d99f00;
+      transition: 0.2s;
+    }
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 9px 0 #d99f00;
+    }
+    .hero-dogs {
+      font-size: 150px;
+      filter: drop-shadow(0 15px 10px rgba(0,0,0,0.2));
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    /* SECTION */
+    section {
+      padding: 65px 7%;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 42px;
+      color: #54207f;
+      margin-bottom: 12px;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 35px;
+      font-size: 18px;
+    }
+    /* DOG CARDS */
+    .dogs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+    }
+    .dog-card {
+      background: white;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      transition: 0.25s;
+      border: 4px solid transparent;
+    }
+    .dog-card:nth-child(1) {
+      border-color: #ff7b7b;
+    }
+    .dog-card:nth-child(2) {
+      border-color: #ffd447;
+    }
+    .dog-card:nth-child(3) {
+      border-color: #63d6a2;
+    }
+    .dog-card:nth-child(4) {
+      border-color: #7b8cff;
+    }
+    .dog-card:hover {
+      transform: translateY(-8px) rotate(1deg);
+      box-shadow: 0 18px 35px rgba(0,0,0,0.18);
+    }
+    .dog-picture {
+      height: 220px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 100px;
+    }
+    .pink {
+      background: linear-gradient(135deg, #ff9fb8, #ffd1df);
+    }
+    .yellow {
+      background: linear-gradient(135deg, #ffd447, #fff0a6);
+    }
+    .green {
+      background: linear-gradient(135deg, #62d69b, #c8f7dd);
+    }
+    .blue {
+      background: linear-gradient(135deg, #72b8ff, #c9e5ff);
+    }
+    .dog-info {
+      padding: 20px;
+    }
+    .dog-info h3 {
+      font-size: 25px;
+      margin-bottom: 7px;
+      color: #3d245f;
+    }
+    .dog-info p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 20px;
+      background: #eee5ff;
+      color: #6c2bd9;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    /* CONTEST */
+    .contest {
+      background: linear-gradient(135deg, #ff5f6d, #ffc371);
+      border-radius: 35px;
+      padding: 45px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(255,95,109,0.3);
+    }
+    .contest h2 {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+    .contest p {
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+    .contest-button {
+      display: inline-block;
+      background: white;
+      color: #e3425a;
+      padding: 14px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 900;
+    }
+    /* PEOPLE */
+    .people {
+      background: #ffffff;
+    }
+    .activity {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin-top: 30px;
+    }
+    .activity-card {
+      padding: 28px;
+      border-radius: 22px;
+      text-align: center;
+      color: white;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .activity-card:nth-child(1) {
+      background: linear-gradient(135deg, #00b4db, #0083b0);
+    }
+    .activity-card:nth-child(2) {
+      background: linear-gradient(135deg, #f953c6, #b91d73);
+    }
+    .activity-card:nth-child(3) {
+      background: linear-gradient(135deg, #56ab2f, #a8e063);
+    }
+    .activity-card:nth-child(4) {
+      background: linear-gradient(135deg, #7f00ff, #e100ff);
+    }
+    .activity-card .emoji {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+    .activity-card h3 {
+      font-size: 22px;
+      margin-bottom: 7px;
+    }
+    /* FOOTER */
+    footer {
+      background: #241238;
+      color: white;
+      text-align: center;
+      padding: 35px 20px;
+    }
+    footer .paw {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+    footer p {
+      color: #d8cbea;
+    }
+    /* MOBILE */
+    @media (max-width: 700px) {
+      header {
+        flex-direction: column;
+        gap: 12px;
+      }
+      nav a {
+        margin: 0 7px;
+        font-size: 14px;
+      }
+      .hero {
+        text-align: center;
+        flex-direction: column;
+        padding-top: 55px;
+      }
+      .hero-dogs {
+        font-size: 100px;
+      }
+      .section-title {
+        font-size: 34px;
+      }
+      .contest {
+        padding: 35px 20px;
+      }
+      .contest h2 {
+        font-size: 34px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<nav>
-  <a class="logo" href="index.html">🐾 Happy Paws</a>
-
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="#puppies">Puppies</a>
-    <a href="#events">Events</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
-
-
-<header class="hero">
-
-  <div class="hero-inner">
-
-    <h1>Where Every Puppy Feels at Home 🐶</h1>
-
-    <p>
-      Happy puppies, loving families, and fun experiences
-      for dog lovers.
-    </p>
-
-    <a class="btn" href="#puppies">
-      Meet Our Puppies
-    </a>
-
-    <a class="btn light" href="#events">
-      Dog Events
-    </a>
-
-  </div>
-
-</header>
-
-
-<section>
-
-  <div class="title">
-
-    <h2>A Place for Puppy Lovers</h2>
-
-    <p>
-      We focus on providing puppies with a loving,
-      comfortable environment while helping families
-      find their new best friend.
-    </p>
-
-  </div>
-
-
-  <div class="cards">
-
-    <div class="card">
-      <div class="card-body">
-        <h3>❤️ Lots of Love</h3>
-        <p>
-          Plenty of attention, affection, and interaction every day.
-        </p>
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-body">
-        <h3>🐾 Happy Puppies</h3>
-        <p>
-          A comfortable environment where puppies can play and grow.
-        </p>
-      </div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-body">
-        <h3>🏆 Dog Events</h3>
-        <p>
-          Fun activities and friendly competitions for dog lovers.
-        </p>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section id="events" class="event">
-
-  <div class="event-box">
-
-    <div class="event-img"></div>
-
-    <div class="event-info">
-
-      <div class="tag">
-        Featured Event
-      </div>
-
-      <h2>Happy Paws Dog Contest</h2>
-
+  <!-- HEADER -->
+  <header>
+    <div class="logo">🐾 Paw Paradise</div>
+    <nav>
+      <a href="#dogs">Dogs</a>
+      <a href="#contest">Contest</a>
+      <a href="#activities">Activities</a>
+    </nav>
+  </header>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Where Dogs Have Fun! 🐶</h1>
       <p>
-        Celebrate our four-legged friends with games,
-        activities, and friendly dog competitions.
+        Welcome to Paw Paradise — a colorful place where dogs
+        play, make friends, and compete in fun contests!
       </p>
-
-      <div class="details">
-
-        <div>📅 <strong>Coming Soon</strong></div>
-
-        <div>📍 <strong>Local Community Event</strong></div>
-
-        <div>🏆 <strong>Fun & Friendly Competition</strong></div>
-
-      </div>
-
-      <a class="btn" href="#contact">
-        Contact Us
-      </a>
-
+      <a href="#dogs" class="button">Meet the Dogs 🐕</a>
     </div>
-
-  </div>
-
-</section>
-
-
-<section id="puppies">
-
-  <div class="title">
-
-    <h2>Meet Our Puppies</h2>
-
-    <p>
-      Sweet, playful companions looking for loving families.
+    <div class="hero-dogs">
+      🐕 🐩
+    </div>
+  </section>
+  <!-- DOGS -->
+  <section id="dogs">
+    <h2 class="section-title">🐶 Meet Our Dogs</h2>
+    <p class="section-subtitle">
+      Our furry friends are ready to play!
     </p>
-
-  </div>
-
-
-  <div class="cards">
-
-    <div class="card">
-
-      <img
-        src="assets/puppy-blue-bow.jpeg"
-        alt="White puppy wearing a blue bow"
-      >
-
-      <div class="card-body">
-
-        <h3>Sweet Puppy</h3>
-
-        <p>
-          Playful, cuddly, and full of personality.
-        </p>
-
+    <div class="dogs">
+      <div class="dog-card">
+        <div class="dog-picture pink">
+          🐕
+        </div>
+        <div class="dog-info">
+          <h3>Buddy</h3>
+          <p>Happy, playful, and always ready for a game of fetch!</p>
+          <span class="tag">⭐ Very Playful</span>
+        </div>
       </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <img
-        src="assets/golden-puppy.png"
-        alt="Golden puppy"
-      >
-
-      <div class="card-body">
-
-        <h3>Golden Puppy</h3>
-
-        <p>
-          Happy, curious, and ready for a new family.
-        </p>
-
+      <div class="dog-card">
+        <div class="dog-picture yellow">
+          🐶
+        </div>
+        <div class="dog-info">
+          <h3>Max</h3>
+          <p>A friendly pup who loves running around the park.</p>
+          <span class="tag">🏃 Fast Runner</span>
+        </div>
       </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <img
-        src="assets/white-puppy.jpeg"
-        alt="White fluffy puppy"
-      >
-
-      <div class="card-body">
-
-        <h3>Fluffy Puppy</h3>
-
-        <p>
-          Sweet, affectionate, and always ready to play.
-        </p>
-
+      <div class="dog-card">
+        <div class="dog-picture green">
+          🦮
+        </div>
+        <div class="dog-info">
+          <h3>Rocky</h3>
+          <p>Smart, energetic, and one of our best contest dogs!</p>
+          <span class="tag">🏆 Champion</span>
+        </div>
       </div>
-
+      <div class="dog-card">
+        <div class="dog-picture blue">
+          🐩
+        </div>
+        <div class="dog-info">
+          <h3>Luna</h3>
+          <p>Sweet, friendly, and loves meeting new people.</p>
+          <span class="tag">💗 Friendly</span>
+        </div>
+      </div>
     </div>
-
-  </div>
-
-</section>
-
-
-<section id="contact" class="contact">
-
-  <h2>Have Questions?</h2>
-
-  <p>
-    Call or text us for more information about our puppies.
-  </p>
-
-  <a class="phone" href="tel:8134993860">
-    📞 813-499-3860
-  </a>
-
-</section>
-
-
-<footer>
-
-  <strong>🐾 Happy Paws</strong>
-
-  <p>Puppies & Dog Events</p>
-
-</footer>
-
+  </section>
+  <!-- CONTEST -->
+  <section id="contest">
+    <div class="contest">
+      <h2>🏆 Dog Contest!</h2>
+      <p>
+        Watch our furry competitors show off their tricks,
+        speed, style, and personality!
+      </p>
+      <a href="#activities" class="contest-button">
+        See What's Happening 🎉
+      </a>
+    </div>
+  </section>
+  <!-- PEOPLE & ACTIVITIES -->
+  <section class="people" id="activities">
+    <h2 class="section-title">🎉 What's Happening?</h2>
+    <p class="section-subtitle">
+      People and dogs are having a great time at Paw Paradise!
+    </p>
+    <div class="activity">
+      <div class="activity-card">
+        <div class="emoji">🐕‍🦺</div>
+        <h3>Dog Walks</h3>
+        <p>People walking their dogs around the park.</p>
+      </div>
+      <div class="activity-card">
+        <div class="emoji">🎾</div>
+        <h3>Play Time</h3>
+        <p>Dogs playing fetch and making new friends.</p>
+      </div>
+      <div class="activity-card">
+        <div class="emoji">🏆</div>
+        <h3>Dog Contest</h3>
+        <p>Contestants showing off their best tricks.</p>
+      </div>
+      <div class="activity-card">
+        <div class="emoji">🎉</div>
+        <h3>Fun For Everyone</h3>
+        <p>A colorful day full of dogs, games, and smiles.</p>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER -->
+  <footer>
+    <div class="paw">🐾</div>
+    <h3>Paw Paradise</h3>
+    <p>
+      A fun place for dogs and their humans.
+    </p>
+    <br>
+    <p>© 2026 Paw Paradise</p>
+  </footer>
 </body>
 </html>
